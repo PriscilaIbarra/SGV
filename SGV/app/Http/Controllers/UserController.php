@@ -142,62 +142,23 @@ class UserController extends Controller
     public function update(Request $request)
     {
       $Us = User::select('id')->where('id','=',$request['id']);
-      $idUs = $Us->where('email','=',$request['email'])->get();
-      if(isset($idUs))
-      {
-        $ruleMail = [];
-      }
-      else
-      {
-        $ruleMail = ['string', 'email', 'max:255', 'unique:users'];
-      } 
       $rules = [
                 'nombre' => ['required','regex:/^[A-Za-z\s-_]+$/', 'max:255'],
-                'apellido' => ['required','regex:/^[A-Za-z\s-_]+$/' , 'max:255'],
-                'email' => $ruleMail ,
-                'id_tipo_usuario' => ['required','integer'],
                ];   
 
       $messages = [ 
                     'nombre.regex'=>'Formato de nombre incorrecto',
                     'nombre.required'=>'Complete el campo requerido',
                     'nombre.max'=>'La longitud del nombre supera el máximo requerido',
-                    'apellido.regex'=>'Formato de apellido incorrecto',
-                    'apellido.required'=>'Complete el campo requerido',
-                    'apellido.max'=>'La longitud del nombre supera el máximo requerido',
-                    'email.unique'=>'El email ingresado ya existe',
-                    'id_tipo_usuario.required'=>'Seleccine un tipo de usuario'
                   ];          
 
      $validacion = $this->validate($request,$rules,$messages);
 
      if($validacion)
      {
-       /* $u = [ 'nombre'=>$request['nombre'],
-               'apellido'=>$request['apellido'],
-               'email'=>$request['email'],
-               'id_tipo_usuario'=>$request['id_tipo_usuario']
-             ];            
-        if(isset($request['password_prev']))
-        {
-            $co = User::select('id')->where('id','=',$request['id']);
-            $c = $co->where('password','=',$request['password_prev']);
-            $coinciden = $c->get();
-            if(isset($coinciden))
-            {
-                if(isset($request['password']))
-                {
-                     array_push($u ,'password' => Hash::make($request['password']));                     
-                }
-            }
-            else
-            {
-                return back()->with('error','La contraseña previa es incorrecta');
-            }    
-         }  */   
-        $us = User::find($request['id']);
-        $us->update($request->all());
-        return redirect('abmlUsuarios')->with('success','Usuario actualizado con éxito');
+        $tip = TipoCargo::find($request['id']);
+        $tip->update($request->all());
+        return redirect('abmlTipoCargos')->with('success','TipoCargo actualizado con éxito');
      }
 
     }
