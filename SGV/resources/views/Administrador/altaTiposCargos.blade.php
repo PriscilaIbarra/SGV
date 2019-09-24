@@ -5,25 +5,24 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header text-center">{{ __('Registro TipoCargo') }}</div>
+                <div class="card-header text-center">Registro Tipos de Cargo</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('agregarTipoCargo') }}">
+                    <form method="POST" action="{{ route('altaTiposCargo') }}">
                         @csrf
 
                    <div class="form-row">
                         <div class="col-md-6 mt-4 text-left">
                            <label for="nombre" >
-                                  {{ __('Nombre') }}
+                                  {{ __('Descripcion') }}
                            </label>
-                           <input id="nombre" type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre" value="{{ old('nombre') }}" required autocomplete="nombre" autofocus placeholder="Nombre">
-                                @error('nombre')
+                           <input id="descripcion" type="text" class="form-control @error('descripcion') is-invalid @enderror" name="descripcion" value="{{ old('descripcion') }}" required autocomplete="descripcion" autofocus placeholder="descripcion">
+                                @error('descripcion')
                                    <span class="invalid-feedback" role="alert">
                                        <strong>{{ $message }}</strong>
                                    </span>
                                 @enderror                           
                         </div>
-                        
                        <button type="submit" class="btn btn-primary mt-4 float-right">
                                 {{ __('Confirmar Registro') }}
                        </button>   

@@ -14,8 +14,9 @@ class TiposCargoController extends Controller
      */
     public function index()
     {
-        $tipos = TiposCargo::all();
-         //importante asignar el resultado final a otra variable distinta antes de convertirlo a json con compact, caso contrario se crashea el navegador
+        $tip = TiposCargo::select(['tipos_cargos.id','tipos_cargos.descripcion']);
+        $tip->where('tipos_cargos.estado', '!=','inactivo');
+        $tipos = $tip->get(); 
         return view('Administrador.abmlTipoCargos',compact('tipos'));
     }
 
@@ -26,7 +27,7 @@ class TiposCargoController extends Controller
      */
     public function create()
     {
-        //
+      return view('Administrador.altaTiposCargos');
     }
 
     /**
@@ -38,20 +39,20 @@ class TiposCargoController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'nombre' => ['required','regex:/^[A-Za-z\s-_]+$/', 'max:255'],
+            'descripcion' => ['required','regex:/^[A-Za-z\s-_]+$/', 'max:255'],
           ];
         
-        $messages = [ 'nombre.regex'=>'Formato de nombre incorrecto',
-          'nombre.required'=>'Complete el campo requerido',
-          'nombre.max'=>'La longitud del nombre supera el máximo requerido',
+        $messages = [ 'nombre.regex'=>'Formato de descripcion incorrecto',
+          'descripcion.required'=>'Complete el campo requerido',
+          'descripcion.max'=>'La longitud del nombre supera el máximo requerido',
         ];  
         
         $validacion = $this->validate($request,$rules,$messages);
      
      if($validacion)
      {
-        $tip = new TipoCargo();
-        $tip->nombre = trim($request['nombre']);
+        $tip = new TiposCargo();
+        $tip->descripcion = trim($request['descripcion']);
         $tip->save(); 
         return redirect('abmlTipoCargo')->with('success','TipoCargo registrado con éxito');
      }          
@@ -80,7 +81,7 @@ class TiposCargoController extends Controller
 
         if(isset($tip))
         {
-          return view('Administrador.editarTipoCargo',compact('tip'));  
+          return view('Administrador.editarTiposCargos',compact('tip'));  
         }
         else
         {
@@ -95,43 +96,28 @@ class TiposCargoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-      $Tip = TiposCargo::select('id')->where('id','=',$request['id']);
-      $idTip = $Tip->where('email','=',$request['email'])->get();
-      if(isset($idUs))
-      {
-        $ruleMail = [];
-      }
-      else
-      {
-        $ruleMail = ['string', 'email', 'max:255', 'unique:users'];
-      } 
+      $tip = TiposCargo::select('id')->where('id','=',$request['id']);
       $rules = [
-                'nombre' => ['required','regex:/^[A-Za-z\s-_]+$/', 'max:255'],
-                'apellido' => ['required','regex:/^[A-Za-z\s-_]+$/' , 'max:255'],
-                'email' => $ruleMail ,
-                'id_tipo_usuario' => ['required','integer'],
+                'descripcion' => ['required','regex:/^[A-Za-z\s-_]+$/', 'max:255'],
                ];   
 
       $messages = [ 
-                    'nombre.regex'=>'Formato de nombre incorrecto',
-                    'nombre.required'=>'Complete el campo requerido',
-                    'nombre.max'=>'La longitud del nombre supera el máximo requerido',
-                    'apellido.regex'=>'Formato de apellido incorrecto',
-                    'apellido.required'=>'Complete el campo requerido',
-                    'apellido.max'=>'La longitud del nombre supera el máximo requerido',
-                    'email.unique'=>'El email ingresado ya existe',
-                    'id_tipo_usuario.required'=>'Seleccine un tipo de usuario'
+                    'descripcion.regex'=>'Formato de tipo cargo incorrecto',
+                    'descripcion.required'=>'Complete el campo requerido',
+                    'descripcion.max'=>'La longitud del tipo de cargo supera el máximo requerido',
+                  
                   ];          
 
      $validacion = $this->validate($request,$rules,$messages);
 
      if($validacion)
      {
-        $us = User::find($request['id']);
-        $us->update($request->all());
-        return redirect('abmlUsuarios')->with('success','Usuario actualizado con éxito');
+        $tip = TiposCargo::find($request['id']);
+        $tip->descripcion = $request['descripcion'];
+        $tip->update();
+        return redirect('abmlTipoCargo')->with('success','Tipo Cargo actualizado con éxito');
      }
     }
 

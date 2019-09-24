@@ -3,7 +3,7 @@
 @section('content')
  <center>
     {{$us = "" }}
-        <div class="col-md-8 mt-4">
+        <div class="col-md-4 mt-4">
                 <div class="card">
                   <div class="card-header">
                         TipoCargos
@@ -15,7 +15,7 @@
                                         <thead>
                                         <tr>
                                             <th class="sticky-top bg-light" scope="col">Id</th>
-                                            <th class="sticky-top bg-light" scope="col">Nombre</th>
+                                            <th class="sticky-top bg-light" scope="col">Descripcion</th>
                                             <th colspan="2" class="sticky-top bg-light" scope="col"></th>
                                         </tr>
                                         </thead>
@@ -23,16 +23,16 @@
                                            @foreach($tipos as $tipoCargo)    
                                         <tr>
                                             <th scope="row">{{$tipoCargo->id}}</th>
-                                            <td>{{$tipoCargo->nombre}}</td>
+                                            <td>{{$tipoCargo->descripcion}}</td>
                                             <td scope="col">
-                                                <button type="button"  class="btn btn-outline-danger" data-toggle="modal" data-target="#_{{$tipoCargo->id}}">
-                                                  Eliminar
-                                                </button>                                        
-                                            </td>
-                                            <td scope="col">
-                                                <a href="{{route('editarTipoCargo',$tipoCargo->id)}}" class="btn btn-outline-primary">
-                                                   Editar
-                                                </a>                                         
+                                                <center>
+                                                    <button type="button"  class="btn btn-outline-danger" data-toggle="modal" data-target="#_{{$tipoCargo->id}}">
+                                                    Eliminar
+                                                    </button> 
+                                                    <a href="{{route('editarTipoCargo',$tipoCargo->id)}}" class="btn btn-outline-primary">
+                                                    Editar
+                                                    </a>
+                                                </center>                                               
                                             </td>
                                         </tr>
                                         @endforeach
@@ -42,7 +42,7 @@
                         </div>    
                     </div>                         
                     </div>
-                    <a href="{{route('agregarTipoCargo')}}" class="float-right mt-4 btn btn-success ">       Agregar
+                    <a href="{{route('agregarTiposCargo')}}" class="float-right mt-4 btn btn-success ">       Agregar
                     </a>
                     @if(session('success'))
                     <div class=" col-md-6 float-left mt-2 alert alert-success alert-dismissible fade show" role="alert">
@@ -76,7 +76,7 @@
                              Desea eliminar al TipoCargo:<br>
                             <strong>Id: </strong>{{$tipoCargo->id}}<br>
                         
-                            <strong>Nombre: </strong>{{$tipoCargo->nombre}}<br>
+                            <strong>descripcion: </strong>{{$tipoCargo->descripcion}}<br>
                             <br>
                           <strong>
                               <span class="text-danger">La acción no podrá revertirse.</span>
