@@ -43,5 +43,5 @@
             </div>
             <!-- Footer Text -->
         
-        </footer>
-        <!-- Footer -->
+</footer>
+<!-- Footer -->

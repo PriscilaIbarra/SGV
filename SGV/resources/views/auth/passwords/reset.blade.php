@@ -44,7 +44,7 @@
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirmar Contraseña') }}</label>
 
                             <div class="col-md-6">
-                                <input id="confirmar-contraseña" type="password" class="form-control" name="confirmar-contraseña" required autocomplete="new-password">
+                                <input id="password-confirm" type="password" class="form-control" name="password-confirm" required autocomplete="new-password">
                             </div>
                         </div>
 
