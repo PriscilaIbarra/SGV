@@ -6,7 +6,7 @@
         <div class="col-md-4 mt-4">
                 <div class="card">
                   <div class="card-header">
-                        Tipos Cargos
+                        Tipos Usuarios
                     </div>
                     <div class="card-body">
                             <div class="table-responsive">
@@ -20,16 +20,16 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                           @foreach($tipos as $tipoCargo)    
+                                           @foreach($tipos as $tipoUsuario)    
                                         <tr>
-                                            <th scope="row">{{$tipoCargo->id}}</th>
-                                            <td>{{$tipoCargo->descripcion}}</td>
+                                            <th scope="row">{{$tipoUsuario->id}}</th>
+                                            <td>{{$tipoUsuario->descripcion}}</td>
                                             <td scope="col">
                                                 <center>
-                                                    <button type="button"  class="btn btn-outline-danger" data-toggle="modal" data-target="#_{{$tipoCargo->id}}">
+                                                    <button type="button"  class="btn btn-outline-danger" data-toggle="modal" data-target="#_{{$tipoUsuario->id}}">
                                                     Eliminar
                                                     </button> 
-                                                    <a href="{{route('editarTipoCargo',$tipoCargo->id)}}" class="btn btn-outline-primary">
+                                                    <a href="{{route('editarTiposUsuarios',$tipoUsuario->id)}}" class="btn btn-outline-primary">
                                                     Editar
                                                     </a>
                                                 </center>                                               
@@ -42,7 +42,7 @@
                         </div>    
                     </div>                         
                     </div>
-                    <a href="{{route('agregarTiposCargo')}}" class="float-right mt-4 btn btn-success ">       Agregar
+                    <a href="{{route('agregarTiposUsuarios')}}" class="float-right mt-4 btn btn-success ">       Agregar
                     </a>
                     @if(session('success'))
                     <div class=" col-md-6 float-left mt-2 alert alert-success alert-dismissible fade show" role="alert">
@@ -61,29 +61,29 @@
                     @endif
                 </div>        
         </center>         
-         @foreach($tipos as $tipoCargo)        
+         @foreach($tipos as $tipoUsuario)        
             <!-- Modal -->
-             <div class="modal fade" id="_{{$tipoCargo->id}}" tabindex="-1" role="dialog" aria-labelledby="_{{$tipoCargo->id}}" aria-hidden="true">
+             <div class="modal fade" id="_{{$tipoUsuario->id}}" tabindex="-1" role="dialog" aria-labelledby="_{{$tipoUsuario->id}}" aria-hidden="true">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Eliminar TipoCargo</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Eliminar TipoUsuario</h5>
                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                  <span aria-hidden="true">&times;</span>
                               </button>
                        </div>
                        <div class="modal-body">
-                             Desea eliminar al TipoCargo:<br>
-                            <strong>Id: </strong>{{$tipoCargo->id}}<br>
+                             Desea eliminar al TipoUsuario:<br>
+                            <strong>Id: </strong>{{$tipoUsuario->id}}<br>
                         
-                            <strong>descripcion: </strong>{{$tipoCargo->descripcion}}<br>
+                            <strong>descripcion: </strong>{{$tipoUsuario->descripcion}}<br>
                             <br>
                           <strong>
                               <span class="text-danger">La acción no podrá revertirse.</span>
                           </strong>
                        </div>
                        <div class="modal-footer">
-                           <a href="{{route('deleteTipoCargo',$tipoCargo->id)}}" class="btn btn-primary">Aceptar</a>   
+                           <a href="{{route('deleteTiposUsuarios',$tipoUsuario->id)}}" class="btn btn-primary">Aceptar</a>   
                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                        </div>
                     </div>

@@ -1,6 +1,6 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('css/footer.css')}}">
 
-<footer  class="footer mt-4 py-3 page-footer" id="footer">
+<footer  class="footer mt-auto py-3 page-footer" id="footer">
             <!-- Footer Text -->
             <div class="container-fluid text-center text-md-left">
         

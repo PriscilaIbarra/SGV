@@ -5,10 +5,10 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header text-center">Editar Tipos de Cargo</div>
+                <div class="card-header text-center">Editar Tipos de Usuarios</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('updateTiposCargo') }}">
+                    <form method="POST" action="{{ route('updateTiposUsuarios') }}">
                         @csrf
 
                    <div class="form-row">
@@ -25,7 +25,7 @@
                                 @enderror                           
                         </div>
                        <button type="submit" class="btn btn-primary mt-4 float-right">
-                                {{ __('Confirmar Modificacion') }}
+                                {{ __('Confirmar Modificación') }}
                        </button>   
                     </form>
                 </div>

@@ -42,7 +42,7 @@ class TiposCargoController extends Controller
             'descripcion' => ['required','regex:/^[A-Za-z\s-_]+$/', 'max:255'],
           ];
         
-        $messages = [ 'nombre.regex'=>'Formato de descripcion incorrecto',
+        $messages = [ 'descripcion.regex'=>'Formato de descripcion incorrecto',
           'descripcion.required'=>'Complete el campo requerido',
           'descripcion.max'=>'La longitud del nombre supera el máximo requerido',
         ];  

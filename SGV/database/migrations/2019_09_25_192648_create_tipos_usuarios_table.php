@@ -16,6 +16,7 @@ class CreateTiposUsuariosTable extends Migration
         Schema::create('tipos_usuarios', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('descripcion');
+            $table->dateTime('deleted_at')->nullable();
             $table->timestamps();
         });
     }
