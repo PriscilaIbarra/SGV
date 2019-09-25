@@ -2,7 +2,7 @@
             .page-footer{
                 background-color: grey;
                 color: white;
-                width: 100%;
+                width: 100%;                
             }
 </style>
 <footer  class="footer mt-auto py-3 page-footer">
