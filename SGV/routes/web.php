@@ -15,8 +15,43 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/PantallaPrincipalUsuario', function () {
+    return view('Usuario.pantallaPrincipalUsuario');
+})->name('homeUser');
+
+Route::get('/PantallaPrincipalAdm', function () {
+    return view('Administrador.pantallaPrincipalAdmin');
+})->name('homeAdmin');
+
+Route::get('/PantallaPrincipalJefeCatedra', function () {
+    return view('JefeCatedra.pantallaPrincipalJefeC');
+})->name('homeJefeCatedra');
+
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', function()
+{
+	switch (Auth::user()->id_tipo_usuario)
+	{
+		case 1:
+			return redirect(route('homeUser'));			
+			break;
+		
+		case 2:
+		    return redirect(route('homeAdmin'));
+			break;
+		
+		case 3:
+		    return redirect(route('homeJefeCatedra'));
+			break;		
+		
+	}
+})->name('home');
 
 
+Route::get('/abmlUsuarios','UserController@index' )->name('abmlUsuarios');
+Route::get('/altaUsuario','UserController@create' )->name('altaUsuario');
+Route::post('/agregarUsuario','UserController@store' )->name('agregarUsuario');
+Route::get('/editarUsuario/{id}','UserController@edit' )->name('editarUsuario');
+Route::post('/updateUsuario','UserController@update' )->name('updateUsuario');
+Route::get('/abmlUsuarios/{id}','UserController@logic_delete' )->name('deleteUsuarios');

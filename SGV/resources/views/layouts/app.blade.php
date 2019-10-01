@@ -19,6 +19,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/scrollbar.css') }}" rel="stylesheet">
+     <link href="{{ asset('css/layout.css') }}" rel="stylesheet">
 
 
     <!-- Bootstrap cdn new version-->    
@@ -26,16 +27,19 @@
     <!-- -->
     <!-- No agregar bootstrap and jquery js cdns causa conflicto ya viene instalado -->
 </head>
+<style type="text/css">
+    #foot{margin-bottom:0px;}
+</style>
 <body>
     <div id="app">
         @include('include.menu')    
 
         <main class="py-4">
             @yield('content')
-        </main>
-        
-    </div>   
-         @include('include.footer')     
-    
+        </main>       
+    </div> 
+    <div id="foot">
+        @include('include.footer')     
+    </div> 
 </body>
 </html>

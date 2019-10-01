@@ -31,14 +31,43 @@
                              @else
                                 <li class="nav-item dropdown">
                                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                        {{Auth::user()->apellido}}, {{Auth::user()->nombre }} <span class="caret"></span>
+                                        {{Auth::user()->apellido}}, {{Auth::user()->nombre }} 
+                                        <span class="caret"></span>
+                                        
                                     </a>
 
-                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">                                     
+                                        @switch(Auth::user()->id_tipo_usuario)
+                                            @case(1)
+                                                <span>
+                                                    <a class="dropdown-item">Vacantes disponibles</a>
+                                                    <a class="dropdown-item">Inscripciones realizadas</a>
+                                                    <a class="dropdown-item">
+                                                     Ordenes de mérito   
+                                                    </a>
+                                                </span>
+                                                @break
+
+                                            @case(2)
+                                                <span> 
+                                                   <a class="dropdown-item" href="{{ route('abmlUsuarios') }}">Usuarios</a>
+                                                   <a class="dropdown-item">Vacantes</a>
+                                                </span>
+                                                @break
+
+                                            @case(3)
+                                                <span>
+                                                    <a class="dropdown-item">Ver Ordenes de mérito</a>
+                                                </span>
+                                                @break    
+                                           
+                                        @endswitch
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="">Cambiar Contraseña</a>
                                         <a class="dropdown-item" href="{{ route('logout') }}"
                                            onclick="event.preventDefault();
                                                          document.getElementById('logout-form').submit();">
-                                            {{ __('Logout') }}
+                                            {{ __('Salir') }}
                                         </a>
 
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

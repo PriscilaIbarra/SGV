@@ -1,11 +1,6 @@
-<style type="text/css">
-            .page-footer{
-                background-color: grey;
-                color: white;
-                width: 100%;                
-            }
-</style>
-<footer  class="footer mt-auto py-3 page-footer">
+<link rel="stylesheet" type="text/css" href="{{ asset('css/footer.css')}}">
+
+<footer  class="footer mt-4 py-3 page-footer" id="footer">
             <!-- Footer Text -->
             <div class="container-fluid text-center text-md-left">
         

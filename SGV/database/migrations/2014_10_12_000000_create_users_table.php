@@ -20,8 +20,11 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->bigInteger('id_tipo_usuario');
+            $table->string('estado')->default('activo');            
             $table->rememberToken();
             $table->timestamps();
+            $table->foreign('id_tipo_usuario')->references('id')->on('tipos_usuarios')->onDelete('cascade');
         });
     }
 
@@ -32,6 +35,10 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+       Schema::table('tipos_usuarios',function(Blueprint $table){
+            $table->dropForeign('id_tipo_usuario');
+       });
+
+       Schema::dropIfExists('users');
     }
 }
