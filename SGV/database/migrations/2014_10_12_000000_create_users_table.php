@@ -13,6 +13,7 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
+       
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nombre');
@@ -20,9 +21,9 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->bigInteger('id_tipo_usuario');
-            $table->string('estado')->default('activo');            
+            $table->bigInteger('id_tipo_usuario');              
             $table->rememberToken();
+            $table->dateTime('deleted_at')->nullable();
             $table->timestamps();
             $table->foreign('id_tipo_usuario')->references('id')->on('tipos_usuarios')->onDelete('cascade');
         });

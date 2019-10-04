@@ -3,7 +3,7 @@
 namespace Cinema\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cinema\TipoCargo;
+use Cinema\TiposCargo;
 
 class TiposCargoController extends Controller
 {
@@ -14,9 +14,9 @@ class TiposCargoController extends Controller
      */
     public function index()
     {
-        $tipos = TipoCargo::all();
-        $tiposCargo = $tipos->get(); //importante asignar el resultado final a otra variable distinta antes de convertirlo a json con compact, caso contrario se crashea el navegador
-        return view('Administrador.abmlTipoCargo',compact('tiposCargo'));
+        $tipos = TiposCargo::all();
+         //importante asignar el resultado final a otra variable distinta antes de convertirlo a json con compact, caso contrario se crashea el navegador
+        return view('Administrador.abmlTipoCargos',compact('tipos'));
     }
 
     /**
@@ -76,7 +76,7 @@ class TiposCargoController extends Controller
      */
     public function edit($id)
     {
-        $tip = TipoCargo::find($id);
+        $tip = TiposCargo::find($id);
 
         if(isset($tip))
         {
@@ -97,7 +97,7 @@ class TiposCargoController extends Controller
      */
     public function update(Request $request, $id)
     {
-      $Tip = TipoCargo::select('id')->where('id','=',$request['id']);
+      $Tip = TiposCargo::select('id')->where('id','=',$request['id']);
       $idTip = $Tip->where('email','=',$request['email'])->get();
       if(isset($idUs))
       {
@@ -148,7 +148,7 @@ class TiposCargoController extends Controller
 
     public function logic_delete($id)
     {
-        $tip = TipoCargo::find($id);
+        $tip = TiposCargo::find($id);
         if(isset($tip))
         {
            $tip->estado = 'inactivo';

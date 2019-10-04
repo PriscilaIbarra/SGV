@@ -10,6 +10,8 @@ use Cinema\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
+
+
 class UserController extends Controller
 {
     /**
@@ -19,9 +21,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $uss = User::join('tipos_usuarios','users.id_tipo_usuario','=','tipos_usuarios.id')->select(['users.id','users.nombre','users.apellido','users.created_at','users.email','users.id_tipo_usuario','tipos_usuarios.descripcion as descripcion']);
+        $uss = User::join('tipos_usuarios','users.id_tipo_usuario','=','tipos_usuarios.id')->select(['users.id','users.nombre','users.apellido','users.created_at','users.deleted_at','users.email','users.id_tipo_usuario','tipos_usuarios.descripcion as descripcion']);
         $uss->where('users.id', '!=', Auth::id());
-        $uss->where('users.estado','=','activo');
         $usuarios = $uss->get(); //importante asignar el resultado final a otra variable distinta antes de convertirlo a json con compact, caso contrario se crashea el navegador
         return view('Administrador.abmlUsuarios',compact('usuarios'));
     }
@@ -89,11 +90,11 @@ class UserController extends Controller
      if($validacion)
      {
         $us = new User();
-        $us->nombre = $request['nombre'];
-        $us->apellido = $request['apellido'];
-        $us->email = $request['email'];
-        $us->password = Hash::make($request['password']);
-        $us->id_tipo_usuario= $request['id_tipo_usuario'];
+        $us->nombre = trim($request['nombre']); 
+        $us->apellido = trim($request['apellido']);
+        $us->email = trim($request['email']);
+        $us->password = Hash::make(trim($request['password']));
+        $us->id_tipo_usuario= trim($request['id_tipo_usuario']);
         $us->save(); 
         return redirect('abmlUsuarios')->with('success','Usuario registrado con éxito');
      }          
@@ -142,23 +143,40 @@ class UserController extends Controller
     public function update(Request $request)
     {
       $Us = User::select('id')->where('id','=',$request['id']);
+      $idUs = $Us->where('email','=',$request['email'])->get();
+      if(isset($idUs))
+      {
+        $ruleMail = [];
+      }
+      else
+      {
+        $ruleMail = ['string', 'email', 'max:255', 'unique:users'];
+      } 
       $rules = [
                 'nombre' => ['required','regex:/^[A-Za-z\s-_]+$/', 'max:255'],
+                'apellido' => ['required','regex:/^[A-Za-z\s-_]+$/' , 'max:255'],
+                'email' => $ruleMail ,
+                'id_tipo_usuario' => ['required','integer'],
                ];   
 
       $messages = [ 
                     'nombre.regex'=>'Formato de nombre incorrecto',
                     'nombre.required'=>'Complete el campo requerido',
                     'nombre.max'=>'La longitud del nombre supera el máximo requerido',
+                    'apellido.regex'=>'Formato de apellido incorrecto',
+                    'apellido.required'=>'Complete el campo requerido',
+                    'apellido.max'=>'La longitud del nombre supera el máximo requerido',
+                    'email.unique'=>'El email ingresado ya existe',
+                    'id_tipo_usuario.required'=>'Seleccine un tipo de usuario'
                   ];          
 
      $validacion = $this->validate($request,$rules,$messages);
 
      if($validacion)
      {
-        $tip = TipoCargo::find($request['id']);
-        $tip->update($request->all());
-        return redirect('abmlTipoCargos')->with('success','TipoCargo actualizado con éxito');
+        $us = User::find($request['id']);
+        $us->update($request->all());
+        return redirect('abmlUsuarios')->with('success','Usuario actualizado con éxito');
      }
 
     }
@@ -179,9 +197,17 @@ class UserController extends Controller
         $us = User::find($id);
         if($us)
         {
-           $us->estado = 'inactivo';
+           if(isset($us->deleted_at))
+           {
+             $us->deleted_at = null;
+           }
+           else
+           {
+            $us->deleted_at =  date('Y-m-d H:i:s');
+           }
+           
            $us->save(); 
-           return back()->with('success','Usuario eliminado con éxito.');
+           return back()->with('success','Estado de usuario modificado con éxito.');
         }
         else
         {

@@ -48,34 +48,7 @@
                                 @enderror  
                         </div>
                      </div>
-                   <!--  <div class="form-row">
-                         <div class="col mt-4 text-left">
-                             <label>Contraseña anterior</label>
-                             <input type="password" class="form-control"  name="password_prev" placeholder="Contraseña anterior">
-                         </div>                        
-                     </div>
-                     <div class="form-row">
-                         <div class="col-md-6 mt-4 text-left">
-                            <label for="validationDefault01">
-                                {{ __('Nueva Contraseña') }}
-                            </label>
-                            <input id="contraseña" type="password" class="form-control @error('password') is-invalid @enderror" name="password"  
-                            autocomplete="new-password" placeholder="Contraseña">
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror                              
-                         </div>
-                         <div class="col-md-6 mt-4 text-left">
-                           <label for="validationDefault02">
-                                {{ __('Confirmar contraseña') }}
-                           </label>
-                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" autocomplete="new-password" placeholder="Confirmar">        
-                         </div>
-                        
-                    </div>-->
-                    <div class="form-row">
+                  <div class="form-row">
                         <div class="col text-left mt-2">
                            <label for="validationDefault03">{{ __('Tipo Usuario') }}</label>
                              <select id="id_tipo_usuario"  name="id_tipo_usuario" class="form-control" placeholder="Usuario" required>

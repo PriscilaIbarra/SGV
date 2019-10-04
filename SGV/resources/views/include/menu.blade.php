@@ -52,7 +52,7 @@
                                                 <span> 
                                                    <a class="dropdown-item" href="{{ route('abmlUsuarios') }}">Usuarios</a>
                                                    <a class="dropdown-item">Vacantes</a>
-                                                   <a class="dropdown-item" href="{{ route('abmlTiposCargo') }}">TiposCargo</a>
+                                                   <a class="dropdown-item" href="{{ route('abmlTipoCargo') }}">TiposCargo</a>
                                                 </span>
                                                 @break
 

@@ -20,7 +20,7 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                           @foreach($tiposCargo as $tipoCargo)    
+                                           @foreach($tipos as $tipoCargo)    
                                         <tr>
                                             <th scope="row">{{$tipoCargo->id}}</th>
                                             <td>{{$tipoCargo->nombre}}</td>
@@ -61,7 +61,7 @@
                     @endif
                 </div>        
         </center>         
-         @foreach($tiposCargo as $tipoCargo)        
+         @foreach($tipos as $tipoCargo)        
             <!-- Modal -->
              <div class="modal fade" id="_{{$tipoCargo->id}}" tabindex="-1" role="dialog" aria-labelledby="_{{$tipoCargo->id}}" aria-hidden="true">
                   <div class="modal-dialog" role="document">

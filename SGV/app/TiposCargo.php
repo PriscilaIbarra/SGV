@@ -4,7 +4,7 @@ namespace Cinema;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TipoCargo extends Model
+class TiposCargo extends Model
 {
     protected $fillable = [
         'nombre'

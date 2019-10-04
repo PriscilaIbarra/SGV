@@ -55,7 +55,9 @@ Route::post('/agregarUsuario','UserController@store' )->name('agregarUsuario');
 Route::get('/editarUsuario/{id}','UserController@edit' )->name('editarUsuario');
 Route::post('/updateUsuario','UserController@update' )->name('updateUsuario');
 Route::get('/abmlUsuarios/{id}','UserController@logic_delete' )->name('deleteUsuarios');
-Route::post('/agregarTipoCargo','TipoCargoController@store' )->name('agregarTipoCargo');
-Route::get('/editarTipoCargo/{id}','TipoCargoController@edit' )->name('editarTipoCargo');
-Route::get('/ABML/{id}','TipoCargoController@edit' )->name('editarTipoCargo');
-Route::get('/abmlTipoCargos/{id}','UserController@logic_delete' )->name('deleteTipoCargo');
+
+Route::get('/abmlTipoCargo','TiposCargoController@index')->name('abmlTipoCargo');
+Route::post('/agregarTipoCargo','TiposCargoController@store' )->name('agregarTipoCargo');
+Route::get('/editarTipoCargo/{id}','TiposCargoController@edit' )->name('editarTipoCargo');
+Route::get('/abmlTipoCargo/{id}','TiposCargoController@edit' )->name('editarTipoCargo');
+Route::get('/abmlTipoCargo/{id}','TiposCargoController@logic_delete' )->name('deleteTipoCargo');

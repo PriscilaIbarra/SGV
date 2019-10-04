@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTipoCargoTable extends Migration
+class CreateTiposCargoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateTipoCargoTable extends Migration
      */
     public function up()
     {
-        Schema::create('tipos_cargo', function (Blueprint $table) {
+        Schema::create('tipos_cargos', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('descripcion');
             $table->string('estado')->default('activo');
@@ -28,6 +28,6 @@ class CreateTipoCargoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tipo_cargo');
+        Schema::dropIfExists('tipos_cargos');
     }
 }

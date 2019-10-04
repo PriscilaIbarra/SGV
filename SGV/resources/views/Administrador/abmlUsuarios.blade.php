@@ -33,9 +33,15 @@
                                             <td>{{$usuario->email}}</td>
                                             <td>{{$usuario->descripcion}}</td>
                                             <td scope="col">
-                                                <button type="button"  class="btn btn-outline-danger" data-toggle="modal" data-target="#_{{$usuario->id}}">
-                                                  Eliminar
-                                                </button>                                        
+                                              @if(isset($usuario->deleted_at))
+                                                <button type="button"  class="btn btn-outline-success" data-toggle="modal" data-target="#_{{$usuario->id}}">
+                                                  Habilitar  &nbsp;
+                                                </button>
+                                              @else
+                                               <button type="button"  class="btn btn-outline-danger" data-toggle="modal" data-target="#_{{$usuario->id}}">
+                                                  Inhabilitar 
+                                                </button>
+                                              @endif                                          
                                             </td>
                                             <td scope="col">
                                                 <a href="{{route('editarUsuario',$usuario->id)}}" class="btn btn-outline-primary">
@@ -81,14 +87,10 @@
                               </button>
                        </div>
                        <div class="modal-body">
-                             Desea eliminar al usuario:<br>
+                             Desea cambiar el estado del usuario:<br>
                             <strong>Id: </strong>{{$usuario->id}}<br>
                             <strong>Apellido: </strong>{{$usuario->apellido}}<br>
-                            <strong>Nombre: </strong>{{$usuario->nombre}}<br>
-                            <br>
-                          <strong>
-                              <span class="text-danger">La acción no podrá revertirse.</span>
-                          </strong>
+                            <strong>Nombre: </strong>{{$usuario->nombre}}<br>                     
                        </div>
                        <div class="modal-footer">
                            <a href="{{route('deleteUsuarios',$usuario->id)}}" class="btn btn-primary">Aceptar</a>   
