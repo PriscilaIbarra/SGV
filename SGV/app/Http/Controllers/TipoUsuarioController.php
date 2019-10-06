@@ -55,7 +55,7 @@ class TipoUsuarioController extends Controller
         $tip = new TiposUsuarios();
         $tip->descripcion = trim($request['descripcion']);
         $tip->save(); 
-        return redirect('abmlTiposUsuarios')->with('success','Tipo Usuario registrado con éxito');
+        return redirect('abmlTiposUsuarios')->with('success','Tipo de Usuario registrado con éxito.');
      }          
     }
 
@@ -86,7 +86,7 @@ class TipoUsuarioController extends Controller
         }
         else
         {
-          return back()->with('error','Tipo Usuario no encontrado.');
+          return back()->with('error','Tipo de Usuario no encontrado.');
         }    
     }
 
@@ -118,7 +118,7 @@ class TipoUsuarioController extends Controller
         $tip = TiposUsuarios::find($request['id']);
         $tip->descripcion = $request['descripcion'];
         $tip->update();
-        return redirect('abmlTiposUsuarios')->with('success','Tipo Usuario actualizado con éxito');
+        return redirect('abmlTiposUsuarios')->with('success','Tipo de Usuario actualizado con éxito.');
      }
     }
 
@@ -152,7 +152,7 @@ class TipoUsuarioController extends Controller
         }
         else
         {
-           return back()->with('error','TipoUsuario no encontrado');
+           return back()->with('error','Tipo de Usuario no encontrado.');
         }    
     }
 

@@ -2,8 +2,7 @@
 
 @section('content')
  <center>
-    {{$us = "" }}
-        <div class="col-md-4 mt-4">
+       <div class="col-md-4 mt-4">
                 <div class="card">
                   <div class="card-header">
                         Tipos Usuarios
@@ -67,16 +66,16 @@
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Eliminar TipoUsuario</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Eliminar Tipo de Usuario</h5>
                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                  <span aria-hidden="true">&times;</span>
                               </button>
                        </div>
                        <div class="modal-body">
-                             Desea eliminar al TipoUsuario:<br>
+                             Desea eliminar al Tipo de Usuario:<br>
                             <strong>Id: </strong>{{$tipoUsuario->id}}<br>
                         
-                            <strong>descripcion: </strong>{{$tipoUsuario->descripcion}}<br>
+                            <strong>Descripción: </strong>{{$tipoUsuario->descripcion}}<br>
                             <br>
                           <strong>
                               <span class="text-danger">La acción no podrá revertirse.</span>

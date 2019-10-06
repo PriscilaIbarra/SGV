@@ -54,7 +54,7 @@ class TiposCargoController extends Controller
         $tip = new TiposCargo();
         $tip->descripcion = trim($request['descripcion']);
         $tip->save(); 
-        return redirect('abmlTipoCargo')->with('success','TipoCargo registrado con éxito');
+        return redirect('abmlTipoCargo')->with('success','Tipo de Cargo registrado con éxito.');
      }          
     }
 
@@ -85,7 +85,7 @@ class TiposCargoController extends Controller
         }
         else
         {
-          return back()->with('error','TipoCargo no encontrado.');
+          return back()->with('error','Tipo de Cargo no encontrado.');
         }    
     }
 
@@ -117,7 +117,7 @@ class TiposCargoController extends Controller
         $tip = TiposCargo::find($request['id']);
         $tip->descripcion = $request['descripcion'];
         $tip->update();
-        return redirect('abmlTipoCargo')->with('success','Tipo Cargo actualizado con éxito');
+        return redirect('abmlTipoCargo')->with('success','Tipo de Cargo actualizado con éxito.');
      }
     }
 
@@ -139,11 +139,11 @@ class TiposCargoController extends Controller
         {
            $tip->estado = 'inactivo';
            $tip->save(); 
-           return back()->with('success','TipoCargo eliminado con éxito.');
+           return back()->with('success','Tipo de Cargo eliminado con éxito.');
         }
         else
         {
-           return back()->with('error','TipoCargo no encontrado');
+           return back()->with('error','Tipo de Cargo no encontrado.');
         }    
     }
 }
