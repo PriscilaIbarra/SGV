@@ -77,3 +77,10 @@ Route::post('/agregarVacante','VacanteController@store' )->name('agregarVacante'
 Route::get('/editarVacante/{id}','VacanteController@edit' )->name('editarVacante');
 Route::post('/updateVacante','VacanteController@update' )->name('updateVacante');
 Route::get('/deleteVacante/{id}','VacanteController@logic_delete' )->name('deleteVacante');
+
+Route::get('/abmlNovedades','NovedadController@index')->name('abmlNovedades');
+Route::get('/altaNovedades','NovedadController@create' )->name('agregarNovedades');
+Route::post('/altaNovedades','NovedadController@store' )->name('altaNovedades');
+Route::get('/editarNovedad/{id}','NovedadController@edit' )->name('editarNovedad');
+Route::post('/actualizarNovedad','NovedadController@update' )->name('updateNovedad');
+Route::get('/abmlNovedad/{id}','NovedadController@logic_delete' )->name('deleteNovedades');

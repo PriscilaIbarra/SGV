@@ -49,11 +49,13 @@
                                                 @break
 
                                             @case(2)
-                                                <span> 
+                                                <span>
+                                                   <a class="dropdown-item" href="{{ route('abmlNovedades') }}">Novedades</a> 
                                                    <a class="dropdown-item" href="{{ route('abmlUsuarios') }}">Usuarios</a>
                                                    <a class="dropdown-item" href="{{route('abmlVacantes')}}">Vacantes</a>
                                                    <a class="dropdown-item" href="{{ route('abmlTipoCargo') }}">TiposCargo</a>
                                                    <a class="dropdown-item" href="{{ route('abmlTiposUsuarios') }}">TiposUsuarios</a>
+                                                   
                                                 </span>
                                                 @break
 
