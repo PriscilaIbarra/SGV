@@ -26,6 +26,8 @@
                                             </th>
                                             <th class="sticky-top bg-light" scope="col">
                                             </th>
+                                            <th class="sticky-top bg-light" scope="col">
+                                            </th>
                                         </tr>
                                         </thead>
                                         <tbody>                                          
@@ -41,6 +43,11 @@
                                              <td scope="col">
                                                 <a href="{{route('editarVacante',$vacante->id)}}" class="btn btn-outline-success">
                                                    Editar
+                                                </a>                                      
+                                            </td>
+                                            <td scope="col">
+                                                <a href="{{route('deleteVacante',$vacante->id)}}" class="btn btn-outline-danger">
+                                                   Eliminar
                                                 </a>                                      
                                             </td>
                                             <td scope="col">

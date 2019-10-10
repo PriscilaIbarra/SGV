@@ -25,7 +25,8 @@ class VacanteController extends Controller
             ->join('tipos_cargos','vacantes.id_tipo_cargo','=','tipos_cargos.id')
             ->join('departamentos','vacantes.id_departamento','=','departamentos.id')
             ->select(['vacantes.id  as id','vacantes.fecha_apertura as fecha_apertura','vacantes.fecha_cierre as fecha_cierre','vacantes.requisitos as requisitos','vacantes.adicionales as adicionales','vacantes.presentacion as presentacion','vacantes.horario as horario','vacantes.estado as estado','vacantes.created_at as created_at','vacantes.updated_at as updated_at','vacantes.id_asignatura as id_asignatura','vacantes.id_tipo_cargo as id_tipo_cargo','vacantes.id_departamento as id_departamento','asignaturas.descripcion as asignatura_desc','tipos_cargos.descripcion as tipo_cargo_des','departamentos.descripcion as depto_desc'])->where('vacantes.id_usuario','=',Auth::user()->id);
-        $vacantes = $vac->get();    
+        $vacan = $vac->whereNull('vacantes.deleted_at');
+        $vacantes = $vacan ->get();
         return view('Administrador.abmlVacantes',compact('vacantes'));
     }
 
@@ -230,4 +231,27 @@ class VacanteController extends Controller
     {
         //
     }
+
+    public function logic_delete($id)
+    {
+        $vac = Vacante::find($id);
+        if($id)
+        {
+           if(isset($id->deleted_at))
+           {
+             $vac->deleted_at = null;
+           }
+           else
+           {
+            $vac->deleted_at =  date('Y-m-d H:i:s');
+           }
+           
+           $vac->save(); 
+           return back()->with('success','Vacante eliminada con exito.');
+        }
+        else
+        {
+           return back()->with('error','Vacante no encontrada');
+        }
+    }    
 }

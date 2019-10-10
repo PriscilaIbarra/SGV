@@ -76,3 +76,4 @@ Route::get('/altaVacante','VacanteController@create' )->name('altaVacante');
 Route::post('/agregarVacante','VacanteController@store' )->name('agregarVacante');
 Route::get('/editarVacante/{id}','VacanteController@edit' )->name('editarVacante');
 Route::post('/updateVacante','VacanteController@update' )->name('updateVacante');
+Route::get('/deleteVacante/{id}','VacanteController@logic_delete' )->name('deleteVacante');

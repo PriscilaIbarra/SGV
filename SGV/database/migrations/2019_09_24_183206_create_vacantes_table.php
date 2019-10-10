@@ -21,7 +21,8 @@ class CreateVacantesTable extends Migration
             $table->text('adicionales');
             $table->text('presentacion');
             $table->string('horario');
-            $table->string('estado')->default('abierta');         
+            $table->string('estado')->default('abierta');
+            $table->dateTime('deleted_at')->nullable();         
             $table->timestamps();
             $table->bigInteger('id_asignatura');
             $table->foreign('id_asignatura')->references('id')->on('asignaturas')->onDelete('cascade');
