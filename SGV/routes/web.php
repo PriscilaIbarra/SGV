@@ -33,19 +33,20 @@ Route::get('/home', function()
 {
 	switch (Auth::user()->id_tipo_usuario)
 	{
-		case 1:
-			return redirect(route('homeUser'));			
-			break;
-		
-		case 2:
-		    return redirect(route('homeAdmin'));
-			break;
-		
-		case 3:
-		    return redirect(route('homeJefeCatedra'));
-			break;		
-		
-	}
+			case 1:
+				return redirect(route('homeUser'));			
+				break;
+			
+			case 2:
+			    return redirect(route('homeAdmin'));
+				break;
+			
+			case 3:
+			    return redirect(route('homeJefeCatedra'));
+				break;		
+			
+	}   
+ 
 })->name('home');
 
 
@@ -70,3 +71,8 @@ Route::get('/editarTiposUsuarios/{id}','TipoUsuarioController@edit' )->name('edi
 Route::post('/actualizarTipoUsuario','TipoUsuarioController@update' )->name('updateTiposUsuarios');
 Route::get('/abmlTiposUsuarios/{id}','TipoUsuarioController@logic_delete' )->name('deleteTiposUsuarios');
 
+Route::get('/abmlVacantes','VacanteController@index' )->name('abmlVacantes');
+Route::get('/altaVacante','VacanteController@create' )->name('altaVacante');
+Route::post('/agregarVacante','VacanteController@store' )->name('agregarVacante');
+Route::get('/editarVacante/{id}','VacanteController@edit' )->name('editarVacante');
+Route::post('/updateVacante','VacanteController@update' )->name('updateVacante');

@@ -71,7 +71,7 @@
                        <button type="submit" class="btn btn-primary mt-4 float-right">
                                 {{ __('Confirmar Registro') }}
                        </button>   
-                    </form>
+                    </form>                 
                 </div>
             </div>
         </div>

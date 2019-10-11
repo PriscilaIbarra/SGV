@@ -214,4 +214,6 @@ class UserController extends Controller
            return back()->with('error','Usuario no encontrado');
         }    
     }
+
+   
 }
