@@ -2,11 +2,11 @@
 
 @section('content')
  <center>
-      <div class="col-md-8 mt-4">
+     <div class="col-md-8 mt-4">
                 <div class="card">
                   <div class="card-header">
                         Novedades
-                    </div>
+                    </div>                   
                     <div class="card-body">
                             <div class="table-responsive">
                                 <div class="table-wrapper-scroll-y my-custom-scrollbar">
@@ -24,7 +24,7 @@
                                             <th scope="row">{{$novedad->id}}</th>
                                             <td>{{$novedad->descripcion}}</td>
                                             <td scope="col">
-                                              @if($novedad.estado == "inactivo")
+                                              @if(strcasecmp($novedad->estado,"inactivo")==0)
                                                 <button type="button"  class="btn btn-outline-success" data-toggle="modal" data-target="#_{{$novedad->id}}">
                                                   Habilitar  &nbsp;
                                                 </button>
@@ -77,7 +77,7 @@
                                  <span aria-hidden="true">&times;</span>
                               </button>
                        </div>
-                       @if ($novedad.estado=="inactivo")
+                       @if ($novedad->estado=="inactivo")
                        <div class="modal-body">
                              Desea habilitar la novedad:<br>
                             <strong>Id: </strong>{{$novedad->id}}<br>

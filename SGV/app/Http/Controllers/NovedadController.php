@@ -3,6 +3,7 @@
 namespace Cinema\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Cinema\Novedad;
 
 class NovedadController extends Controller
 {
@@ -13,9 +14,7 @@ class NovedadController extends Controller
      */
     public function index()
     {
-        $nov = Novedad::select(['novedades.id','novedades.descripcion']);
-        $nov->where('novedades.estado', '!=','inactivo');
-        $novedades = $nov->get(); 
+        $novedades = Novedad::all();
         return view('Administrador.abmlNovedades',compact('novedades'));
     }
 
@@ -38,12 +37,12 @@ class NovedadController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'descripcion' => ['required','regex:/^[A-Za-z\s-_]+$/', 'max:255'],
+            'descripcion' => ['required','string', 'max:255'],
           ];
         
-        $messages = [ 'descripcion.regex'=>'Formato de descripcion incorrecto',
+        $messages = [ 'descripcion.string'=>'Formato de descripcion incorrecto',
           'descripcion.required'=>'Complete el campo requerido',
-          'descripcion.max'=>'La longitud del nombre supera el máximo requerido',
+          'descripcion.max'=>'La longitud de la descripcion supera el máximo requerido',
         ];  
         
         $validacion = $this->validate($request,$rules,$messages);
@@ -80,7 +79,7 @@ class NovedadController extends Controller
 
         if(isset($nov))
         {
-          return view('Administrador.editarNovedades',compact('nov'));  
+          return view('Administrador.editarNovedad',compact('nov'));  
         }
         else
         {
@@ -95,18 +94,17 @@ class NovedadController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $nov = Novedad::select('id')->where('id','=',$request['id']);
       $rules = [
-                'descripcion' => ['required','regex:/^[A-Za-z\s-_]+$/', 'max:255'],
+                'descripcion' => ['required','string', 'max:255'],
                ];   
 
       $messages = [ 
-                    'descripcion.regex'=>'Formato de tipo cargo incorrecto',
+                    'descripcion.string'=>'Formato de descripcion incorrecto.',
                     'descripcion.required'=>'Complete el campo requerido',
-                    'descripcion.max'=>'La longitud del tipo de cargo supera el máximo requerido',
-                  
+                    'descripcion.max'=>'La longitud de la descripción supera el máximo requerido',
                   ];          
 
      $validacion = $this->validate($request,$rules,$messages);
@@ -135,7 +133,7 @@ class NovedadController extends Controller
         $nov = Novedad::find($id);
         if(isset($nov))
         {
-            if($now.estado=='inactivo')
+            if($nov->estado=='inactivo')
             {
                 $nov->estado = 'activo';
                 $nov->save();
@@ -145,9 +143,7 @@ class NovedadController extends Controller
                 $nov->estado = 'inactivo';
                 $nov->save();
                 return back()->with('success','Novedad deshabilitada con éxito.');
-            }
-           
-            
+            }                    
            
         }
         else

@@ -16,7 +16,7 @@
                                   {{ __('Descripción') }}:
                            </label>
                            <input type="hidden" name="id" value="{{$nov->id}}">
-                           <input id="descripcion" type="text" class="form-control @error('descripcion') is-invalid @enderror" name="descripcion" value="{{$tip->descripcion}}" required autocomplete="descripcion" autofocus placeholder="descripcion">
+                           <input id="descripcion" type="text" class="form-control @error('descripcion') is-invalid @enderror" name="descripcion" value="{{$nov->descripcion}}" required autocomplete="descripcion" autofocus placeholder="descripcion">
                                 @error('descripcion')
                                    <span class="invalid-feedback" role="alert">
                                        <strong>{{ $message }}</strong>

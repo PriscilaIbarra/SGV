@@ -49,14 +49,13 @@
                                                 @break
 
                                             @case(2)
-                                                <span>
-                                                   <a class="dropdown-item" href="{{ route('abmlNovedades') }}">Novedades</a> 
+                                                <span>                                               
                                                    <a class="dropdown-item" href="{{ route('abmlUsuarios') }}">Usuarios</a>
                                                    <a class="dropdown-item" href="{{route('abmlVacantes')}}">Vacantes</a>
-                                                   <a class="dropdown-item" href="{{ route('abmlTipoCargo') }}">TiposCargo</a>
-                                                   <a class="dropdown-item" href="{{ route('abmlTiposUsuarios') }}">TiposUsuarios</a>
-                                                   
-                                                </span>
+                                                   <a class="dropdown-item" href="{{ route('abmlTipoCargo') }}">Tipos de Cargos</a>
+                                                   <a class="dropdown-item" href="{{ route('abmlTiposUsuarios') }}">Tipos de Usuarios</a>
+                                                   <a class="dropdown-item" href="{{ route('abmlNovedades') }}">Novedades</a> 
+                                               </span>
                                                 @break
 
                                             @case(3)
