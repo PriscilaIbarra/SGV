@@ -19,7 +19,11 @@ class CreateInscripcionesTable extends Migration
             $table->string('disponibilidad_horaria');
             $table->string('cv');
             $table->float('calificacion',2,2); 
+            $table->bigInteger('id_vacante');
+            $table->bigInteger('id_usuario');          
             $table->timestamps();
+            $table->foreign('id_vacante')->references('id')->on('vacantes')->onDelete('cascade');
+            $table->foreign('id_usuario')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -30,6 +34,12 @@ class CreateInscripcionesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('inscripciones');
+       Schema::table('vacantes',function(Blueprint $table){
+            $table->dropForeign('id_vacante');
+       });
+       Schema::table('users',function(Blueprint $table){
+            $table->dropForeign('id_usuario');
+       });
+       Schema::dropIfExists('inscripciones');
     }
 }

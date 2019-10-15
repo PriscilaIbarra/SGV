@@ -11,13 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/','AsignaturaController@index');
 
-Route::get('/PantallaPrincipalUsuario', function () {
-    return view('Usuario.pantallaPrincipalUsuario');
-})->name('homeUser');
+Route::get('/listadoVacantesOfAsig/{id}','VacanteController@getVacantesOfAsig')->name('listadoVacantes');
 
 Route::get('/PantallaPrincipalAdm', function () {
     return view('Administrador.pantallaPrincipalAdmin');
@@ -25,7 +21,7 @@ Route::get('/PantallaPrincipalAdm', function () {
 
 Route::get('/PantallaPrincipalJefeCatedra', function () {
     return view('JefeCatedra.pantallaPrincipalJefeC');
-})->name('homeJefeCatedra');
+})->name('homeJefeCatedra');	
 
 Auth::routes();
 
@@ -34,7 +30,7 @@ Route::get('/home', function()
 	switch (Auth::user()->id_tipo_usuario)
 	{
 			case 1:
-				return redirect(route('homeUser'));			
+				return redirect(route('asignConVacants'));			
 				break;
 			
 			case 2:
@@ -84,3 +80,8 @@ Route::post('/altaNovedades','NovedadController@store' )->name('altaNovedades');
 Route::get('/editarNovedad/{id}','NovedadController@edit' )->name('editarNovedad');
 Route::post('/actualizarNovedad','NovedadController@update' )->name('updateNovedad');
 Route::get('/abmlNovedad/{id}','NovedadController@logic_delete' )->name('deleteNovedades');
+
+
+Route::get('/listAsignaturasConVacantes','AsignaturaController@getAsignaturasConVacantes')->name('asignConVacants');
+Route::get('/listarVacantesDeAsig/{id}','VacanteController@getVacantesByAsig')->name('listVacantesDeAsignatura');
+Route::get('/inscribirseVacante/{id}','InscripcionController@create')->name('inscribirseVacante');

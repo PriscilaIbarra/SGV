@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-sm bg-light navbar-info justify-content-end navbar-light">
-              <a class="navbar-brand"  href="{{ url('/') }}"> <!--{{ config('app.name', 'SGV') }}-->SGV</a>
+              <a class="navbar-brand"  > <!--{{ config('app.name', 'SGV') }}-->SGV</a>
                  <button class="navbar-toggler mb-2" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" >
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -40,7 +40,7 @@
                                         @switch(Auth::user()->id_tipo_usuario)
                                             @case(1)
                                                 <span>
-                                                    <a class="dropdown-item">Vacantes disponibles</a>
+                                                    <a class="dropdown-item" href="{{route('asignConVacants')}}">Vacantes disponibles</a>
                                                     <a class="dropdown-item">Inscripciones realizadas</a>
                                                     <a class="dropdown-item">
                                                      Ordenes de mérito   

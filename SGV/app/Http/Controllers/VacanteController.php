@@ -11,6 +11,7 @@ use Cinema\Asignatura;
 use Cinema\Vacante;
 use Cinema\Departamento;
 use Carbon\Carbon;
+use Cinema\User;
 
 class VacanteController extends Controller
 {
@@ -253,5 +254,62 @@ class VacanteController extends Controller
         {
            return back()->with('error','Vacante no encontrada');
         }
-    }    
+    } 
+
+    public function getVacantesByAsig($id_asig)
+    {
+      //recuperar vacantes disponibles a las cuales el usuario no se encuentra inscripto      
+
+        $query = User::join('inscripciones','users.id','=','inscripciones.id')
+                      ->join('vacantes','vacantes.id','=','inscripciones.id_vacante')
+                      ->select(['vacantes.id'])
+                      ->where('users.id','=', Auth::user()->id)->get();  
+        $vac = Vacante::join('asignaturas','vacantes.id_asignatura','=','asignaturas.id')
+                       ->join('tipos_cargos','tipos_cargos.id','=','vacantes.id_tipo_cargo')
+                       ->join('departamentos','departamentos.id','=','vacantes.id_departamento')
+                       ->select(
+                               [
+                                'vacantes.id','vacantes.fecha_apertura','vacantes.fecha_cierre',
+                                'vacantes.requisitos','vacantes.adicionales','vacantes.presentacion',
+                                'vacantes.horario','vacantes.id_asignatura','asignaturas.descripcion as desc_asig',
+                                'vacantes.id_tipo_cargo','tipos_cargos.descripcion as desc_tipo_cargo'
+                               ]
+                        )
+                        ->whereNull('vacantes.deleted_at')
+                        ->whereNull('asignaturas.deleted_at')
+                        ->where('vacantes.fecha_apertura','<=',date('Y-m-d'))
+                        ->where('vacantes.fecha_cierre','>=',date('Y-m-d'))
+                        ->where('departamentos.descripcion','LIKE','Ingenieria en sistemas de Información')
+                        ->where('vacantes.id_asignatura','=',$id_asig)
+                        ->whereNotIn('vacantes.id',$query);               
+        $vacan = $vac->get();
+        $vacantes  = $vacan;                 
+        return view('Usuario.vacantesDeUnaMateria',compact('vacantes'));
+    }
+
+    public function getVacantesOfAsig($id_asig)
+    {   
+        //recupera vacantes vigentes de una materia para el perfíl público
+        $vac = Vacante::join('asignaturas','vacantes.id_asignatura','=','asignaturas.id')
+                      ->join('tipos_cargos','tipos_cargos.id','=','vacantes.id_tipo_cargo')
+                      ->join('departamentos','departamentos.id','=','vacantes.id_departamento')
+                      ->select(
+                               [
+                                'vacantes.id','vacantes.fecha_apertura','vacantes.fecha_cierre',
+                                'vacantes.requisitos','vacantes.adicionales','vacantes.presentacion',
+                                'vacantes.horario','vacantes.id_asignatura','asignaturas.descripcion as desc_asig',
+                                'vacantes.id_tipo_cargo','tipos_cargos.descripcion as desc_tipo_cargo'
+                               ]
+                        )
+                        ->whereNull('vacantes.deleted_at')
+                        ->whereNull('asignaturas.deleted_at')
+                        ->where('vacantes.fecha_apertura','<=',date('Y-m-d'))
+                        ->where('vacantes.fecha_cierre','>=',date('Y-m-d'))
+                        ->where('departamentos.descripcion','LIKE','Ingenieria en sistemas de Información')
+                        ->where('vacantes.id_asignatura','=',$id_asig);
+
+        $vacantes = $vac->get();                
+        return view('listadoVacantes',compact('vacantes'));
+    }   
+
 }

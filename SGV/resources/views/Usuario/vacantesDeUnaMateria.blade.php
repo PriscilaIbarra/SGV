@@ -1,8 +1,8 @@
-@extends('welcome')
+@extends('layouts.app')
 
 @section('content')
   @include('include.title&logo')
-      <!--Lista de vacantes por materia -->
+<!--Lista de vacantes por materia -->
              <center>
                 <div class="col-md-8 mt-4 ">
                     <div class="card">
@@ -19,46 +19,48 @@
                                                         <th class="sticky-top bg-light" scope="col">fechaCierre</th>
                                                         <th class="sticky-top bg-light" scope="col">Horario</th>
                                                         <th colspan="2" class="sticky-top bg-light" scope="col"></th>
-                                            </thead>
-                                            
+                                            </thead>                                            
                                             <tbody>
-                                            	@foreach($vacantes as $vacante)
+                                             @foreach($vacantes as $vacante)
                                                 <tr>
-                                                    <td>{{$vacante->desc_tipo_cargo}}</td>
+                                                    <td>{{$vacante->desc_tipo_cargo}}.</td>
                                                     <td class="d-none d-sm-table-cell">       
                                                         <p>
                                                           {{substr($vacante->requisitos,0,204)}}...
                                                         </p>                                                              
                                                     </td>
-                                                    <td>{{ date('d-m-Y',strtotime($vacante->fecha_cierre))}}</td>
                                                     <td>
-                                                        {{$vacante->horario}}
+                                                      {{
+                                                        date('d-m-Y',strtotime($vacante->fecha_cierre))
+                                                      }}                                      
                                                     </td>
                                                     <td>
-                                                          <a href="" class="col btn btn-outline-primary">
+                                                       {{$vacante->horario}}
+                                                    </td>
+                                                    <td>
+                                                          <a href="{{route('inscribirseVacante',$vacante->id)}}" class="col btn btn-outline-primary">
                                                                 Inscribirse
-                                                          </a>                             
+                                                          </a>             
 
-                                                          <button class="mt-1 col btn btn-outline-info" type="button"  data-toggle="modal" data-target="#_{{$vacante->id}}">
+                                                          <button class="mt-1 col btn btn-outline-info"
+                                                          data-toggle="modal" data-target="#_{{$vacante->id}}">
                                                               Ver más
-                                                          </button>                                                         
+                                                          </button>                                                       
                                                     </td>
-                                                </tr>                                                         
-                                               @endforeach
+                                                </tr>                                                  
+                                             @endforeach
                                             </tbody>
                                      </table>
                                 </div>
                         </div>    
-
-                    
                     </div>
-                    </div>
-                    </div>        
-                </center>            
-
-            <!-- -->
-           	  @foreach($vacantes as $vacante)
-             <!-- Modal -->
+                  </div>
+                </div>        
+             </center>            
+        <!-- -->
+        @include('include.note')
+              @foreach($vacantes as $vacante)
+                       <!-- Modal -->
              <div class="modal fade" id="_{{$vacante->id}}" tabindex="-1" role="dialog" aria-labelledby="_{{$vacante->id}}" aria-hidden="true">
                           <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -146,6 +148,6 @@
                           </div>
                         </div>
                      <!-- -->
-               @endforeach      
-  @include('include.note')
+
+              @endforeach
 @endsection
