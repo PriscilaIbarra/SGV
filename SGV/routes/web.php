@@ -85,3 +85,5 @@ Route::get('/abmlNovedad/{id}','NovedadController@logic_delete' )->name('deleteN
 Route::get('/listAsignaturasConVacantes','AsignaturaController@getAsignaturasConVacantes')->name('asignConVacants');
 Route::get('/listarVacantesDeAsig/{id}','VacanteController@getVacantesByAsig')->name('listVacantesDeAsignatura');
 Route::get('/inscribirseVacante/{id}','InscripcionController@create')->name('inscribirseVacante');
+
+//Route::get('','')->name('');

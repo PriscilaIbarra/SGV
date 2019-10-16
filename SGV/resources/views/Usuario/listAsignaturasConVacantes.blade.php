@@ -39,7 +39,6 @@
                     </div>        
                 </center>
 
-            <!-- -->
-
+            <!-- -->               
             @include('include.note')
 @endsection

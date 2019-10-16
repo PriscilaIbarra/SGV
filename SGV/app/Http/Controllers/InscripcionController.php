@@ -3,6 +3,8 @@
 namespace Cinema\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Cinema\Novedad;
+use Cinema\Vacante;
 
 class InscripcionController extends Controller
 {
@@ -21,9 +23,25 @@ class InscripcionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id_vacante)
     {
-        //
+        $novedades = Novedad::select('id','descripcion')->where('estado','=','activo')->get();
+        $vacan = Vacante::join('asignaturas','vacantes.id_asignatura','=','asignaturas.id')
+                          ->join('tipos_cargos','vacantes.id_tipo_cargo','=','tipos_cargos.id')
+                          ->join('departamentos','vacantes.id_departamento','=','departamentos.id')
+                          ->where('departamentos.descripcion','LIKE','Ingenieria en Sistemas de Información')
+                          ->where('vacantes.id','=',$id_vacante)
+                          ->select('asignaturas.descripcion as asig_desc','tipos_cargos.descripcion as desc_tipo_cargo')->get();
+        $vacante = $vacan[0];     
+        if(isset($novedades) && isset($vacante))
+        {
+          return view('Usuario.inscripcionVacante', compact('novedades','vacante'));    
+        }
+        else
+        {
+          return back()->with('error','Error al generar formulario de Inscripción'); 
+        }    
+        
     }
 
     /**
