@@ -16,6 +16,8 @@
                                             <th class="sticky-top bg-light" scope="col">Id</th>
                                             <th class="sticky-top bg-light" scope="col">Nombre</th>
                                             <th class="sticky-top bg-light" scope="col">Apellido</th>
+                                            <th class="sticky-top bg-light" scope="col">Dni</th>
+                                            <th class="sticky-top bg-light" scope="col">Telefono</th>
                                             <th class="sticky-top bg-light" scope="col">Fecha-Hora Alta</th>
                                             <th class="sticky-top bg-light" scope="col">E-mail</th>
                                             <th class="sticky-top bg-light" scope="col">Tipo</th>
@@ -28,6 +30,8 @@
                                             <th scope="row">{{$usuario->id}}</th>
                                             <td>{{$usuario->nombre}}</td>
                                             <td>{{$usuario->apellido}}</td>
+                                            <td>{{$usuario->dni}}</td>
+                                            <td>{{$usuario->telefono}}</td>                                                                                        
                                             <td>{{$usuario->created_at->format('d-m-Y H:m:s')}}</td>
                                             <td>{{$usuario->email}}</td>
                                             <td>{{$usuario->descripcion}}</td>

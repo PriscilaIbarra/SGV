@@ -5,6 +5,8 @@ namespace Cinema\Http\Controllers;
 use Illuminate\Http\Request;
 use Cinema\Novedad;
 use Cinema\Vacante;
+use Cinema\Inscripcion;
+use Illuminate\Support\Facades\Auth;
 
 class InscripcionController extends Controller
 {
@@ -31,7 +33,7 @@ class InscripcionController extends Controller
                           ->join('departamentos','vacantes.id_departamento','=','departamentos.id')
                           ->where('departamentos.descripcion','LIKE','Ingenieria en Sistemas de Información')
                           ->where('vacantes.id','=',$id_vacante)
-                          ->select('asignaturas.descripcion as asig_desc','tipos_cargos.descripcion as desc_tipo_cargo')->get();
+                          ->select('vacantes.id','asignaturas.descripcion as asig_desc','tipos_cargos.descripcion as desc_tipo_cargo')->get();
         $vacante = $vacan[0];     
         if(isset($novedades) && isset($vacante))
         {
@@ -52,7 +54,43 @@ class InscripcionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'nombre' => ['required','regex:/^[A-Za-z\s-_]+$/', 'max:255'],
+            'apellido' => ['required','regex:/^[A-Za-z\s-_]+$/' , 'max:255'],
+            'dni' => ['required', 'numeric', 'max:255'],
+            'tel' => ['required','numeric','phone_number'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'cv'=>['required'],
+          ];   
+
+  $messages = [ 'nombre.regex'=>'Formato de nombre incorrecto',
+                'nombre.required'=>'Complete el campo requerido',
+                'nombre.max'=>'La longitud del nombre supera el máximo requerido',
+                'apellido.regex'=>'Formato de apellido incorrecto',
+                'apellido.required'=>'Complete el campo requerido',
+                'apellido.max'=>'La longitud del apellido supera el máximo requerido',
+                'dni.numeric'=>'Formato de dni invalido',
+                'dni.required'=>'Complete el campo requerido',
+                'dni.max'=>'La longitud del dni supera el maximo requerido',
+                'tel.required'=>'Complete el campo requerido',
+                'tel.numeric'=>'Formato de telefono incorrecto',
+                'tel.phone_number'=>'Formato de telefono incorrecto',
+                'cv.required'=>'Adjunte su cv',
+
+              ];          
+ $validacion = $this->validate($request,$rules,$messages);
+ 
+ if($validacion)
+ {
+    $ins = new Inscripcion();
+    $ins->id_vacante = trim($request['id_vacante']); 
+    $ins->id_usuario = Auth::user()->id;
+    $ins->dni = trim($request['dni']);
+    $us->password = Hash::make(trim($request['password']));
+    $us->id_tipo_usuario= trim($request['id_tipo_usuario']);
+    $us->save(); 
+    return redirect('abmlUsuarios')->with('success','Usuario registrado con éxito');
+ }
     }
 
     /**

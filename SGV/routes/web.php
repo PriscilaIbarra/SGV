@@ -86,4 +86,7 @@ Route::get('/listAsignaturasConVacantes','AsignaturaController@getAsignaturasCon
 Route::get('/listarVacantesDeAsig/{id}','VacanteController@getVacantesByAsig')->name('listVacantesDeAsignatura');
 Route::get('/inscribirseVacante/{id}','InscripcionController@create')->name('inscribirseVacante');
 
+
+Route::get('/AltaInscripcion','InscripcionController@store')->name('GuardarInscripcion');
+
 //Route::get('','')->name('');

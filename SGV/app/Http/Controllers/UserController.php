@@ -21,7 +21,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $uss = User::join('tipos_usuarios','users.id_tipo_usuario','=','tipos_usuarios.id')->select(['users.id','users.nombre','users.apellido','users.created_at','users.deleted_at','users.email','users.id_tipo_usuario','tipos_usuarios.descripcion as descripcion']);
+        $uss = User::join('tipos_usuarios','users.id_tipo_usuario','=','tipos_usuarios.id')->select(['users.id','users.nombre','users.apellido','users.dni','users.telefono','users.created_at','users.deleted_at','users.email','users.id_tipo_usuario','tipos_usuarios.descripcion as descripcion']);
         $uss->where('users.id', '!=', Auth::id());
         $usuarios = $uss->get(); //importante asignar el resultado final a otra variable distinta antes de convertirlo a json con compact, caso contrario se crashea el navegador
         return view('Administrador.abmlUsuarios',compact('usuarios'));
@@ -34,7 +34,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $tiposUsuarios = TiposUsuarios::all();
+        $tiposUsuarios = TiposUsuarios::all()->where('deleted_at',null);
         return view('Administrador.altaUsuario',compact('tiposUsuarios'));
     }
 
@@ -70,6 +70,8 @@ class UserController extends Controller
                 'apellido' => ['required','regex:/^[A-Za-z\s-_]+$/' , 'max:255'],
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
                 'password' => ['required', 'string', 'min:8', 'confirmed'],
+                'dni' => ['required', 'regex:/^[0-9]+$/', 'digits:8'],
+                'telefono'=>['required','regex:/^[0-9]+$/','max:255'],
                 'id_tipo_usuario' => ['required','integer'],
               ];   
 
@@ -79,6 +81,12 @@ class UserController extends Controller
                     'apellido.regex'=>'Formato de apellido incorrecto',
                     'apellido.required'=>'Complete el campo requerido',
                     'apellido.max'=>'La longitud del nombre supera el máximo requerido',
+                    'dni.regex'=>'Formato de dni incorrecto',
+                    'dni.required'=>'Complete el campo requerido',
+                    'dni.digits'=>'El tamaño del dni es incorrecto',
+                    'telefono.required'=>'Complete el campo requerido',
+                    'telefono.regex'=>'Formato de telefono incorrecto',
+                    'telefono.max'=>'La longitud del telefono supera el maximo requerido',
                     'email.unique'=>'El email ingresado ya existe',
                     'password.min'=>'La contraseña debe tener almenos 8 caracteres',
                     'password.confirmed'=>'Las contraseñas no coinciden',
@@ -92,6 +100,8 @@ class UserController extends Controller
         $us = new User();
         $us->nombre = trim($request['nombre']); 
         $us->apellido = trim($request['apellido']);
+        $us->dni = trim($request['dni']);
+        $us->telefono = trim($request['telefono']);
         $us->email = trim($request['email']);
         $us->password = Hash::make(trim($request['password']));
         $us->id_tipo_usuario= trim($request['id_tipo_usuario']);
@@ -121,7 +131,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $us = User::find($id);
-        $tiposUsuarios = TiposUsuarios::all();
+        $tiposUsuarios = TiposUsuarios::all()->where('deleted_at',null);
 
         if($us && $tiposUsuarios)
         {

@@ -49,9 +49,11 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'nombre' => ['required', 'string', 'max:255'],
-            'apellido' => ['required', 'string', 'max:255'],
+            'nombre' => ['required','regex:/^[A-Za-z\s-_]+$/', 'max:255'],
+            'apellido' => ['required','regex:/^[A-Za-z\s-_]+$/' , 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'dni' => ['required', 'regex:/^[0-9]+$/', 'digits:8'],
+            'telefono'=>['required','regex:/^[0-9]+$/','max:255'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'id_tipo_usuario' => ['required','integer'],
         ]);
@@ -63,14 +65,4 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Cinema\User
      */
-    protected function create(array $data)
-    {
-        return User::create([
-            'nombre' => $data['nombre'],
-            'apellido' => $data['apellido'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'id_tipo_usuario'=> $data['id_tipo_usuario'],
-        ]);
-    }
 }

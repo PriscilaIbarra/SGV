@@ -34,7 +34,31 @@
                                     </span>
                                 @enderror                             
                         </div>
-                    </div>                          
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-6 mt-4 text-left">
+                           <label for="nombre" >
+                                  {{ __('Dni') }}
+                           </label>
+                           <input id="dni" type="integer" class="form-control @error('dni') is-invalid @enderror" name="dni" value="{{ old('dni') }}" required autocomplete="dni" autofocus placeholder="Dni">
+                                @error('dni')
+                                   <span class="invalid-feedback" role="alert">
+                                       <strong>{{ $message }}</strong>
+                                   </span>
+                                @enderror                           
+                        </div>
+                        <div class="col-md-6 mt-4 text-left">
+                             <label for="apellido">
+                                 {{ __('Telefono') }}
+                             </label>
+                              <input id="telefono" type="text" class="form-control @error('telefono') is-invalid @enderror" name="telefono" value="{{ old('telefono') }}" required autocomplete="telefono" autofocus placeholder="Telefono">
+                                @error('telefono')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror                             
+                        </div>
+                    </div>                                                    
                     <input type="hidden" name="id_tipo_usuario" value="1" required>
                     <div class="form-row">
                         <div class="col text-left mt-2">

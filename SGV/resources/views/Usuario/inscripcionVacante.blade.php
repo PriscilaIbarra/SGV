@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
        <center>
 				<strong>
@@ -18,6 +17,7 @@
 						</div>
 						<div class="card-body">
 								<form action="PantallaPostulanteConInscripciones.html">
+								<input type="hidden" name="id_vacante" value="{{$vacante->id}}">
 										<div class="form-row">
 											<div class="col-md-6 mt-4 text-left">
 												<label>Nombre</label>
@@ -29,7 +29,8 @@
 				                                  @enderror   
 											</div>
 											<div class="col-md-6 mt-4 text-left">
-												<label for="validationDefault02">Apellido</label>
+											
+												<label>Apellido</label>
 												<input type="text" class="form-control @error('apellido') is-invalid @enderror" 
 												    id="apellido" placeholder="apellido" name="apellido" required>
 												@error('apellido')
@@ -42,22 +43,22 @@
 											<div class="form-row">
 												<div class="col-md-6 mt-4 text-left">
 													<label for="validationDefault03">DNI/Pasaporte</label>
-													<input type="text" name="dni" class="form-control" id="validationDefault03" placeholder="DNI/Pasaporte" required>
+													<input type="text" name="dni" class="form-control @error('dni') is-invalid @enderror"  id="dni" placeholder="DNI/Pasaporte" required>
 												</div>
 												<div class="col-md-6 mt-4 text-left">
 													<label for="validationDefault04">Teléfono</label>
-													<input type="text" name="tel" class="form-control" id="validationDefault04" placeholder="Teléfono" required>
+													<input type="text" name="tel" class="form-control @error('tel') is-invalid @enderror" id="tel" placeholder="Teléfono" required>
 												</div>
 												</div>
 												<div class="form-row">
 												<div class="col-md-6 mt-4 text-left">
 													<label for="exampleInputEmail1">Email</label>
-													<input type="email" class="form-control" id="exampleInputEmail1" 
+													<input type="email" class="form-control @error('email') is-invalid @enderror" id="email" 
 													aria-describedby="emailHelp" placeholder="Email" required name="email">
 												</div>
 												<div class="col-md-6 mt-4 text-left">
 											        <label class="control-label" for="fichero1">Curriculum Vitae</label>
-													<input class="form-control" type="file" name="cv" required>
+													<input id="cv" class="form-control @error('cv') is-invalid @enderror" type="file" name="cv" required>
 												</div>
 												</div>
 												<div class="form-row">

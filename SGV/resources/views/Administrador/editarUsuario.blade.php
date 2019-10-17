@@ -34,7 +34,20 @@
                                     </span>
                                 @enderror                             
                         </div>
-                    </div>                          
+                    </div>    
+                    <div class="form-row">
+                        <div class="col-md-12 mt-4 text-left">
+                           <label for="nombre" >
+                                  {{ __('Telefono') }}
+                           </label>
+                           <input id="telefono" type="text" class="form-control @error('telefono') is-invalid @enderror" name="telefono" value="{{ $us->telefono }}" required autocomplete="telefono" autofocus placeholder="Telefono">
+                                @error('telefono')
+                                   <span class="invalid-feedback" role="alert">
+                                       <strong>{{ $message }}</strong>
+                                   </span>
+                                @enderror                           
+                        </div>
+                    </div>                      
                     <input type="hidden" name="id" value="{{$us->id}}">
                     <div class="form-row">
                         <div class="col text-left mt-2">

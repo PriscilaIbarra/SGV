@@ -34,7 +34,31 @@
                                     </span>
                                 @enderror                             
                         </div>
-                    </div>                          
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-6 mt-4 text-left">
+                           <label for="nombre" >
+                                  {{ __('Dni') }}
+                           </label>
+                           <input id="dni" type="text" class="form-control @error('dni') is-invalid @enderror" name="dni" value="{{ old('dni') }}" required autocomplete="dni" autofocus placeholder="Dni">
+                                @error('dni')
+                                   <span class="invalid-feedback" role="alert">
+                                       <strong>{{ $message }}</strong>
+                                   </span>
+                                @enderror                           
+                        </div>
+                    <div class="col-md-6 mt-4 text-left">
+                        <label for="apellido">
+                                 {{ __('Telefono') }}
+                             </label>
+                              <input id="telefono" type="text" class="form-control @error('telefono') is-invalid @enderror" name="telefono" value="{{ old('telefono') }}" required autocomplete="telefono" autofocus placeholder="Telefono">
+                                @error('telefono')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror                             
+                        </div>
+                    </div>                             
                     <input type="hidden" name="id_tipo_usuario" value="1" required>
                     <div class="form-row">
                         <div class="col text-left mt-2">
@@ -54,7 +78,7 @@
                                 {{ __('Contraseña') }}
                             </label>
                             <input id="contraseña" type="password" class="form-control @error('password') is-invalid @enderror" name="password"  required autocomplete="new-password" placeholder="Contraseña">
-                                @error('contraseña')
+                                @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -64,7 +88,12 @@
                            <label for="validationDefault02">
                                 {{ __('Confirmar contraseña') }}
                            </label>
-                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" placeholder="Confirmar">        
+                            <input id="password-confirm" type="password" class="form-control @error('password_confirmation') is-invalid @enderror" name="password_confirmation" required autocomplete="new-password" placeholder="Confirmar"> 
+                            @error('password_confirmation')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror          
                          </div>
                         
                      </div>
