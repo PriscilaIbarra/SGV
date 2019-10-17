@@ -20,9 +20,8 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $uss = User::join('tipos_usuarios','users.id_tipo_usuario','=','tipos_usuarios.id')->select(['users.id','users.nombre','users.apellido','users.dni','users.telefono','users.created_at','users.deleted_at','users.email','users.id_tipo_usuario','tipos_usuarios.descripcion as descripcion']);
-        $uss->where('users.id', '!=', Auth::id());
+    {   // aca falta traer los tipos usuarios con el orm eloquent
+        $uss = User::where('users.id', '!=', Auth::id());
         $usuarios = $uss->get(); //importante asignar el resultado final a otra variable distinta antes de convertirlo a json con compact, caso contrario se crashea el navegador
         return view('Administrador.abmlUsuarios',compact('usuarios'));
     }
@@ -87,6 +86,10 @@ class UserController extends Controller
                     'telefono.required'=>'Complete el campo requerido',
                     'telefono.regex'=>'Formato de telefono incorrecto',
                     'telefono.max'=>'La longitud del telefono supera el maximo requerido',
+                    'email.required'=>'Complete el campo requerido',
+                    'email.max'=>'La longitud del email supera el maximo requerido',
+                    'email.string'=>'Formato de email incorrecto',
+                    'email.email'=>'Formato de email incorrecto',
                     'email.unique'=>'El email ingresado ya existe',
                     'password.min'=>'La contraseña debe tener almenos 8 caracteres',
                     'password.confirmed'=>'Las contraseñas no coinciden',
@@ -166,6 +169,7 @@ class UserController extends Controller
                 'nombre' => ['required','regex:/^[A-Za-z\s-_]+$/', 'max:255'],
                 'apellido' => ['required','regex:/^[A-Za-z\s-_]+$/' , 'max:255'],
                 'email' => $ruleMail ,
+                'telefono'=>['required','regex:/^[0-9]+$/','max:255'],
                 'id_tipo_usuario' => ['required','integer'],
                ];   
 
@@ -176,7 +180,14 @@ class UserController extends Controller
                     'apellido.regex'=>'Formato de apellido incorrecto',
                     'apellido.required'=>'Complete el campo requerido',
                     'apellido.max'=>'La longitud del nombre supera el máximo requerido',
+                    'email.required'=>'Complete el campo requerido',
+                    'email.max'=>'La longitud del email supera el maximo requerido',
+                    'email.string'=>'Formato de email incorrecto',
+                    'email.email'=>'Formato de email incorrecto',
                     'email.unique'=>'El email ingresado ya existe',
+                    'telefono.required'=>'Complete el campo requerido',
+                    'telefono.regex'=>'Formato de telefono incorrecto',
+                    'telefono.max'=>'La longitud del telefono supera el maximo requerido',
                     'id_tipo_usuario.required'=>'Seleccine un tipo de usuario'
                   ];          
 

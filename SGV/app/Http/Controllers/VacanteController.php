@@ -21,7 +21,7 @@ class VacanteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {   // usar ORM 
         $vac = Vacante::join('asignaturas','vacantes.id_asignatura','=','asignaturas.id')
             ->join('tipos_cargos','vacantes.id_tipo_cargo','=','tipos_cargos.id')
             ->join('departamentos','vacantes.id_departamento','=','departamentos.id')

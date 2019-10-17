@@ -5,7 +5,7 @@
      <div class="col-md-8 mt-4">
                 <div class="card">
                   <div class="card-header">
-                        Novedadessssssss
+                        Novedades
                     </div>                   
                     <div class="card-body">
                             <div class="table-responsive">

@@ -34,7 +34,7 @@
                                             <td>{{$usuario->telefono}}</td>                                                                                        
                                             <td>{{$usuario->created_at->format('d-m-Y H:m:s')}}</td>
                                             <td>{{$usuario->email}}</td>
-                                            <td>{{$usuario->descripcion}}</td>
+                                            <td>{{$usuario->tipo_usuario->descripcion}}</td>
                                             <td scope="col">
                                               @if(isset($usuario->deleted_at))
                                                 <button type="button"  class="btn btn-outline-success" data-toggle="modal" data-target="#_{{$usuario->id}}">
