@@ -65,4 +65,21 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Cinema\User
      */
+
+    protected function create(array $data)
+    {
+        return User::create([
+            'nombre' => $data['nombre'],
+            'apellido' => $data['apellido'],
+            'email' => $data['email'],
+            'dni' => $data['dni'],
+            'telefono'=>$data['telefono'],
+            'password' => Hash::make($data['password']),
+            'id_tipo_usuario'=> $data['id_tipo_usuario'],
+            
+            
+        ]);
+    }
+
+    
 }
