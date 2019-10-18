@@ -50,7 +50,7 @@ class NovedadController extends Controller
      if($validacion)
      {
         $nov = new Novedad();
-        $nov->descripcion = trim($request['descripcion']);
+        $nov->descripcion = $request['descripcion'];
         $nov->save(); 
         return redirect('abmlNovedades')->with('success','Novedad registrada con éxito.');
      }

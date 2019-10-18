@@ -1,16 +1,7 @@
 @extends('layouts.app')
 @section('content')
        <center>
-				<strong>
-					<label>
-					          Asignatura: {{ $vacante->asig_desc }} 
-					</label>
-						<br>
-					<label>
-					          Tipo Cargo: {{ $vacante->desc_tipo_cargo }}
-					</label>
-				</strong>
-				<div class="col-md-6 mt-4 mb-4">
+			<div class="col-md-6 mt-4 mb-4">
 					<div class="card">
 						<div class="card-header">
 							<strong>Formulario de Inscripción</strong>
@@ -18,52 +9,35 @@
 						<div class="card-body">
 								<form action="PantallaPostulanteConInscripciones.html">
 								<input type="hidden" name="id_vacante" value="{{$vacante->id}}">
-										<div class="form-row">
-											<div class="col-md-6 mt-4 text-left">
-												<label>Nombre</label>
-												<input type="text" id="nombre" class="form-control @error('nombre') is-invalid @enderror" name="nombre" placeholder="Nombre" required >
-												  @error('nombre')
-				                                   <span class="invalid-feedback" role="alert">
-				                                       <strong>{{ $message }}</strong>
-				                                   </span>
-				                                  @enderror   
-											</div>
-											<div class="col-md-6 mt-4 text-left">
-											
-												<label>Apellido</label>
-												<input type="text" class="form-control @error('apellido') is-invalid @enderror" 
-												    id="apellido" placeholder="apellido" name="apellido" required>
-												@error('apellido')
-				                                   <span class="invalid-feedback" role="alert">
-				                                       <strong>{{ $message }}</strong>
-				                                   </span>
-				                                @enderror 	
-											</div>
-											</div>
-											<div class="form-row">
-												<div class="col-md-6 mt-4 text-left">
-													<label for="validationDefault03">DNI/Pasaporte</label>
-													<input type="text" name="dni" class="form-control @error('dni') is-invalid @enderror"  id="dni" placeholder="DNI/Pasaporte" required>
-												</div>
-												<div class="col-md-6 mt-4 text-left">
-													<label for="validationDefault04">Teléfono</label>
-													<input type="text" name="tel" class="form-control @error('tel') is-invalid @enderror" id="tel" placeholder="Teléfono" required>
-												</div>
-												</div>
 												<div class="form-row">
-												<div class="col-md-6 mt-4 text-left">
-													<label for="exampleInputEmail1">Email</label>
-													<input type="email" class="form-control @error('email') is-invalid @enderror" id="email" 
-													aria-describedby="emailHelp" placeholder="Email" required name="email">
+													<div class="col-md-6 mt-4 text-left">
+														<label>
+															 <strong>Asignatura:</strong>
+														</label>
+														<input type="text" readonly="true" class="form-control" value="{{ $vacante->asig_desc }}"> 
+													</div>
+													<div class="col-md-6 mt-4 text-left">											
+														<label>
+															<strong>Tipo de cargo:</strong>
+														</label>
+														<input type="text" class="form-control" readonly="true" value="{{ $vacante->desc_tipo_cargo }}">	
+													</div>
 												</div>
-												<div class="col-md-6 mt-4 text-left">
-											        <label class="control-label" for="fichero1">Curriculum Vitae</label>
-													<input id="cv" class="form-control @error('cv') is-invalid @enderror" type="file" name="cv" required>
+									    		<div class="form-row">												
+													<div class="col-md-6 mt-4 text-left">
+												        <label class="control-label" for="fichero1">Curriculum Vitae</label>
+														<input id="cv" class="form-control @error('cv') is-invalid @enderror" type="file" name="cv" required>
+														@error('cv')
+						                                   <span class="invalid-feedback" role="alert">
+						                                       <strong>{{ $message }}</strong>
+						                                   </span>
+						                                @enderror 	
+													</div>
 												</div>
-												</div>
+												<div class="dropdown-divider mt-4"></div>
 												<div class="form-row">
 												<label class="text-left ml-1 mt-4">
-												   			 Novedades que le gustaria recibir:
+													<u> Novedades que le gustaria recibir:</u>							   			
 												</label>
 												</div>
 												@for($i=0;$i < count($novedades);$i=$i+3)

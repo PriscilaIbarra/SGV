@@ -52,7 +52,7 @@ class TiposCargoController extends Controller
      if($validacion)
      {
         $tip = new TiposCargo();
-        $tip->descripcion = trim($request['descripcion']);
+        $tip->descripcion = $request['descripcion'];
         $tip->save(); 
         return redirect('abmlTipoCargo')->with('success','Tipo de Cargo registrado con éxito.');
      }          

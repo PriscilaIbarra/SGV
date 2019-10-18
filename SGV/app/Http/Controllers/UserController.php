@@ -98,13 +98,13 @@ class UserController extends Controller
      if($validacion)
      {
         $us = new User();
-        $us->nombre = trim($request['nombre']); 
-        $us->apellido = trim($request['apellido']);
-        $us->dni = trim($request['dni']);
-        $us->telefono = trim($request['telefono']);
-        $us->email = trim($request['email']);
-        $us->password = Hash::make(trim($request['password']));
-        $us->id_tipo_usuario= trim($request['id_tipo_usuario']);
+        $us->nombre = $request['nombre']; 
+        $us->apellido = $request['apellido'];
+        $us->dni = $request['dni'];
+        $us->telefono = $request['telefono'];
+        $us->email = $request['email'];
+        $us->password = Hash::make($request['password']);
+        $us->id_tipo_usuario= $request['id_tipo_usuario'];
         $us->save(); 
         return redirect('abmlUsuarios')->with('success','Usuario registrado con éxito');
      }          

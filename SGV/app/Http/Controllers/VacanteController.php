@@ -94,15 +94,15 @@ class VacanteController extends Controller
      if($validacion)
      {
         $va = new Vacante();
-        $va->id_asignatura = trim($request['id_asignatura']); 
-        $va->id_tipo_cargo = trim($request['id_tipo_cargo']);
-        $va->id_departamento = trim($request['id_departamento']);
+        $va->id_asignatura = $request['id_asignatura']; 
+        $va->id_tipo_cargo = $request['id_tipo_cargo'];
+        $va->id_departamento = $request['id_departamento'];
         $va->fecha_apertura = Carbon::parse($request['fechaApertura'])->format('Y-m-d');
         $va->fecha_cierre = Carbon::parse($request['fechaCierre'])->format('Y-m-d');
-        $va->horario = trim($request['horario']);
-        $va->requisitos = trim($request['requisitos']);
-        $va->adicionales = trim($request['adicionales']);
-        $va->presentacion = trim($request['presentacion']);
+        $va->horario = $request['horario'];
+        $va->requisitos = $request['requisitos'];
+        $va->adicionales = $request['adicionales'];
+        $va->presentacion = $request['presentacion'];
         $va->id_usuario = Auth::user()->id;
         $va->save(); 
         return redirect('abmlVacantes')->with('success','Vacante agregada con éxito.');
@@ -196,18 +196,18 @@ class VacanteController extends Controller
 
      if($validacion)
      {
-        $va = Vacante::find(trim($request['id']));
+        $va = Vacante::find($request['id']);
         if(isset($va))
         {   
-            $va->id_asignatura = trim($request['id_asignatura']); 
-            $va->id_tipo_cargo = trim($request['id_tipo_cargo']);
-            $va->id_departamento = trim($request['id_departamento']);
+            $va->id_asignatura = $request['id_asignatura']; 
+            $va->id_tipo_cargo = $request['id_tipo_cargo'];
+            $va->id_departamento = $request['id_departamento'];
             $va->fecha_apertura = Carbon::parse($request['fechaApertura'])->format('Y-m-d');
             $va->fecha_cierre = Carbon::parse($request['fechaCierre'])->format('Y-m-d');
-            $va->horario = trim($request['horario']);
-            $va->requisitos = trim($request['requisitos']);
-            $va->adicionales = trim($request['adicionales']);
-            $va->presentacion = trim($request['presentacion']);
+            $va->horario = $request['horario'];
+            $va->requisitos = $request['requisitos'];
+            $va->adicionales = $request['adicionales'];
+            $va->presentacion = $request['presentacion'];
             $va->update(); 
             return redirect('abmlVacantes')->with('success','Vacante modificada con éxito.');
         }

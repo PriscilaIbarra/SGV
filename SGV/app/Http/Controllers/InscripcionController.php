@@ -83,11 +83,11 @@ class InscripcionController extends Controller
  if($validacion)
  {
     $ins = new Inscripcion();
-    $ins->id_vacante = trim($request['id_vacante']); 
+    $ins->id_vacante = $request['id_vacante']; 
     $ins->id_usuario = Auth::user()->id;
-    $ins->dni = trim($request['dni']);
-    $us->password = Hash::make(trim($request['password']));
-    $us->id_tipo_usuario= trim($request['id_tipo_usuario']);
+    $ins->dni = $request['dni'];
+    $us->password = Hash::make($request['password']);
+    $us->id_tipo_usuario = $request['id_tipo_usuario'];
     $us->save(); 
     return redirect('abmlUsuarios')->with('success','Usuario registrado con éxito');
  }

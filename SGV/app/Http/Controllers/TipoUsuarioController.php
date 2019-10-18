@@ -53,7 +53,7 @@ class TipoUsuarioController extends Controller
      if($validacion)
      {
         $tip = new TiposUsuarios();
-        $tip->descripcion = trim($request['descripcion']);
+        $tip->descripcion = $request['descripcion'];
         $tip->save(); 
         return redirect('abmlTiposUsuarios')->with('success','Tipo de Usuario registrado con éxito.');
      }          
