@@ -15,11 +15,10 @@ class CreateInscripcionesTable extends Migration
     {
         Schema::create('inscripciones', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->dateTime('fecha_generacion');
             $table->string('disponibilidad_horaria');
             $table->string('cv');
-            $table->float('calificacion',2,2); 
-            $table->bigInteger('id_vacante');
+            $table->float('calificacion',2,2)->nullable(); 
+            $table->bigInteger('id_vacante'); 
             $table->bigInteger('id_usuario');          
             $table->timestamps();
             $table->foreign('id_vacante')->references('id')->on('vacantes')->onDelete('cascade');

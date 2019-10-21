@@ -6,7 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class TiposCargo extends Model
 {
+    protected $table = "tipos_cargos";
+
     protected $fillable = [
-        'nombre'
+    	'id',
+    	'descripcion',
+    	'estado',        
     ];
+
+    public function vacantes()
+    {
+      return $this->hasMany('Cinema\Vacante');
+    }
+
+    
 }

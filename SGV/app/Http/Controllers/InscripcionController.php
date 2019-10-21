@@ -4,9 +4,11 @@ namespace Cinema\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Cinema\Novedad;
+use Cinema\User;
 use Cinema\Vacante;
 use Cinema\Inscripcion;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class InscripcionController extends Controller
 {
@@ -54,43 +56,63 @@ class InscripcionController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [
-            'nombre' => ['required','regex:/^[A-Za-z\s-_]+$/', 'max:255'],
-            'apellido' => ['required','regex:/^[A-Za-z\s-_]+$/' , 'max:255'],
-            'dni' => ['required', 'numeric', 'max:255'],
-            'tel' => ['required','numeric','phone_number'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'cv'=>['required'],
-          ];   
+       $rules = [
+                   'cv'=>['required'],
+                   'disponibilidad_horaria'=>['required','string'],
+                ];   
 
-  $messages = [ 'nombre.regex'=>'Formato de nombre incorrecto',
-                'nombre.required'=>'Complete el campo requerido',
-                'nombre.max'=>'La longitud del nombre supera el máximo requerido',
-                'apellido.regex'=>'Formato de apellido incorrecto',
-                'apellido.required'=>'Complete el campo requerido',
-                'apellido.max'=>'La longitud del apellido supera el máximo requerido',
-                'dni.numeric'=>'Formato de dni invalido',
-                'dni.required'=>'Complete el campo requerido',
-                'dni.max'=>'La longitud del dni supera el maximo requerido',
-                'tel.required'=>'Complete el campo requerido',
-                'tel.numeric'=>'Formato de telefono incorrecto',
-                'tel.phone_number'=>'Formato de telefono incorrecto',
-                'cv.required'=>'Adjunte su cv',
+       $messages = [ 
+                    'cv.required'=>'Adjunte su cv',
+                    'disponibilidad_horaria.required'=>'Complete su disponibilidad horaria',
+                    'disponibilidad_horaria.string'=>'Formato incorrecto',
+                   ];       
 
-              ];          
- $validacion = $this->validate($request,$rules,$messages);
+       $validacion = $this->validate($request,$rules,$messages);
  
- if($validacion)
- {
-    $ins = new Inscripcion();
-    $ins->id_vacante = $request['id_vacante']; 
-    $ins->id_usuario = Auth::user()->id;
-    $ins->dni = $request['dni'];
-    $us->password = Hash::make($request['password']);
-    $us->id_tipo_usuario = $request['id_tipo_usuario'];
-    $us->save(); 
-    return redirect('abmlUsuarios')->with('success','Usuario registrado con éxito');
- }
+
+     if($validacion)
+     {   
+
+        $novedades = [];
+
+        foreach ($request as $key => $value)
+        {
+           if(explode('-', $key))
+           {
+             $novedad = explode('-', $key);
+             if(strcasecmp($novedad[0],"novedad") == 0)
+             {
+                 if(isset($request[$key]))
+                 {
+                   array_push($novedades,$value);
+                 }
+             }
+           }      
+        }
+
+        DB::transaction(function() use ($novedades,$request){
+          
+            $user = User::findOrFail(Auth::user()->id);
+            foreach ($novedades as $id_novedad)
+            {
+                $novedad = Novedad::findOrFail($id_novedad);
+                $user->novedades()->attach($novedad->id);
+            }
+            $nombre = $request->file('cv')->getClientOriginalName();
+            $extension = $request->file('cv')->getClientOriginalExtension();
+            $nombreCv = $nombre.'_'.time().'.'.$extension;
+            $ruta = $request->file('cv')->storeAs('public/cvs',$nombreCv);          
+            $vacante = Vacante::findOrFail($request['id_vacante']);
+            $ins = new Inscripcion();
+            $ins->cv = $ruta;
+            $ins->id_vacante = $vacante->id; 
+            $ins->id_usuario = $user->id;
+            $ins->disponibilidad_horaria = $request['disponibilidad_horaria'];
+            $ins->save(); 
+        });
+     
+        return redirect('listVacantesDeAsignatura')->with('success','Usuario registrado con éxito');
+     }
     }
 
     /**
