@@ -276,7 +276,7 @@ class VacanteController extends Controller
             })->whereNull('deleted_at')
             ->where('fecha_apertura','<=',date('Y-m-d'))
             ->where('fecha_cierre','>=',date('Y-m-d'))
-            ->whereHas('asignatura',function(Builder $query){
+            ->whereHas('asignatura',function(Builder $query)use($id_asig){
             $query->where('id_asignatura','=',$id_asig);
             })->whereHas('departamento',function(Builder $query){
                 $query->where('descripcion','like','Ingenieria en sistemas de Informacion');
@@ -305,7 +305,7 @@ class VacanteController extends Controller
     public function getVacantesOfAsig($id_asig)
     {   
         //recupera vacantes vigentes de una materia para el perfíl público
-        $vacantes = Vacante::whereHas('asignatura',function(Builder $query){
+        $vacantes = Vacante::whereHas('asignatura',function(Builder $query) use($id_asig){
             $query->where('id','like', $id_asig);
         })->whereHas('asignatura',function(Builder $query){
             $query->whereNull('deleted_at');
