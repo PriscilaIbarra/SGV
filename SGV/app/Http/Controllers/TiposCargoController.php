@@ -14,9 +14,7 @@ class TiposCargoController extends Controller
      */
     public function index()
     {
-        $tip = TiposCargo::select(['tipos_cargos.id','tipos_cargos.descripcion']);
-        $tip->where('tipos_cargos.estado', '!=','inactivo');
-        $tipos = $tip->get(); 
+        $tipos = TiposCargo::where('estado', '!=','inactivo')->get();      
         return view('Administrador.abmlTipoCargos',compact('tipos'));
     }
 
@@ -77,11 +75,11 @@ class TiposCargoController extends Controller
      */
     public function edit($id)
     {
-        $tip = TiposCargo::find($id);
+        $tipo = TiposCargo::find($id);
 
-        if(isset($tip))
+        if(isset($tipo))
         {
-          return view('Administrador.editarTiposCargos',compact('tip'));  
+          return view('Administrador.editarTiposCargos',compact('tipo'));  
         }
         else
         {
@@ -98,7 +96,6 @@ class TiposCargoController extends Controller
      */
     public function update(Request $request)
     {
-      $tip = TiposCargo::select('id')->where('id','=',$request['id']);
       $rules = [
                 'descripcion' => ['required','regex:/^[A-Za-z\s-_]+$/', 'max:255'],
                ];   
@@ -114,10 +111,15 @@ class TiposCargoController extends Controller
 
      if($validacion)
      {
-        $tip = TiposCargo::find($request['id']);
-        $tip->descripcion = $request['descripcion'];
-        $tip->update();
+        $tipo = TiposCargo::find($request['id']);
+        if($isset($tipo)){
+            $tipo->descripcion = $request['descripcion'];
+        $tipo->update();
         return redirect('abmlTipoCargo')->with('success','Tipo de Cargo actualizado con éxito.');
+        }
+        else{
+            return redirect('abmlTipoCargo')->with('error','Tipo de Cargo no encontrado');
+        }
      }
     }
 
@@ -134,11 +136,11 @@ class TiposCargoController extends Controller
 
     public function logic_delete($id)
     {
-        $tip = TiposCargo::find($id);
-        if(isset($tip))
+        $tipo = TiposCargo::find($id);
+        if(isset($tipo))
         {
-           $tip->estado = 'inactivo';
-           $tip->save(); 
+           $tipo->estado = 'inactivo';
+           $tipo->save(); 
            return back()->with('success','Tipo de Cargo eliminado con éxito.');
         }
         else

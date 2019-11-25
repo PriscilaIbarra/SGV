@@ -15,9 +15,7 @@ class TipoUsuarioController extends Controller
      */
     public function index()
     {
-        $tip = TiposUsuarios::select(['tipos_usuarios.id','tipos_usuarios.descripcion']);
-        $tip->where('tipos_usuarios.deleted_at', '=',null);
-        $tipos = $tip->get(); 
+        $tipos = TiposUsuarios::where('deleted_at', '=',null)->get();
         return view('Administrador.abmlTiposUsuarios',compact('tipos'));
     }
 
@@ -99,7 +97,6 @@ class TipoUsuarioController extends Controller
      */
     public function update(Request $request)
     {
-      $tip = TiposUsuarios::select('id')->where('id','=',$request['id']);
       $rules = [
                 'descripcion' => ['required','regex:/^[A-Za-z\s-_]+$/', 'max:255'],
                ];   
@@ -115,10 +112,17 @@ class TipoUsuarioController extends Controller
 
      if($validacion)
      {
-        $tip = TiposUsuarios::find($request['id']);
-        $tip->descripcion = $request['descripcion'];
-        $tip->update();
-        return redirect('abmlTiposUsuarios')->with('success','Tipo de Usuario actualizado con éxito.');
+        $tipo = TiposUsuarios::find($request['id']);
+        if(isset($tipo))
+        {
+          $tipo->descripcion = $request['descripcion'];
+          $tipo->update();
+          return redirect('abmlTiposUsuarios')->with('success','Tipo de Usuario actualizado con éxito.');
+        }
+        else
+        {           
+          return redirect('abmlTiposUsuarios')->with('error','Tipo de Usuario no encontrado.'); 
+        }     
      }
     }
 

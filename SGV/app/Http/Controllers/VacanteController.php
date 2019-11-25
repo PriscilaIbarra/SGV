@@ -22,12 +22,16 @@ class VacanteController extends Controller
      */
     public function index()
     {   // usar ORM 
-        $vac = Vacante::join('asignaturas','vacantes.id_asignatura','=','asignaturas.id')
+
+        $vacantes=Vacante::where('vacantes.id_usuario','=',Auth::user()->id)->whereNull('vacantes.deleted_at')->get();
+        /*$vac = Vacante::join('asignaturas','vacantes.id_asignatura','=','asignaturas.id')
             ->join('tipos_cargos','vacantes.id_tipo_cargo','=','tipos_cargos.id')
             ->join('departamentos','vacantes.id_departamento','=','departamentos.id')
             ->select(['vacantes.id  as id','vacantes.fecha_apertura as fecha_apertura','vacantes.fecha_cierre as fecha_cierre','vacantes.requisitos as requisitos','vacantes.adicionales as adicionales','vacantes.presentacion as presentacion','vacantes.horario as horario','vacantes.estado as estado','vacantes.created_at as created_at','vacantes.updated_at as updated_at','vacantes.id_asignatura as id_asignatura','vacantes.id_tipo_cargo as id_tipo_cargo','vacantes.id_departamento as id_departamento','asignaturas.descripcion as asignatura_desc','tipos_cargos.descripcion as tipo_cargo_des','departamentos.descripcion as depto_desc'])->where('vacantes.id_usuario','=',Auth::user()->id);
-        $vacan = $vac->whereNull('vacantes.deleted_at');
-        $vacantes = $vacan ->get();
+            */
+
+        //$vacan = $vac->whereNull('vacantes.deleted_at');
+        //$vacantes = $vacan ->get();
         return view('Administrador.abmlVacantes',compact('vacantes'));
     }
 
@@ -133,13 +137,14 @@ class VacanteController extends Controller
      */
     public function edit($id)
     {
-        $vac = Vacante::join('asignaturas','vacantes.id_asignatura','=','asignaturas.id')
+       /* $vac = Vacante::join('asignaturas','vacantes.id_asignatura','=','asignaturas.id')
             ->join('tipos_cargos','vacantes.id_tipo_cargo','=','tipos_cargos.id')
             ->join('departamentos','vacantes.id_departamento','=','departamentos.id')
-            ->select(['vacantes.id  as id','vacantes.fecha_apertura as fecha_apertura','vacantes.fecha_cierre as fecha_cierre','vacantes.requisitos as requisitos','vacantes.adicionales as adicionales','vacantes.presentacion as presentacion','vacantes.horario as horario','vacantes.estado as estado','vacantes.created_at as created_at','vacantes.updated_at as updated_at','vacantes.id_asignatura as id_asignatura','vacantes.id_tipo_cargo as id_tipo_cargo','vacantes.id_departamento as id_departamento','asignaturas.descripcion as asignatura_desc','tipos_cargos.descripcion as tipo_cargo_des','departamentos.descripcion as depto_desc'])->where('vacantes.id_usuario','=',Auth::user()->id);
-        $va = $vac->where('vacantes.id','=',$id);   
-        $vacan = $va->get();
-        $vacante = $vacan[0]; 
+            ->select(['vacantes.id  as id','vacantes.fecha_apertura as fecha_apertura','vacantes.fecha_cierre as fecha_cierre','vacantes.requisitos as requisitos','vacantes.adicionales as adicionales','vacantes.presentacion as presentacion','vacantes.horario as horario','vacantes.estado as estado','vacantes.created_at as created_at','vacantes.updated_at as updated_at','vacantes.id_asignatura as id_asignatura','vacantes.id_tipo_cargo as id_tipo_cargo','vacantes.id_departamento as id_departamento','asignaturas.descripcion as asignatura_desc','tipos_cargos.descripcion as tipo_cargo_des','departamentos.descripcion as depto_desc'])->where('vacantes.id_usuario','=',Auth::user()->id);*/
+        $vacante = Vacante::where('vacantes.id_usuario','=',Auth::user()->id)->where('vacantes.id','=',$id)->get()->find($id);
+       // $va = $vac->where('vacantes.id','=',$id);   
+       // $vacan = $va->get();
+       // $vacante = $vacan[0]; 
         $asignaturas = Asignatura::all()->where('deleted_at',null);
         $departamentos = Departamento::all();
         $tipos_cargos = TiposCargo::all()->where('estado','activo');
@@ -196,19 +201,19 @@ class VacanteController extends Controller
 
      if($validacion)
      {
-        $va = Vacante::find($request['id']);
-        if(isset($va))
+        $vacante = Vacante::find($request['id']);
+        if(isset($vacante))
         {   
-            $va->id_asignatura = $request['id_asignatura']; 
-            $va->id_tipo_cargo = $request['id_tipo_cargo'];
-            $va->id_departamento = $request['id_departamento'];
-            $va->fecha_apertura = Carbon::parse($request['fechaApertura'])->format('Y-m-d');
-            $va->fecha_cierre = Carbon::parse($request['fechaCierre'])->format('Y-m-d');
-            $va->horario = $request['horario'];
-            $va->requisitos = $request['requisitos'];
-            $va->adicionales = $request['adicionales'];
-            $va->presentacion = $request['presentacion'];
-            $va->update(); 
+            $vacante->id_asignatura = $request['id_asignatura']; 
+            $vacante->id_tipo_cargo = $request['id_tipo_cargo'];
+            $vacante->id_departamento = $request['id_departamento'];
+            $vacante->fecha_apertura = Carbon::parse($request['fechaApertura'])->format('Y-m-d');
+            $vacante->fecha_cierre = Carbon::parse($request['fechaCierre'])->format('Y-m-d');
+            $vacante->horario = $request['horario'];
+            $vacante->requisitos = $request['requisitos'];
+            $vacante->adicionales = $request['adicionales'];
+            $vacante->presentacion = $request['presentacion'];
+            $vacante->update(); 
             return redirect('abmlVacantes')->with('success','Vacante modificada con éxito.');
         }
         else
@@ -235,19 +240,19 @@ class VacanteController extends Controller
 
     public function logic_delete($id)
     {
-        $vac = Vacante::find($id);
-        if($id)
+        $vacante = Vacante::find($id);
+        if(isset($vacante))
         {
-           if(isset($id->deleted_at))
+           if(isset($vacante->deleted_at))
            {
-             $vac->deleted_at = null;
+             $vacante->deleted_at = null;
            }
            else
            {
-            $vac->deleted_at =  date('Y-m-d H:i:s');
+            $vacante->deleted_at =  date('Y-m-d H:i:s');
            }
            
-           $vac->save(); 
+           $vacante->save(); 
            return back()->with('success','Vacante eliminada con exito.');
         }
         else
@@ -260,11 +265,56 @@ class VacanteController extends Controller
     {
       //recuperar vacantes disponibles a las cuales el usuario no se encuentra inscripto      
 
-        $query = User::join('inscripciones','users.id','=','inscripciones.id')
+       $query = User::join('inscripciones','users.id','=','inscripciones.id')
                       ->join('vacantes','vacantes.id','=','inscripciones.id_vacante')
                       ->select(['vacantes.id'])
                       ->where('users.id','=', Auth::user()->id)->get();  
+
         $vac = Vacante::join('asignaturas','vacantes.id_asignatura','=','asignaturas.id')
+                       ->join('tipos_cargos','tipos_cargos.id','=','vacantes.id_tipo_cargo')
+                       ->join('departamentos','departamentos.id','=','vacantes.id_departamento')
+                       ->select(
+                               [
+                                'vacantes.id','vacantes.fecha_apertura','vacantes.fecha_cierre',
+                                'vacantes.requisitos','vacantes.adicionales','vacantes.presentacion',
+                                'vacantes.horario','vacantes.id_asignatura','asignaturas.descripcion as desc_asig',
+                                'vacantes.id_tipo_cargo','tipos_cargos.descripcion as desc_tipo_cargo'
+                               ]
+                        )
+                        ->whereNull('vacantes.deleted_at')
+                        ->whereNull('asignaturas.deleted_at')
+                        ->where('vacantes.fecha_apertura','<=',date('Y-m-d'))
+                        ->where('vacantes.fecha_cierre','>=',date('Y-m-d'))
+                        ->where('departamentos.descripcion','LIKE','Ingenieria en sistemas de Informacion')
+                        ->where('vacantes.id_asignatura','=',$id_asig)
+                        ->whereNotIn('vacantes.id',$query);  
+                                   
+
+     /*   $vacantes = Vacante::whereNull('deleted_at')
+                                  ->where('fecha_apertura','<=',date('Y-m-d'))
+                                  ->where('fecha_cierre','>=',date('Y-m-d'))
+                                  ->where('id_asignatura','=',$id_asig)->get();
+        $v = [];
+        foreach ($vacantes as $vacante )
+        {
+            if(strcasecmp($vacante->departamento->descripcion,'Ingenieria en sistemas de Informacion')==0)
+            {    
+                $flag = null;
+                foreach ($vacante->inscripciones as $inscripcion)
+                {
+                    if($inscripcion->user->id==Auth::user()->id)
+                    { 
+                        $flag = true;
+                        break;
+                    }             
+                } 
+                if(!$flag)
+                {
+                  array_push($v, $vacante);
+                }
+            }
+        }               */ 
+       /* $vac = Vacante::join('asignaturas','vacantes.id_asignatura','=','asignaturas.id')
                        ->join('tipos_cargos','tipos_cargos.id','=','vacantes.id_tipo_cargo')
                        ->join('departamentos','departamentos.id','=','vacantes.id_departamento')
                        ->select(
@@ -281,9 +331,12 @@ class VacanteController extends Controller
                         ->where('vacantes.fecha_cierre','>=',date('Y-m-d'))
                         ->where('departamentos.descripcion','LIKE','Ingenieria en sistemas de Información')
                         ->where('vacantes.id_asignatura','=',$id_asig)
-                        ->whereNotIn('vacantes.id',$query);               
+                        ->whereNotIn('vacantes.id',$query);                          
         $vacan = $vac->get();
-        $vacantes  = $vacan;                 
+        $vacantes  = $vacan;     */
+        /*$vacantes = $v;      */   
+         $vacan = $vac->get();
+        $vacantes  = $vacan;     
         return view('Usuario.vacantesDeUnaMateria',compact('vacantes'));
     }
 

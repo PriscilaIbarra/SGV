@@ -20,14 +20,19 @@ class User extends Authenticatable
 
     public function tipo_usuario()
     {
+        //return $this->belongsTo('Name of the model that is related to',"foreign key"-attribute");
+        return $this->belongsTo('Cinema\TiposUsuarios',"id_tipo_usuario");
 
-        return $this->belongsTo('Cinema\TiposUsuarios');
+    }
 
+    public function inscripciones()
+    {
+        return $this->hasMany('Cinema\Inscripcion');
     }
 
     public function novedades()
     {
-        return $this->belongsToMany('Cinema\Novedad');
+        return $this->belongsToMany('Cinema\Novedad','users_novedades','id','id');
     }
 
     /**

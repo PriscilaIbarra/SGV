@@ -34,8 +34,8 @@
                                         @foreach($vacantes as $vacante)    
                                         <tr>
                                             <th scope="row">{{$vacante->id}}</th>
-                                            <td>{{$vacante->asignatura_desc }}</td>
-                                            <td>{{$vacante->tipo_cargo_des }}</td>
+                                            <td>{{$vacante->asignatura->descripcion}}</td>
+                                            <td>{{$vacante->tipo_cargo->descripcion }}</td>
                                             <td>{{$vacante->created_at->format('d-m-Y H:m:s')}}</td>
                                             <td>{{date('d-m-Y',strtotime($vacante->fecha_apertura))}}</td>
                                             <td>{{date('d-m-Y',strtotime($vacante->fecha_cierre))}}</td>

@@ -20,9 +20,8 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   // aca falta traer los tipos usuarios con el orm eloquent
-        $uss = User::where('users.id', '!=', Auth::id());
-        $usuarios = $uss->get(); //importante asignar el resultado final a otra variable distinta antes de convertirlo a json con compact, caso contrario se crashea el navegador
+    {  
+        $usuarios = User::where('users.id', '!=', Auth::id())->get();
         return view('Administrador.abmlUsuarios',compact('usuarios'));
     }
 
@@ -134,6 +133,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $us = User::find($id);
+        
         $tiposUsuarios = TiposUsuarios::all()->where('deleted_at',null);
 
         if($us && $tiposUsuarios)
@@ -155,9 +155,8 @@ class UserController extends Controller
      */
     public function update(Request $request)
     {
-      $Us = User::select('id')->where('id','=',$request['id']);
-      $idUs = $Us->where('email','=',$request['email'])->get();
-      if(isset($idUs))
+      $idUsuario = User::where('id','=',$request['id'])->where('email','=',$request['email'])->get()->first()->id;
+      if(isset($idUsuario))
       {
         $ruleMail = [];
       }
@@ -195,9 +194,16 @@ class UserController extends Controller
 
      if($validacion)
      {
-        $us = User::find($request['id']);
-        $us->update($request->all());
-        return redirect('abmlUsuarios')->with('success','Usuario actualizado con éxito');
+        $usuario = User::find($request['id']);
+        if(isset($usuario))
+        {
+            $usuario->update($request->all());
+            return redirect('abmlUsuarios')->with('success','Usuario actualizado con éxito');
+        }
+        else
+        {
+            return back()->with('error','Usuario no encontrado.');
+        }      
      }
 
     }

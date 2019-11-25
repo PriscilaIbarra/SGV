@@ -93,15 +93,18 @@ class InscripcionController extends Controller
         DB::transaction(function() use ($novedades,$request){
           
             $user = User::findOrFail(Auth::user()->id);
-            foreach ($novedades as $id_novedad)
+           /* foreach ($novedades as $id_novedad)
             {
                 $novedad = Novedad::findOrFail($id_novedad);
                 $user->novedades()->attach($novedad->id);
-            }
-            $nombre = $request->file('cv')->getClientOriginalName();
+            }*/
+            $n = [1];
+            $user->novedades()->attach($n);
+            $nombre = str_replace ('.','_',$request->file('cv')->getClientOriginalName());
             $extension = $request->file('cv')->getClientOriginalExtension();
-            $nombreCv = $nombre.'_'.time().'.'.$extension;
-            $ruta = $request->file('cv')->storeAs('public/cvs',$nombreCv);          
+            $nombreCv = time().'_'.$nombre.'.'.$extension;
+            $ruta = $request->file('cv')->storeAs('public/cvs',$nombreCv);   
+            $request->file('cv')->move(public_path('../public/cvs'),$nombreCv);       
             $vacante = Vacante::findOrFail($request['id_vacante']);
             $ins = new Inscripcion();
             $ins->cv = $ruta;

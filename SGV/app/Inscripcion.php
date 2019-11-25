@@ -20,11 +20,11 @@ class Inscripcion extends Model
    						  
    	public function vacante()
    	{
-   		return $this->belongsTo('Cinema\Vacante');
+   		return $this->belongsTo('Cinema\Vacante','id_vacante');
    	}					  
 
    	public function user()
    	{
-   		return $this->belongsTo('Cinema\User');
+   		return $this->belongsTo('Cinema\User','id_usuario');
    	}
 }

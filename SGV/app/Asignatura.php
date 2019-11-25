@@ -10,7 +10,7 @@ class Asignatura extends Model
 
     protected $fillable = [
     	'id',
-    	'descripcion'
+    	'descripcionnnn'
     ];
 
     public function vacantes()

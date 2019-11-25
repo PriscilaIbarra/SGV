@@ -15,8 +15,8 @@ class CreateUsersNovedadesTable extends Migration
     {
         Schema::create('users_novedades', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('id_usuario');
-            $table->bigInteger('id_novedad');
+            $table->bigInteger('id_usuario')->nullable('false');
+            $table->bigInteger('id_novedad')->nullable('false');
             $table->timestamps();
         });
     }

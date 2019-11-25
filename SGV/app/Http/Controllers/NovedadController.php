@@ -96,7 +96,6 @@ class NovedadController extends Controller
      */
     public function update(Request $request)
     {
-        $nov = Novedad::select('id')->where('id','=',$request['id']);
       $rules = [
                 'descripcion' => ['required','string', 'max:255'],
                ];   
@@ -111,10 +110,18 @@ class NovedadController extends Controller
 
      if($validacion)
      {
-        $nov = Novedad::find($request['id']);
-        $nov->descripcion = $request['descripcion'];
-        $nov->update();
-        return redirect('abmlNovedades')->with('success','Novedad actualizada con éxito.');
+        $novedad = Novedad::find($request['id']);
+        if(isset($novedad))
+        {
+             $novedad->descripcion = $request['descripcion'];
+             $novedad->update();               
+             return redirect('abmlNovedades')->with('success','Novedad actualizada con éxito.');
+        }
+        else
+        {
+           return redirect('abmlNovedades')->with('error','Error al actualizar novedad');
+        }    
+     
      }
     }
 
@@ -130,18 +137,18 @@ class NovedadController extends Controller
     }
     public function logic_delete($id)
     {
-        $nov = Novedad::find($id);
-        if(isset($nov))
+        $novedad = Novedad::find($id);
+        if(isset($novedad))
         {
-            if($nov->estado=='inactivo')
+            if($novedad->estado=='inactivo')
             {
-                $nov->estado = 'activo';
-                $nov->save();
+                $novedad->estado = 'activo';
+                $novedad->save();
                 return back()->with('success','Novedad habilitada con éxito.');
             }
             else{
-                $nov->estado = 'inactivo';
-                $nov->save();
+                $novedad->estado = 'inactivo';
+                $novedad->save();
                 return back()->with('success','Novedad deshabilitada con éxito.');
             }                    
            
