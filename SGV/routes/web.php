@@ -89,4 +89,9 @@ Route::get('/inscribirseVacante/{id}','InscripcionController@create')->name('ins
 
 Route::post('/altaInscripcion','InscripcionController@store')->name('registrarInscripcion');
 
+Route::get('/listadoInscripciones','InscripcionController@index')->name('listadoInscripciones');
+Route::get('/visualizarCV/{id}','PDFController@show')->name('visualizarCV');
+
+Route::get('/imprimirVacante/{id}','PDFController@printVacante')->name('imprimirVacante');
+
 //Route::get('','')->name('');

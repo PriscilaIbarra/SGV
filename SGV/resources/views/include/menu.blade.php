@@ -41,10 +41,7 @@
                                             @case(1)
                                                 <span>
                                                     <a class="dropdown-item" href="{{route('asignConVacants')}}">Vacantes disponibles</a>
-                                                    <a class="dropdown-item">Inscripciones realizadas</a>
-                                                    <a class="dropdown-item">
-                                                     Ordenes de mérito   
-                                                    </a>
+                                                    <a class="dropdown-item" href="{{route('listadoInscripciones')}}">Inscripciones realizadas</a>                                          
                                                 </span>
                                                 @break
 

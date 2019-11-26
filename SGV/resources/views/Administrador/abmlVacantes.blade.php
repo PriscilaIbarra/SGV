@@ -99,13 +99,13 @@
                           <div class="form-row">
                             <div class="col mt-4 text-left">
                               <label for="validationDefault01">Asignatura:</label>
-                              <input disabled="true" type="text" class="form-control" id="validationDefault01" placeholder="Asignatura" value="{{$vacante->asignatura_desc}}" required>
+                              <input disabled="true" type="text" class="form-control" id="validationDefault01" placeholder="Asignatura" value="{{$vacante->asignatura->descripcion}}" required>
                             </div>
                            </div>
                            <div class="form-row">
                             <div class="col mt-4 text-left">
                               <label for="validationDefault02" class="text-left">Tipo de Cargo:</label>
-                              <input disabled="true" type="text" class="form-control" id="validationDefault02" placeholder="Tipo de cargo" value="{{$vacante->tipo_cargo_des}}" required>
+                              <input disabled="true" type="text" class="form-control" id="validationDefault02" placeholder="Tipo de cargo" value="{{$vacante->tipo_cargo->descripcion}}" required>
                             </div>
                           </div>
                         <div class="form-row">
@@ -155,7 +155,9 @@
                       </div>
                        </div>                     
                        <div class="modal-footer">                
-                           <button type="button" class="btn btn-warning" id="imprimir_{{$vacante->id}}"  >Imprimir</button> 
+                            <button type="button" class="btn btn-warning" >
+                                      <a  href="{{route('imprimirVacante',$vacante->id)}}" target="_blank">Imprimir</a>
+                            </button>  
                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                        </div>
                     </div>

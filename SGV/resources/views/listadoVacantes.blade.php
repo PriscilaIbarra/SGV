@@ -139,7 +139,9 @@
                                            </div>                                                                   
                               </div>
                               <div class="modal-footer">
-                                <button type="button" class="btn btn-warning" >Imprimir</button> 
+                                 <button type="button" class="btn btn-warning" >
+                                      <a  href="{{route('imprimirVacante',$vacante->id)}}" target="_blank">Imprimir</a>
+                                  </button> 
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>     
                               </div>
                             </div>
