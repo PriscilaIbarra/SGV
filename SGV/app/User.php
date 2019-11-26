@@ -32,7 +32,7 @@ class User extends Authenticatable
 
     public function novedades()
     {
-        return $this->belongsToMany('Cinema\Novedad','users_novedades','id','id');
+        return $this->belongsToMany('Cinema\Novedad','users_novedades','id_usuario','id_novedad');
     }
 
     /**

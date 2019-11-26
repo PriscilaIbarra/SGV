@@ -56,7 +56,7 @@ class InscripcionController extends Controller
      */
     public function store(Request $request)
     {
-       $rules = [
+      $rules = [
                    'cv'=>['required'],
                    'disponibilidad_horaria'=>['required','string'],
                 ];   
@@ -73,33 +73,13 @@ class InscripcionController extends Controller
      if($validacion)
      {   
 
-        $novedades = [];
-
-        foreach ($request as $key => $value)
-        {
-           if(explode('-', $key))
-           {
-             $novedad = explode('-', $key);
-             if(strcasecmp($novedad[0],"novedad") == 0)
-             {
-                 if(isset($request[$key]))
-                 {
-                   array_push($novedades,$value);
-                 }
-             }
-           }      
-        }
-
-        DB::transaction(function() use ($novedades,$request){
+      
+         DB::transaction(function() use ($request){
           
             $user = User::findOrFail(Auth::user()->id);
-           /* foreach ($novedades as $id_novedad)
-            {
-                $novedad = Novedad::findOrFail($id_novedad);
-                $user->novedades()->attach($novedad->id);
-            }*/
-            $n = [1];
-            $user->novedades()->attach($n);
+
+            $user->novedades()->attach($request->input('novedades'));
+            
             $nombre = str_replace ('.','_',$request->file('cv')->getClientOriginalName());
             $extension = $request->file('cv')->getClientOriginalExtension();
             $nombreCv = time().'_'.$nombre.'.'.$extension;
@@ -113,8 +93,11 @@ class InscripcionController extends Controller
             $ins->disponibilidad_horaria = $request['disponibilidad_horaria'];
             $ins->save(); 
         });
+
      
         return redirect('listVacantesDeAsignatura')->with('success','Usuario registrado con éxito');
+       
+        //return  back()->with('success','ss'); 
      }
     }
 

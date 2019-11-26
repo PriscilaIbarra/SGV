@@ -57,7 +57,7 @@
 												    @if(isset($novedades[$i]))											
 													<div class="col float-left">
 														<div class="form-check float-left">
-															<input name="{{'novedad'.$novedades[$i]->id}}" class="form-check-input" type="checkbox" value="{{$novedades[$i]->id}}" id="defaultCheck1">
+															<input name="{{'novedades'.'['.$novedades[$i]->id.']'}}" class="form-check-input" type="checkbox" value="{{$novedades[$i]->id}}" id="defaultCheck1">
 															<label class="form-check-label text-left" for="defaultCheck1">
 																{{$novedades[$i]->descripcion}}
 															</label>
@@ -67,7 +67,7 @@
 													@if(isset($novedades[$i+1]))
 													<div class="col">
 														<div class="form-check float-left">
-															<input  name="{{'novedad'.$novedades[$i+1]->id}}"class="form-check-input" type="checkbox" value="{{$novedades[$i+1]->id}}" id="defaultCheck1">
+														<input  name="{{'novedades'.'['.$novedades[$i+1]->id.']'}}"class="form-check-input" type="checkbox" value="{{$novedades[$i+1]->id}}" id="defaultCheck1">
 															<label class="form-check-label text-left" for="defaultCheck1">
 																{{$novedades[$i+1]->descripcion}}	
 														</label>
@@ -77,11 +77,12 @@
 												    @if(isset($novedades[$i+2]))
 													<div class="col">
 															<div class="form-check float-left">
-																<input name="{{'novedad'.$novedades[$i+2]->id}}" class="form-check-input" type="checkbox" value="{{$novedades[$i+2]->id}}" id="defaultCheck1">
+															<input name="{{'novedades'.'['.$novedades[$i+2]->id.']'}}"
+																 class="form-check-input" type="checkbox" value="{{$novedades[$i+2]->id}}" id="defaultCheck1">
 																<label class="form-check-label text-left" for="defaultCheck1">
 																{{$novedades[$i+2]->descripcion}}
 																</label>
-															</div>															
+															</div>														
 													</div>													
 													@endif	
 												 </div>																			
@@ -91,6 +92,16 @@
 										</form>
 						</div>
 					</div>
+
+					
+						 @if(session('success'))
+                    <div class=" col-md-6 float-left mt-2 alert alert-success alert-dismissible fade show" role="alert">
+                          <strong>{{session('success')}}</strong>
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          @endif
+                    </div>
 				</div>					  
 				</center>
 
