@@ -19,9 +19,7 @@ Route::get('/PantallaPrincipalAdm', function () {
     return view('Administrador.pantallaPrincipalAdmin');
 })->name('homeAdmin');
 
-Route::get('/PantallaPrincipalJefeCatedra', function () {
-    return view('JefeCatedra.pantallaPrincipalJefeC');
-})->name('homeJefeCatedra');	
+Route::get('/PantallaPrincipalJefeCatedra','VacanteController@getVacantesCalificar')->name('homeJefeCatedra');	
 
 Auth::routes();
 
@@ -94,4 +92,12 @@ Route::get('/visualizarCV/{id}','PDFController@show')->name('visualizarCV');
 
 Route::get('/imprimirVacante/{id}','PDFController@printVacante')->name('imprimirVacante');
 
+Route::get('/asignarJefesDeCatedra/','AsignaturaController@getAll')->name('asignarJefesDeCatedra');
 //Route::get('','')->name('');
+
+Route::post('/registarAsigJefC','AsignaturaController@asignarJefe')->name('registarAsigJefC');
+
+Route::get('/listarInscriptos/{id_vacante}','InscripcionController@getInscripcionesByVacante')->name('listarInscriptos');
+
+
+

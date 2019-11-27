@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Cinema\Asignatura;
 use Cinema\Vacante;
 use Cinema\User;
+use Illuminate\Database\Eloquent\Builder;
+
 
 class AsignaturaController extends Controller
 {
@@ -108,5 +110,31 @@ class AsignaturaController extends Controller
         $asignaturas = $asig->get();        
         return view('Usuario.listAsignaturasConVacantes',compact('asignaturas'));
     }
-}
+
+    public function getAll()
+    {
+        $asignaturas = Asignatura::all();
+        $jefesCatedra = User::whereHas('tipo_usuario',function(Builder $query){
+            $query->where('descripcion','like','Jefe de Catedra');
+        })->get();
+
+        return view('Administrador.asignarJefeCatedra',compact('asignaturas','jefesCatedra'));
+    }
+
+    public function asignarJefe(Request $request)
+    {
+        $asignatura= Asignatura::find($request["asignatura"]);
+        $jefesCatedra= User::find($request["id_jefe_catedra"]);
+        if(isset($asignatura) && isset($jefesCatedra))
+        {
+            $asignatura->id_jefe_catedra_calificador=$request["id_jefe_catedra"];
+            $asignatura->save();
+            return back()->with('success','Jefe de catedra asignado con exito');
+        }
+        else
+        {
+            return back()->with('error','No se pudo completar la operación');
+        }
+    }
+}   
  

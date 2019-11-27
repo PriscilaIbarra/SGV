@@ -147,5 +147,32 @@ class InscripcionController extends Controller
         //
     }
 
-    
+    public function getInscripcionesByVacante($idVacante)
+    {
+        
+        $vacante=Vacante::find($idVacante);
+
+        if(isset($vacante))
+        {
+            $inscripciones= Inscripcion::where("id_vacante","=",$idVacante)->get();
+            if(empty($inscripciones))
+            {
+                return view("JefeCatedra.listaInscriptos",compact('inscripciones','vacante'));
+            }
+            else
+            {
+
+                //retornar en la misma pantalla que no hay inscriptos corregir
+                return redirect('homeJefeCatedra')->with('error','Sin inscripciones.');
+            }
+        }    
+        else
+        {
+            return redirect('homeJefeCatedra')->with('error','No se ha encontrado la vacante');
+        }
+            
+
+    }
+        
+
 }

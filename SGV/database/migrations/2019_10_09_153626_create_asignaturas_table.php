@@ -16,9 +16,11 @@ class CreateAsignaturasTable extends Migration
         Schema::create('asignaturas', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('nro');
-            $table->string('descripcion'); 
+            $table->string('descripcion');            
             $table->dateTime('deleted_at')->nullable();
             $table->timestamps();
+            $table->bigInteger('id_jefe_catedra_calificador')->nullable()->unsigned()->index();
+            $table->foreign('id_jefe_catedra_calificador')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -29,7 +31,10 @@ class CreateAsignaturasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('asignaturas');
+         Schema::table('users',function(Blueprint $table){
+            $table->dropForeign('id_jefe_catedra_calificador');
+         });
+         Schema::dropIfExists('asignaturas');
     }
 }
 

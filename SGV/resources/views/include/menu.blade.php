@@ -52,6 +52,7 @@
                                                    <a class="dropdown-item" href="{{ route('abmlTipoCargo') }}">Tipos de Cargos</a>
                                                    <a class="dropdown-item" href="{{ route('abmlTiposUsuarios') }}">Tipos de Usuarios</a>
                                                    <a class="dropdown-item" href="{{ route('abmlNovedades') }}">Novedades</a> 
+                                                   <a class="dropdown-item" href="{{route('asignarJefesDeCatedra')}}">Asignar Jefes de Cátedra</a>
                                                </span>
                                                 @break
 

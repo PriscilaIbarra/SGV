@@ -12,6 +12,7 @@ use Cinema\Vacante;
 use Cinema\Departamento;
 use Carbon\Carbon;
 use Cinema\User;
+use Illuminate\Database\Eloquent\Builder;
 
 class VacanteController extends Controller
 {
@@ -363,6 +364,14 @@ class VacanteController extends Controller
 
         $vacantes = $vac->get();                
         return view('listadoVacantes',compact('vacantes'));
+    }   
+
+     public function getVacantesCalificar()
+    {   
+        $vacantes=Vacante::whereHas('asignatura',function(Builder $query){
+            $query->where('id_jefe_catedra_calificador','like', Auth::user()->id);
+        })->whereNull('id_orden_merito')->get();
+        return view('JefeCatedra.pantallaPrincipalJefeC',compact('vacantes'));
     }   
 
 }

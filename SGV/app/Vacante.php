@@ -9,7 +9,7 @@ class Vacante extends Model
 
   protected $table = "vacantes";
 
-  protected $fillable = ['id','fecha_apertura','fecha_cierre','requisitos','adicionales','presentacion','horario','estado','id_asignatura','id_tipo_cargo','id_departamento','id_usuario','deleted_at'];
+  protected $fillable = ['id','fecha_apertura','fecha_cierre','requisitos','adicionales','presentacion','horario','estado','id_asignatura','id_tipo_cargo','id_departamento','id_usuario','id_orden_merito','deleted_at'];
 
   public function asignatura()
   {
@@ -36,6 +36,11 @@ class Vacante extends Model
   public function user()
   {
     return $this->belongsTo('Cinema\User','id_usuario');
+  }
+
+  public function orden()
+  {
+    return $this->hasOne('Cinema\OrdenMerito','id_orden_merito');
   }
   
 }
