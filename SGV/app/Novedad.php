@@ -17,4 +17,5 @@ class Novedad extends Model
     {
     	return $this->belongsToMany('Cinema\User');
     }
+
 }

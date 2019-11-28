@@ -28,7 +28,7 @@ Route::get('/home', function()
 	switch (Auth::user()->id_tipo_usuario)
 	{
 			case 1:
-				return redirect(route('asignConVacants'));			
+				return redirect(route('asignConVacants'));							
 				break;
 			
 			case 2:
@@ -93,11 +93,21 @@ Route::get('/visualizarCV/{id}','PDFController@show')->name('visualizarCV');
 Route::get('/imprimirVacante/{id}','PDFController@printVacante')->name('imprimirVacante');
 
 Route::get('/asignarJefesDeCatedra/','AsignaturaController@getAll')->name('asignarJefesDeCatedra');
-//Route::get('','')->name('');
+
 
 Route::post('/registarAsigJefC','AsignaturaController@asignarJefe')->name('registarAsigJefC');
 
-Route::get('/listarInscriptos/{id_vacante}','InscripcionController@getInscripcionesByVacante')->name('listarInscriptos');
+Route::get('/listarInscriptos/{id_vacante}','VacanteController@getVacanteById')->name('listarInscriptos');
+
+Route::get('/confecionarOrdenMerito/{id_vacante}','VacanteController@generarOrdenMerito')->name('confecionarOrdenMerito');
+
+
+Route::post('/actualizarCalificaciones','InscripcionController@updateCalificaciones')->name('actualizarCalificaciones');
+
+Route::get('/generarConstancia/{id_vacante}','VacanteController@generarOrdenMerito')->name('generarConstancia');
 
 
 
+
+
+//Route::get('','')->name('');

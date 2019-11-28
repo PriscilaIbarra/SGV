@@ -29,7 +29,7 @@ class Vacante extends Model
   public function inscripciones()
   {
 
-    return $this->hasMany('Cinema\Inscripcion');
+    return $this->hasMany('Cinema\Inscripcion','id_vacante');
   
   }  
 

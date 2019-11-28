@@ -3,11 +3,11 @@
 @section('content')
   @include('include.title&logo')
 <!--Lista de vacantes por materia -->
-             <center>
+         <center>
                 <div class="col-md-8 mt-4 ">
                     <div class="card">
                     <div class="card-header">
-                        Vacantes {{$vacantes[0]->desc_asig}}
+                        Vacantes {{$vacantes[0]->asignatura->descripcion}}
                     </div>
                     <div class="card-body">
                             <div class="table-responsive">
@@ -23,7 +23,7 @@
                                             <tbody>
                                              @foreach($vacantes as $vacante)
                                                 <tr>
-                                                    <td>{{$vacante->desc_tipo_cargo}}.</td>
+                                                    <td>{{$vacante->tipo_cargo->descripcion}}.</td>
                                                     <td class="d-none d-sm-table-cell">       
                                                         <p>
                                                           {{substr($vacante->requisitos,0,204)}}...
@@ -67,7 +67,7 @@
                               <div class="modal-header">
                                 <h6 class="modal-title" id="exampleModalLongTitle">
                                     <strong>Tipo de cargo:</strong> 
-                                      {{$vacante->desc_tipo_cargo}}.
+                                      {{$vacante->tipo_cargo->descripcion}}.
                                 </h6>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                   <span aria-hidden="true">&times;</span>
@@ -84,13 +84,13 @@
                                                           <div class="form-row">
                                                                 <div class="col mt-4 text-left">
                                                                     <label for="validationDefault01">Asignatura:</label>
-                                                                      <input disabled="true" type="text" class="form-control" id="validationDefault01" placeholder="Asignatura" value="{{$vacante->desc_asig}}" required>
+                                                                      <input disabled="true" type="text" class="form-control" id="validationDefault01" placeholder="Asignatura" value="{{$vacante->asignatura->descripcion}}" required>
                                                                 </div>
                                                             </div>
                                                            <div class="form-row">
                                                             <div class="col mt-4 text-left">
                                                               <label for="validationDefault02" class="text-left">Tipo de Cargo:</label>
-                                                              <input disabled="true" type="text" class="form-control" id="validationDefault02" placeholder="Tipo de cargo" value="{{$vacante->desc_tipo_cargo}}" required>
+                                                              <input disabled="true" type="text" class="form-control" id="validationDefault02" placeholder="Tipo de cargo" value="{{$vacante->tipo_cargo->descripcion}}" required>
                                                             </div>
                                                           </div>
                                                           <div class="form-row">
@@ -141,7 +141,9 @@
                                            </div>                                                                   
                               </div>
                               <div class="modal-footer">
-                                <button type="button" class="btn btn-warning" >Imprimir</button> 
+                                <button type="button" class="btn btn-warning" >
+                                      <a  href="{{route('imprimirVacante',$vacante->id)}}" target="_blank">Imprimir</a>
+                                </button>  
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>     
                               </div>
                             </div>

@@ -15,13 +15,13 @@
 														<label>
 															 <strong>Asignatura:</strong>
 														</label>
-														<input type="text" readonly="true" class="form-control" value="{{ $vacante->asig_desc }}"> 
+														<input type="text" readonly="true" class="form-control" value="{{ $vacante->asignatura->descripcion }}"> 
 													</div>
 													<div class="col-md-6 mt-4 text-left">											
 														<label>
 															<strong>Tipo de cargo:</strong>
 														</label>
-														<input type="text" class="form-control" readonly="true" value="{{ $vacante->desc_tipo_cargo }}">	
+														<input type="text" class="form-control" readonly="true" value="{{ $vacante->tipo_cargo->descripcion }}">	
 													</div>
 												</div>
 												<div class="form-row">												

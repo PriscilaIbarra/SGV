@@ -10,9 +10,12 @@ use Cinema\TiposCargo;
 use Cinema\Asignatura;
 use Cinema\Vacante;
 use Cinema\Departamento;
+use Cinema\Inscripcion;
+use Cinema\OrdenMerito;
 use Carbon\Carbon;
 use Cinema\User;
 use Illuminate\Database\Eloquent\Builder;
+use Cookie;
 
 class VacanteController extends Controller
 {
@@ -138,14 +141,7 @@ class VacanteController extends Controller
      */
     public function edit($id)
     {
-       /* $vac = Vacante::join('asignaturas','vacantes.id_asignatura','=','asignaturas.id')
-            ->join('tipos_cargos','vacantes.id_tipo_cargo','=','tipos_cargos.id')
-            ->join('departamentos','vacantes.id_departamento','=','departamentos.id')
-            ->select(['vacantes.id  as id','vacantes.fecha_apertura as fecha_apertura','vacantes.fecha_cierre as fecha_cierre','vacantes.requisitos as requisitos','vacantes.adicionales as adicionales','vacantes.presentacion as presentacion','vacantes.horario as horario','vacantes.estado as estado','vacantes.created_at as created_at','vacantes.updated_at as updated_at','vacantes.id_asignatura as id_asignatura','vacantes.id_tipo_cargo as id_tipo_cargo','vacantes.id_departamento as id_departamento','asignaturas.descripcion as asignatura_desc','tipos_cargos.descripcion as tipo_cargo_des','departamentos.descripcion as depto_desc'])->where('vacantes.id_usuario','=',Auth::user()->id);*/
         $vacante = Vacante::where('vacantes.id_usuario','=',Auth::user()->id)->where('vacantes.id','=',$id)->get()->find($id);
-       // $va = $vac->where('vacantes.id','=',$id);   
-       // $vacan = $va->get();
-       // $vacante = $vacan[0]; 
         $asignaturas = Asignatura::all()->where('deleted_at',null);
         $departamentos = Departamento::all();
         $tipos_cargos = TiposCargo::all()->where('estado','activo');
@@ -269,33 +265,37 @@ class VacanteController extends Controller
        $user = User::find(Auth::user()->id);
         if(isset($user))
         {
-            $vacantes = Vacante::whereHas('inscripciones.user',function(Builder $query){
-
-            $query->where('id','!=',$user->id);
-            
-            })->whereNull('deleted_at')
+            $vacantesInscripto = Inscripcion::where('id_usuario','=',Auth::user()->id)->select('id_vacante');
+            $vacantes = Vacante::whereNotIn('id', $vacantesInscripto)
+            ->whereNull('deleted_at')
             ->where('fecha_apertura','<=',date('Y-m-d'))
             ->where('fecha_cierre','>=',date('Y-m-d'))
-            ->whereHas('asignatura',function(Builder $query)use($id_asig){
-            $query->where('id_asignatura','=',$id_asig);
-            })->whereHas('departamento',function(Builder $query){
+            ->whereHas('asignatura',function(Builder $query)use($id_asig)
+            {
+                  $query->where('id_asignatura','=',$id_asig);
+            })
+            ->whereHas('departamento',function(Builder $query)
+            {
                 $query->where('descripcion','like','Ingenieria en sistemas de Informacion');
-                })->whereHas('asignatura',function(Builder $query){
-                    $query->whereNull('deleted_at');
-                    })->whereHas('asignatura',function(Builder $query){
-                        $query->whereNull('deleted_at');
-                        })->get();
+            })
+            ->whereHas('asignatura',function(Builder $query)
+            {
+               $query->whereNull('deleted_at');
+            })->get();
 
-                    if(isset($vacantes)){
-                        return view('Usuario.vacantesDeUnaMateria',compact('vacantes'));  
-                    }
-                    else{
-                        return back()->with('error','La asignatura no presenta vacantes disponibles');
-                    }
-                     
+            if(!empty($vacantes))
+            {
+                return view('Usuario.vacantesDeUnaMateria',compact('vacantes'));  
+            }
+            else
+            {
+                return back()->with('error','No hay vacantes disponibles a la que usted pueda inscribirse');
+            }                    
           
           
-        }else{
+        }
+        else
+        {
             return back()->with('error','Usuario no encontrado');
         }
      
@@ -305,13 +305,14 @@ class VacanteController extends Controller
     public function getVacantesOfAsig($id_asig)
     {   
         //recupera vacantes vigentes de una materia para el perfíl público
+
         $vacantes = Vacante::whereHas('asignatura',function(Builder $query) use($id_asig){
             $query->where('id','like', $id_asig);
         })->whereHas('asignatura',function(Builder $query){
             $query->whereNull('deleted_at');
-        })->whereNull('vacantes.deleted_at')
-        ->where('vacantes.fecha_apertura','<=',date('Y-m-d'))
-        ->where('vacantes.fecha_cierre','>=',date('Y-m-d'))
+        })->whereNull('deleted_at')
+        ->where('fecha_apertura','<=',date('Y-m-d'))
+        ->where('fecha_cierre','>=',date('Y-m-d'))
         ->whereHas('departamento',function(Builder $query){
             $query->where('descripcion','like','Ingenieria en sistemas de Información');
         })->get();                                     
@@ -322,8 +323,59 @@ class VacanteController extends Controller
     {   
         $vacantes=Vacante::whereHas('asignatura',function(Builder $query){
             $query->where('id_jefe_catedra_calificador','like', Auth::user()->id);
-        })->whereNull('id_orden_merito')->get();
+        })->whereNull('id_orden_merito')
+        ->where('fecha_cierre','>=',date('Y-m-d'))
+        ->whereNull('deleted_at')->get();
         return view('JefeCatedra.pantallaPrincipalJefeC',compact('vacantes'));
     }   
+    
+   
+    public function getVacanteById($idVacante)
+    {
+        $vacante = Vacante::find($idVacante);
+
+        if(isset($vacante))
+        {
+            $inscripciones=$vacante->inscripciones;
+            if(empty($inscripciones[0]))
+            {
+                return redirect(route('homeJefeCatedra'))->with('error','Vacante sin inscriptos');
+            }            
+            else
+            {              
+                return view('JefeCatedra.listaInscriptos',compact('vacante'));
+            }
+        }
+        else
+        {
+            return back()->with('error','Vacante no encontrada');
+        }
+    }
+
+
+    public function generarOrdenMerito($id_vacante)
+    {
+        $vacante= Vacante::find($id_acvante);
+
+        if(isset($vacante))
+        {
+            if(!isset($vacante->orden))
+            {
+                $orden_merito= new OrdenMerito();
+                $orden_merito->estado="Terminada";
+                $orden_merito->id_jefe_catedra= Auth::user()->id;
+                $orden_merito->save();
+            }
+            else
+            {
+                $orden_merito=$vacante->orden;              
+                $orden_merito->id_jefe_catedra= Auth::user()->id;
+                $orden_merito->save();
+            }
+            return redirect(route('generarConstancia',$id_vacante));
+        }
+    }
+
+
 
 }

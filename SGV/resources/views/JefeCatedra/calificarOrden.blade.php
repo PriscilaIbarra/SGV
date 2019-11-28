@@ -5,16 +5,19 @@
       <div class="col-md-10 mt-4">
                 <div class="card">
                   <div class="card-header">
-                     Inscriptos a <strong>{{$vacante->asignatura->descripcion}}</strong> para <strong>{{$vacante->tipo_cargo->descripcion}}</strong>
+                     Orden de merito para <strong>{{$vacante->asignatura->descripcion}}</strong> para el cargo <strong>{{$vacante->tipo_cargo->descripcion}}</strong>
                     </div>
-                    <div class="card-body">
+                    <form method="post" action="{{route('actualizarCalificaciones')}}">
+                      <input type="hidden" name="idVacante" value="{{$vacante->id}}">
+                        <div class="card-body">
                             <div class="table-responsive">
                                 <div class="table-wrapper-scroll-y my-custom-scrollbar">
                                     <table class="table table-bordered table-striped mb-0">
                                         <thead>
                                         <tr>
                                             <th class="sticky-top bg-light" scope="col">Apellido y nombre</th>
-                                            <th class="sticky-top bg-light" scope="col">CV</th>                                         
+                                            <th class="sticky-top bg-light" scope="col">CV</th>         
+                                            <th class="sticky-top bg-light" scope="col">Calificación</th>                                            
                                         </tr>
                                         </thead>
                                         <tbody>                                                                 
@@ -23,20 +26,23 @@
                                             <td>{{$inscripcion->user->apellido}} , {{$inscripcion->user->nombre}}</td>
                                             <td>
                                                 <a href="{{route('visualizarCV',$inscripcion->id)}}" target="_blank">Ver</a>
-                                            </td>                                                                   
+                                            </td>
+                                            <td>
+                                              <input type="number" class="form-control" name="{{'inscripciones'.'['.$inscripcion->id.']'}}" value="{{$inscripcion->calificacion}}">
+                                            </td>                                                                 
                                         </tr>
                                         @endforeach
                                         </tbody>
                                       
                                         
                                 </table>
-                                   <a href="{{route('confecionarOrdenMerito',$vacante->id)}}" class="btn btn-success float-right mt-4">
-                                          Confeccionar Orden de mérito
-                                    </a>
-                                        
+                                                                        
                             </div>
                         </div>    
-                    </div>                         
+                      </div>
+                         <button type="submit" name="opcion" value="Publicar" class="btn btn-primary text-white">Publicar</button>
+                         <button type="submit" name="opcion" value="Guardar" class="btn btn-primary text-white" >Guardar</button>
+                    </form>     
                     </div>
                     @if(session('success'))
                     <div class=" col-md-6 float-left mt-2 alert alert-success alert-dismissible fade show" role="alert">

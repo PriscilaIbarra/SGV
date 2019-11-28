@@ -9,6 +9,9 @@ use Cinema\Vacante;
 use Cinema\Inscripcion;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Builder;
+use Cookie;
+use Illuminate\Database\QueryException;
 
 class InscripcionController extends Controller
 {
@@ -30,14 +33,8 @@ class InscripcionController extends Controller
      */
     public function create($id_vacante)
     {
-        $novedades = Novedad::select('id','descripcion')->where('estado','=','activo')->get();
-        $vacan = Vacante::join('asignaturas','vacantes.id_asignatura','=','asignaturas.id')
-                          ->join('tipos_cargos','vacantes.id_tipo_cargo','=','tipos_cargos.id')
-                          ->join('departamentos','vacantes.id_departamento','=','departamentos.id')
-                          ->where('departamentos.descripcion','LIKE','Ingenieria en Sistemas de Información')
-                          ->where('vacantes.id','=',$id_vacante)
-                          ->select('vacantes.id','asignaturas.descripcion as asig_desc','tipos_cargos.descripcion as desc_tipo_cargo')->get();
-        $vacante = $vacan[0];     
+        $novedades = Novedad::where('estado','=','activo')->get();
+        $vacante = Vacante::find($id_vacante);    
         if(isset($novedades) && isset($vacante))
         {
           return view('Usuario.inscripcionVacante', compact('novedades','vacante'));    
@@ -94,12 +91,46 @@ class InscripcionController extends Controller
             $ins->disponibilidad_horaria = $request['disponibilidad_horaria'];
             $ins->save(); 
         });
+        
+         /*  
+            VER ASGINAR LAR NOVEDADES A UNA INSCRIPCION
 
-     
+            DB::transaction(function() use ($request){
+          
+            $user = User::findOrFail(Auth::user()->id);            
+            $nombre = str_replace ('.','_',$request->file('cv')->getClientOriginalName());
+            $extension = $request->file('cv')->getClientOriginalExtension();
+            $nombreCv = time().'_'.$nombre.'.'.$extension;
+            $ruta = $request->file('cv')->storeAs('public/cvs',$nombreCv);   
+            $request->file('cv')->move(public_path('../public/cvs'),$nombreCv);       
+            $vacante = Vacante::findOrFail($request['id_vacante']);
+            $ins = new Inscripcion();
+            $ins->cv = $ruta;
+            $ins->id_vacante = $vacante->id; 
+            $ins->id_usuario = $user->id;
+            $ins->disponibilidad_horaria = $request['disponibilidad_horaria'];
+            $ins->save(); 
+            $idInscripcion=$ins->id;
+
+            $novedades = $request->input('novedades');
+
+            $combinacion = [];
+            foreach($novedades as $novedad)
+            {
+                array_push($combinacion,array($novedad,$idInscripcion));
+            }
+
+            $user->novedades()->attach($combinacion);
+
+        });
+       */
+
+
         return redirect('listadoInscripciones')->with('success','Inscripción  registrada con éxito');
        
         //return  back()->with('success','ss'); 
      }
+     
     }
 
     /**
@@ -155,6 +186,7 @@ class InscripcionController extends Controller
         if(isset($vacante))
         {
             $inscripciones= Inscripcion::where("id_vacante","=",$idVacante)->get();
+            
             if(empty($inscripciones))
             {
                 return view("JefeCatedra.listaInscriptos",compact('inscripciones','vacante'));
@@ -169,10 +201,47 @@ class InscripcionController extends Controller
         else
         {
             return redirect('homeJefeCatedra')->with('error','No se ha encontrado la vacante');
-        }
-            
+        }            
 
     }
-        
+   
+
+    public function updateCalificaciones(Request $request)
+    {
+
+        try
+        {
+            DB::transaction(function() use ($request)
+            {
+          
+                    $inscripciones = $request->input('inscripciones');
+                  
+                    foreach($inscripciones as $key => $value)
+                    {
+                        $i= new Inscripcion();
+                        $i->id = $key; 
+                        $i->calificacion = $value;
+                        $i->save();
+                    }
+                 
+            });
+
+            if(isset($request["opcion"]))
+            {
+                if(strcasecmp($request["opcion"],"Publicar")==0)
+                {
+                    redirect(route('generarConstancia',$request["idVacante"]));
+                }
+            }
+
+            return back()->with('success','Calificaciones actualizadas con éxito');
+        }
+        catch(QueryException $e)
+        {
+
+            return back()->with('error','Error al actualizar calificaciones');
+        }            
+
+    }
 
 }
