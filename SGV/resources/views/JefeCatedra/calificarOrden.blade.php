@@ -8,6 +8,7 @@
                      Orden de merito para <strong>{{$vacante->asignatura->descripcion}}</strong> para el cargo <strong>{{$vacante->tipo_cargo->descripcion}}</strong>
                     </div>
                     <form method="post" action="{{route('actualizarCalificaciones')}}">
+                      @csrf
                       <input type="hidden" name="idVacante" value="{{$vacante->id}}">
                         <div class="card-body">
                             <div class="table-responsive">

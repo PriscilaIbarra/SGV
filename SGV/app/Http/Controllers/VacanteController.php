@@ -355,7 +355,7 @@ class VacanteController extends Controller
 
     public function generarOrdenMerito($id_vacante)
     {
-        $vacante= Vacante::find($id_acvante);
+        $vacante= Vacante::find($id_vacante);
 
         if(isset($vacante))
         {
@@ -368,14 +368,21 @@ class VacanteController extends Controller
             }
             else
             {
-                $orden_merito=$vacante->orden;              
-                $orden_merito->id_jefe_catedra= Auth::user()->id;
+                $orden_merito=$vacante->orden;                              
+                $orden_merito->id_jefe_catedra=Auth::user()->id;
                 $orden_merito->save();
             }
+            $vacante->id_orden_merito=$orden_merito->id;
+            $vacante->save();
             return redirect(route('generarConstancia',$id_vacante));
         }
     }
 
+    public function generarConstancia($id_vacante)
+    {
+        $vacante= Vacante::find($id_vacante);
+        return view('JefeCatedra.constanciaOrdenMerito',compact('vacante'));        
+    }
 
 
 }

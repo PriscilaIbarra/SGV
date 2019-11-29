@@ -13,10 +13,10 @@ class CreateOrdenesMeritoTable extends Migration
      */
     public function up()
     {
-        Schema::create('ordenes_merito', function (Blueprint $table) {
+        Schema::create('orden_meritos', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('estado')->default('En Desarrollo');
-            $table->integer('numero');
+            $table->integer('numero')->nullable();
             $table->bigInteger('id_jefe_catedra')->nullable()->unsigned()->index();
             $table->timestamps();
             $table->foreign('id_jefe_catedra')->references('id')->on('users')->onDelete('cascade');
@@ -33,6 +33,6 @@ class CreateOrdenesMeritoTable extends Migration
         Schema::table('users',function(Blueprint $table){
               $table->dropForeign('id_jefe_catedra');
          });
-        Schema::dropIfExists('ordenes_merito');
+        Schema::dropIfExists('orden_meritos');
     }
 }

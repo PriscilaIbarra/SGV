@@ -104,7 +104,7 @@ Route::get('/confecionarOrdenMerito/{id_vacante}','VacanteController@generarOrde
 
 Route::post('/actualizarCalificaciones','InscripcionController@updateCalificaciones')->name('actualizarCalificaciones');
 
-Route::get('/generarConstancia/{id_vacante}','VacanteController@generarOrdenMerito')->name('generarConstancia');
+Route::get('/generarConstancia/{id_vacante}','VacanteController@generarConstancia')->name('generarConstancia');
 
 
 

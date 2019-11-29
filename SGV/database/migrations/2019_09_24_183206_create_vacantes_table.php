@@ -33,7 +33,7 @@ class CreateVacantesTable extends Migration
             $table->bigInteger('id_usuario');
             $table->foreign('id_usuario')->references('id')->on('usuarios')->onDelete('cascade');
             $table->bigInteger('id_orden_merito')->nullable()->unsigned()->index();
-            $table->foreign('id_orden_merito')->references('id')->on('ordenes_merito')->onDelete('cascade');
+            $table->foreign('id_orden_merito')->references('id')->on('orden_meritos')->onDelete('cascade');
         });
     }
 
@@ -56,7 +56,7 @@ class CreateVacantesTable extends Migration
            Schema::table('usuarios',function(Blueprint $table){
               $table->dropForeign('id_usuario');
          });
-           Schema::table('ordenes_merito',function(Blueprint $table){
+           Schema::table('orden_meritos',function(Blueprint $table){
               $table->dropForeign('id_orden_merito');
          });
          Schema::dropIfExists('vacantes');
