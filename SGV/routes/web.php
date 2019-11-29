@@ -25,21 +25,20 @@ Auth::routes();
 
 Route::get('/home', function()
 {
-	switch (Auth::user()->id_tipo_usuario)
+
+	if(strcasecmp(Auth::user()->tipo_usuario->descripcion,"Usuario")==0)
 	{
-			case 1:
-				return redirect(route('asignConVacants'));							
-				break;
-			
-			case 2:
-			    return redirect(route('homeAdmin'));
-				break;
-			
-			case 3:
-			    return redirect(route('homeJefeCatedra'));
-				break;		
-			
-	}   
+		return redirect(route('asignConVacants'));	
+	}
+	elseif (strcasecmp(Auth::user()->tipo_usuario->descripcion,"Administrador")==0)
+	{
+	    return redirect(route('homeAdmin'));
+	}
+	elseif (strcasecmp(Auth::user()->tipo_usuario->descripcion,"Jefe de Catedra")==0) 
+	{
+	    return redirect(route('homeJefeCatedra'));
+	}	
+	
  
 })->name('home');
 
