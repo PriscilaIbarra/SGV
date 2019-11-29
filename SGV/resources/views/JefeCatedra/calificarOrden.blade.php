@@ -1,11 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+
 <center>
       <div class="col-md-10 mt-4">
                 <div class="card">
                   <div class="card-header">
-                     Orden de merito para <strong>{{$vacante->asignatura->descripcion}}</strong> para el cargo <strong>{{$vacante->tipo_cargo->descripcion}}</strong>
+                     Orden de mérito de <strong>{{$vacante->asignatura->descripcion}}</strong> para el cargo <strong>{{$vacante->tipo_cargo->descripcion}}</strong>
                     </div>
                     <form method="post" action="{{route('actualizarCalificaciones')}}">
                       @csrf
@@ -22,14 +23,21 @@
                                         </tr>
                                         </thead>
                                         <tbody>                                                                 
-                                        @foreach($vacante->inscripciones as $inscripcion)    
+                                        @foreach($inscripciones as $inscripcion)    
                                         <tr>
                                             <td>{{$inscripcion->user->apellido}} , {{$inscripcion->user->nombre}}</td>
                                             <td>
                                                 <a href="{{route('visualizarCV',$inscripcion->id)}}" target="_blank">Ver</a>
                                             </td>
                                             <td>
-                                              <input type="number" class="form-control" name="{{'inscripciones'.'['.$inscripcion->id.']'}}" value="{{$inscripcion->calificacion}}">
+                                             <input type="number" required step="0.01"  min="0" max="10" id="inscripciones"
+                                              class="form-control @error('inscripciones') is-invalid @enderror" 
+                                              name="{{'inscripciones'.'['.$inscripcion->id.']'}}" value="{{$inscripcion->calificacion}}">
+                                               @error('{{inscripciones}}')
+                                                 <span class="invalid-feedback" role="alert">
+                                                     <strong>{{ $message }}</strong>
+                                                 </span>
+                                               @enderror     
                                             </td>                                                                 
                                         </tr>
                                         @endforeach
@@ -41,8 +49,8 @@
                             </div>
                         </div>    
                       </div>
-                         <button type="submit" name="opcion" value="Publicar" class="btn btn-primary text-white">Publicar</button>
-                         <button type="submit" name="opcion" value="Guardar" class="btn btn-primary text-white" >Guardar</button>
+                         <button type="submit" name="opcion" value="Publicar" class="btn btn-success text-white mb-2">Publicar</button>
+                         <button type="submit" name="opcion" value="Guardar" class="btn btn-primary text-white mb-2" >Guardar</button>
                     </form>     
                     </div>
                     @if(session('success'))

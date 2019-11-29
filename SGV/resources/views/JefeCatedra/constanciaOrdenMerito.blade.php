@@ -48,11 +48,10 @@
                                     <h6>
                                        <strong>Orden:</strong>
                                     </h6>
-                                    <label>Id: {{$vacante->id_orden_merito}}</label>
+                                    <label>Id: {{$vacante->orden->id}}</label>
                                     <br>
-                                    <label>Fecha creación:</label><br>
-                                    <label>Fecha última actualización:</label><br>
-                                    <label>Fecha Generación Constacia:</label>   
+                                    <label>Fecha creación: {{$vacante->orden->created_at->format('d-m-Y H:m:s')}}</label><br>
+                                    <label>Fecha Generación Constacia: {{$vacante->orden->updated_at->format('d-m-Y H:m:s')}}</label>   
                                  </div>
                               </center>                                           
                         </div>
@@ -69,7 +68,7 @@
                   
                     <div class="card-body">
                             <div class="table-responsive">
-                                <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                                <div class="">
                                     <table class="table table-bordered table-striped mb-0">
                                         <thead>
                                         <tr>
@@ -79,25 +78,25 @@
                                             <th class="sticky-top bg-light" scope="col">Puntaje</th>
                                         </tr>
                                         </thead>
-                                        <tbody>                                                               @php
-                                          $c=0;
-                                        @endphp              
-                                        @foreach($vacante->inscripciones as $inscripcion)    
-                                        <tr>
-                                            <td>{{++$c}}</td>
-                                            <td>
-                                               {{$inscripcion->user->apellido}} , {{$inscripcion->user->nombre}}
-                                            </td>   
-                                            <td>
-                                               {{$inscripcion->user->dni}}
-                                            </td>
-                                            <td>
-                                               {{$inscripcion->calificacion}}
-                                            </td>                                                    
-                                        </tr>
-                                        @endforeach
-                                        </tbody>
-                                      
+                                        <tbody> 
+                                          @php
+                                            $c=0;
+                                          @endphp              
+                                          @foreach($vacante->inscripciones as $inscripcion)    
+                                          <tr>
+                                              <td>{{++$c}}</td>
+                                              <td>
+                                                 {{$inscripcion->user->apellido}} , {{$inscripcion->user->nombre}}
+                                              </td>   
+                                              <td>
+                                                 {{$inscripcion->user->dni}}
+                                              </td>
+                                              <td>
+                                                 {{$inscripcion->calificacion}}
+                                              </td>                                                    
+                                          </tr>
+                                          @endforeach                                           
+                                        </tbody>                                      
                                         
                                 </table>
                                   

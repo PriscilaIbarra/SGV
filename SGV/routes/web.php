@@ -96,15 +96,25 @@ Route::get('/asignarJefesDeCatedra/','AsignaturaController@getAll')->name('asign
 
 Route::post('/registarAsigJefC','AsignaturaController@asignarJefe')->name('registarAsigJefC');
 
+
+
 Route::get('/listarInscriptos/{id_vacante}','VacanteController@getVacanteById')->name('listarInscriptos');
+
+
+Route::get('/calificarOrdenMerito/{id_vacante}','VacanteController@agregarCalificaciones')->name('calificarOrdenMerito');
+
+ 
+
+Route::post('/actualizarCalificaciones','InscripcionController@updateCalificaciones')->name('actualizarCalificaciones');
+
 
 Route::get('/confecionarOrdenMerito/{id_vacante}','VacanteController@generarOrdenMerito')->name('confecionarOrdenMerito');
 
 
-Route::post('/actualizarCalificaciones','InscripcionController@updateCalificaciones')->name('actualizarCalificaciones');
 
 Route::get('/generarConstancia/{id_vacante}','VacanteController@generarConstancia')->name('generarConstancia');
 
+Route::get('/generarPDF/{id_vacante}','PDFController@generarPDF')->name('generarPDF');
 
 
 

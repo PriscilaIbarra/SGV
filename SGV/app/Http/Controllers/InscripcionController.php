@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Builder;
 use Cookie;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Validator;
 
 class InscripcionController extends Controller
 {
@@ -54,7 +55,7 @@ class InscripcionController extends Controller
      */
     public function store(Request $request)
     {
-      $rules = [
+       $rules = [
                    'cv'=>['required'],
                    'disponibilidad_horaria'=>['required','string'],
                 ];   
@@ -206,42 +207,57 @@ class InscripcionController extends Controller
     }
    
 
-    public function updateCalificaciones(Request $request)
-    {
+    public function updateCalificaciones(Request $request) //actualiza las nuevas calificaciones ingresadas
+    {   
 
         try
         {
+         $validacion=Validator::make($request->input('inscripciones'),
+                [
+                    'inscripciones'=>'numeric|between:0,10.0'
+                ]);
+         
+          if($validacion)
+          {
             DB::transaction(function() use ($request)
-            {
-          
-                    $inscripciones = $request->input('inscripciones');
-                  
-                    foreach($inscripciones as $key => $value)
                     {
-                        $i= new Inscripcion();
-                        $i->id = $key; 
-                        $i->calificacion = $value;
-                        $i->save();
-                    }
-                 
-            });
-
-            if(isset($request["opcion"]))
-            {
-                if(strcasecmp($request["opcion"],"Publicar")==0)
+                  
+                            $inscripciones = $request->input('inscripciones');
+                            
+                            foreach($inscripciones as $key => $value)
+                            {
+                                $i=Inscripcion::find($key);                        
+                                $i->calificacion = $value;
+                                $i->save();
+                            }
+                         
+                    });
+                $r=$request["opcion"];
+                if(isset($request["opcion"]))
                 {
-                    redirect(route('generarConstancia',$request["idVacante"]));
+                        if(strcasecmp($request["opcion"],'Publicar')==0)
+                        {
+                            return redirect(route('confecionarOrdenMerito',$request["idVacante"]));
+                        }
+
                 }
+
+                return back()->with('success','Calificaciones actualizadas con éxito'.$r);
+            }
+            else
+            {
+                return back()->with('error','Alguno de los campos posee formato incorrecto');
             }
 
-            return back()->with('success','Calificaciones actualizadas con éxito');
         }
         catch(QueryException $e)
         {
-
+           
             return back()->with('error','Error al actualizar calificaciones');
         }            
 
     }
+
+ 
 
 }

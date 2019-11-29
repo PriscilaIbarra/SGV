@@ -28,5 +28,5 @@ class Inscripcion extends Model
    		return $this->belongsTo('Cinema\User','id_usuario');
    	}
 
-    
+
 }

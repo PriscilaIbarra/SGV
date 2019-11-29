@@ -330,7 +330,7 @@ class VacanteController extends Controller
     }   
     
    
-    public function getVacanteById($idVacante)
+    public function getVacanteById($idVacante) //recupera vacate muestra inscritos
     {
         $vacante = Vacante::find($idVacante);
 
@@ -344,6 +344,28 @@ class VacanteController extends Controller
             else
             {              
                 return view('JefeCatedra.listaInscriptos',compact('vacante'));
+            }
+        }
+        else
+        {
+            return back()->with('error','Vacante no encontrada');
+        }
+    }
+
+    public function agregarCalificaciones($id_vacante) //muestra inscriptos ordenados por calificacion para calificar
+    {
+        $vacante = Vacante::find($id_vacante);
+
+        if(isset($vacante))
+        {
+            $inscripciones=Inscripcion::where('id_vacante','=',$vacante->id)->orderBy('calificacion','desc')->get();
+            if(empty($inscripciones[0]))
+            {
+                return redirect(route('homeJefeCatedra'))->with('error','Vacante sin inscriptos');
+            }            
+            else
+            {              
+                return view('JefeCatedra.calificarOrden',compact('vacante','inscripciones'));
             }
         }
         else
@@ -380,8 +402,8 @@ class VacanteController extends Controller
 
     public function generarConstancia($id_vacante)
     {
-        $vacante= Vacante::find($id_vacante);
-        return view('JefeCatedra.constanciaOrdenMerito',compact('vacante'));        
+        return redirect(route('generarPDF',$id_vacante));
+       // return view('JefeCatedra.constanciaOrdenMerito',compact('vacante'));        
     }
 
 

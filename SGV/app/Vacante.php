@@ -40,7 +40,7 @@ class Vacante extends Model
 
   public function orden()
   {
-    return $this->hasOne('Cinema\OrdenMerito','id');
+    return $this->hasOne('Cinema\OrdenMerito','id','id_orden_merito');
   }
 
   

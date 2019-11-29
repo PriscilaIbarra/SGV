@@ -17,7 +17,7 @@ class CreateInscripcionesTable extends Migration
             $table->bigIncrements('id');
             $table->string('disponibilidad_horaria');
             $table->string('cv');
-            $table->float('calificacion',2,2)->nullable(); 
+            $table->float('calificacion')->nullable(); 
             $table->bigInteger('id_vacante'); 
             $table->bigInteger('id_usuario');          
             $table->timestamps();

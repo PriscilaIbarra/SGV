@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Cinema\Inscripcion;
 use Cinema\Vacante;
-
+use PDF;
 
 class PDFController extends Controller
 {
@@ -112,4 +112,35 @@ class PDFController extends Controller
     {
         //
     }
+
+    public function generarPDF(Request $request,$id_vacante)
+    {
+        $vacante= Vacante::find($id_vacante);
+        if (isset($vacante)) 
+        {
+               //view()->share('vacante',$vacante);
+
+           
+                $pdf= PDF::loadView('JefeCatedra.constanciaOrdenMerito',$vacante);
+                $fecha = date('d-m-Y H:mm:ss');
+                $name="constanciaOrden";
+                $extension=".pdf";
+                $nameFile=$name.$extension;
+
+                $ruta = "public/constancias".'/'.$nameFile;
+
+                $pdf->save(public_path('../public/cvs'),$nameFile);
+
+                return $pdf->download($nameFile);
+
+            
+            //return view('JefeCatedra.constanciaOrdenMerito');
+        }
+
+        else
+        {
+            return redirect(route('calificarOrdenMerito',$id_vacante))->with('error','Error al generar PDF');
+        }
+    }
+
 }
