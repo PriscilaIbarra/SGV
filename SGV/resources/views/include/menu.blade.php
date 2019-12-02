@@ -58,7 +58,8 @@
 
                                             @case(3)
                                                 <span>
-                                                    <a class="dropdown-item">Ver Ordenes de mérito</a>
+                                                    <a class="dropdown-item" href="{{ route('homeJefeCatedra') }}">Ordenes a confeccionar</a>
+                                                    <a class="dropdown-item" href="{{ route('listarOrdenesDeMerito') }}">Ordenes confeccionadas</a>
                                                 </span>
                                                 @break    
                                            

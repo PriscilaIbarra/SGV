@@ -9,4 +9,11 @@ class OrdenMerito extends Model
     protected $fillable = ['id', 'numero', 'estado', 'id_jefe_catedra', 'created_at','updated_at'
     ];    
 
+    public function constancias()
+	{
+		return $this->hasMany('Cinema\Constancia');
+  
+	}
+
 }
+

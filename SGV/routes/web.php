@@ -117,6 +117,9 @@ Route::get('/generarConstancia/{id_vacante}','VacanteController@generarConstanci
 Route::get('/generarPDF/{id_vacante}','PDFController@generarPDF')->name('generarPDF');
 
 
+Route::get('/listarOrdenesDeMerito/','VacanteController@getVacantesCalificadasByJefeCatedra')->name('listarOrdenesDeMerito');
+
+Route::get('/visualizarConstancia/{id_orden}/','PDFController@visualizarConstancia')->name('visualizarConstancia');
 
 
 //Route::get('','')->name('');

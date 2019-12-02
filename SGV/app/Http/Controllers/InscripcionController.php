@@ -23,8 +23,9 @@ class InscripcionController extends Controller
      */
     public function index()
     {
-        $inscripciones = Inscripcion::where('id_usuario','=',Auth::user()->id)->get();
-        return view('Usuario.listadoInscripciones',compact('inscripciones'));
+        $inscripciones = Inscripcion::where('id_usuario','=',Auth::user()->id)->get(); 
+        return view('Usuario.listadoInscripciones',compact('inscripciones'));            
+       
     }
 
     /**
@@ -127,7 +128,7 @@ class InscripcionController extends Controller
        */
 
 
-        return redirect('listadoInscripciones')->with('success','Inscripción  registrada con éxito');
+        return redirect(route('listadoInscripciones'))->with('success','Inscripción  registrada con éxito');
        
         //return  back()->with('success','ss'); 
      }

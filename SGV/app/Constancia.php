@@ -12,14 +12,13 @@ class Constancia extends Model
     protected $fillable = [
     	'id',
     	'ruta',
-    	'id_orden',
-
+    	'id_orden'
     ];
 
 
 	public function orden()
 	{
-	   		return $this->belongsTo('Cinema\OrdenMerito','id_orden');
+	   	return $this->belongsTo('Cinema\OrdenMerito','id_orden');
 	}
 
 }

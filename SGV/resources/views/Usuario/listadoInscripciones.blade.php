@@ -27,6 +27,7 @@
                                         </tr>
                                         </thead>
                                         <tbody>
+                                          @if(!empty($inscripciones))
                                         	@foreach($inscripciones as $inscripcion)
 	                                        <tr>
 	                                            <td>{{$inscripcion->id}}</td>
@@ -45,7 +46,8 @@
                                                     </a>
                                                 </td>	                                           
 	                                        </tr>
-	                                        @endforeach                                      
+	                                        @endforeach 
+                                          @endif                                    
                                         </tbody>
                                 </table>
                             </div>
@@ -71,6 +73,7 @@
                           </div>                      
                         @endif   
                 </center>
+                 @if(!empty($inscripciones))
                   @foreach($inscripciones as $inscripcion)  
                     <!-- Modal -->
                   <div class="modal fade" id="_{{$inscripcion->id}}" tabindex="-1" role="dialog" aria-labelledby="_{{$inscripcion->id}}" aria-hidden="true">
@@ -152,7 +155,8 @@
                             </div>
                         </div>
                     </div>           
-                 @endforeach                                   
+                 @endforeach
+                  @endif                                      
                     <!-- -->          
                  <div class="mb-4">
                    

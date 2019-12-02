@@ -13,11 +13,11 @@ class CreateConstanciasTable extends Migration
      */
     public function up()
     {
-        Schema::create('contancias', function (Blueprint $table) {
+        Schema::create('constancias', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('ruta')->nullable('false');
             $table->timestamps();
-            $table->bigInteger('id_orden')->nullable()->unsigned()->index();           
+            $table->bigInteger('id_orden')->nullable()->unsigned();           
             $table->foreign('id_orden')->references('id')->on('orden_meritos')->onDelete('cascade');
         });
     }
@@ -32,6 +32,6 @@ class CreateConstanciasTable extends Migration
         Schema::table('orden_meritos',function(Blueprint $table){
             $table->dropForeign('id_orden');
        });
-        Schema::dropIfExists('contancias');
+        Schema::dropIfExists('constancias');
     }
 }

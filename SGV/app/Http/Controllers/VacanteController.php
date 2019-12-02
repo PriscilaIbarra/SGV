@@ -406,5 +406,13 @@ class VacanteController extends Controller
        // return view('JefeCatedra.constanciaOrdenMerito',compact('vacante'));        
     }
 
+     public function getVacantesCalificadasByJefeCatedra()
+    {
+        $vacantes= Vacante::with('orden')->whereHas('orden',function(Builder $query){
+            $query->where('id_jefe_catedra','=', Auth::user()->id);
+        })->get();
+
+        return view('JefeCatedra.listarOrdenesDeMerito',compact('vacantes'));
+    }
 
 }

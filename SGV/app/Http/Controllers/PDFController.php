@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\File;
 use View;
 use Illuminate\Support\Facades\Auth;
 use Cinema\Constancia;
-use Cinema\ConstanciaController;
 use Illuminate\Database\QueryException;
 
 class PDFController extends Controller
@@ -122,44 +121,50 @@ class PDFController extends Controller
         
     }
 
-    public function generarPDF(Request $request,$id_vacante)
+    public function generarPDF($id_vacante)
     { //https://github.com/nahidulhasan/laravel-pdf
         $vacante= Vacante::find($id_vacante);
         if (isset($vacante)) 
         {
-                $obj = new Pdf();
-               
-                $html=$this->htmlString($vacante);    
-                $invoice = $obj->generatePdf($html);
+            $obj = new Pdf();
+            
+            $html=$this->htmlString($vacante);    
+            $invoice = $obj->generatePdf($html);
 
-                define('INVOICE_DIR', public_path('constancias'));
+            define('INVOICE_DIR', public_path('constancias'));
+            // define('INVOICE_DIR', public_path('constancias'));
 
-                if (!is_dir(INVOICE_DIR)) {
-                    mkdir(INVOICE_DIR, 0755, true);
-                }
+            if (!is_dir(INVOICE_DIR)) {
+                mkdir(INVOICE_DIR, 0755, true);
+            }
 
-                $outputName = 'constancia_vacante_'.$vacante->id.'_'.date('d-m-Y H:mm:ss').'_';
-                $pdfPath = INVOICE_DIR.'/'.$outputName.'.pdf';
+            $outputName = 'constancia_vacante_'.$vacante->id.'_'.date('d-m-Y H:mm:ss').'_';
+            $pdfPath = INVOICE_DIR.'/'.$outputName.'.pdf';
 
 
-                File::put($pdfPath, $invoice);
+            File::put($pdfPath, $invoice);
 
-                $headers = [
-                    'Content-Type' => 'application/pdf',
-                    'Content-Disposition' =>  'attachment; filename="'.'filename.pdf'.'"',
-                ];
-                try
-                {
-                    $constancia = new Contancia();
-                    $constancia->ruta = $pdfPath;
-                    $contancia->id_orden = $vacante->orden->id;
-                    $constancia->save();
-                    return response()->download($pdfPath, $outputName.'.pdf', $headers);
-                }
-                catch(QueryException $e)
-                {
-                    return redirect(route('homeJefeCatedra'))->with('error','Error al generar constancia');
-                }
+            $headers = [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' =>  'attachment; filename="'.'filename.pdf'.'"',
+            ];
+            try
+            {   
+             
+                $constancia = new Constancia();
+                $rutaConst='public/constancias/'.$outputName.'.pdf';
+                $constancia->ruta = $rutaConst;
+                $constancia->id_orden= $vacante->orden->id;
+                $constancia->save();
+                $nameDowload=$outputName.'.pdf';
+                $vacantes=[];
+                //response()->download($pdfPath, $outputName.'.pdf', $headers);
+                return redirect(route('listarOrdenesDeMerito'))->with('success','Orden de mérito publicada con éxito');
+            }
+            catch(Exception $e)
+            {
+                return redirect(route('homeJefeCatedra'))->with('error','Error al generar constancia');
+            }
                 
         }
 
@@ -301,6 +306,28 @@ class PDFController extends Controller
          return $html;
     }
 
+     public function visualizarConstancia($id_orden)
+    {
+        $constancia=Constancia::where('id_orden','=',$id_orden)->orderBy('updated_at','desc')->limit(1)->get();
+         
+        if(isset($constancia))
 
+        {   
+            $ruta = '..'.'/'.$constancia->ruta;
+            return Response::make(file_get_contents($ruta),200,[
+
+                                                                    'Content-Type'=>'application/pdf',
+                                                                    'Content-Disposition'=>'inline'
+                                                                      ]
+                 );
+        }
+        else
+          {
+            $error = "Archivo no encontrado";
+            return view('Generico.mostrarPDF',compact('error'));
+          }   
+        
+
+    }
 
 }
