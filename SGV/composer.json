@@ -10,9 +10,11 @@
     "require": {
         "php": "^7.1.3",
         "barryvdh/laravel-dompdf": "^0.8.5",
+        "barryvdh/laravel-snappy": "^0.4.6",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.8.*",
-        "laravel/tinker": "^1.0"
+        "laravel/tinker": "^1.0",
+        "nahidulhasan/html2pdf": "^1.3"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

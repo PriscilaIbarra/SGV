@@ -232,7 +232,7 @@ class InscripcionController extends Controller
                             }
                          
                     });
-                $r=$request["opcion"];
+            
                 if(isset($request["opcion"]))
                 {
                         if(strcasecmp($request["opcion"],'Publicar')==0)
@@ -242,7 +242,7 @@ class InscripcionController extends Controller
 
                 }
 
-                return back()->with('success','Calificaciones actualizadas con éxito'.$r);
+                return back()->with('success','Calificaciones actualizadas con éxito');
             }
             else
             {

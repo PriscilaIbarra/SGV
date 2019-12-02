@@ -6,7 +6,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Cinema\Inscripcion;
 use Cinema\Vacante;
-use PDF;
+//use NahidulHasan\Html2pdf\Facades\Pdf;
+use App;
+//use Barryvdh\DomPDF\Facade as PDF;
+use NahidulHasan\Html2pdf\Pdf;
+use Illuminate\Support\Facades\File;
+use View;
+use Illuminate\Support\Facades\Auth;
+use Cinema\Constancia;
+use Cinema\ConstanciaController;
+use Illuminate\Database\QueryException;
 
 class PDFController extends Controller
 {
@@ -110,31 +119,48 @@ class PDFController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
     }
 
     public function generarPDF(Request $request,$id_vacante)
-    {
+    { //https://github.com/nahidulhasan/laravel-pdf
         $vacante= Vacante::find($id_vacante);
         if (isset($vacante)) 
         {
-               //view()->share('vacante',$vacante);
+                $obj = new Pdf();
+               
+                $html=$this->htmlString($vacante);    
+                $invoice = $obj->generatePdf($html);
 
-           
-                $pdf= PDF::loadView('JefeCatedra.constanciaOrdenMerito',$vacante);
-                $fecha = date('d-m-Y H:mm:ss');
-                $name="constanciaOrden";
-                $extension=".pdf";
-                $nameFile=$name.$extension;
+                define('INVOICE_DIR', public_path('constancias'));
 
-                $ruta = "public/constancias".'/'.$nameFile;
+                if (!is_dir(INVOICE_DIR)) {
+                    mkdir(INVOICE_DIR, 0755, true);
+                }
 
-                $pdf->save(public_path('../public/cvs'),$nameFile);
+                $outputName = 'constancia_vacante_'.$vacante->id.'_'.date('d-m-Y H:mm:ss').'_';
+                $pdfPath = INVOICE_DIR.'/'.$outputName.'.pdf';
 
-                return $pdf->download($nameFile);
 
-            
-            //return view('JefeCatedra.constanciaOrdenMerito');
+                File::put($pdfPath, $invoice);
+
+                $headers = [
+                    'Content-Type' => 'application/pdf',
+                    'Content-Disposition' =>  'attachment; filename="'.'filename.pdf'.'"',
+                ];
+                try
+                {
+                    $constancia = new Contancia();
+                    $constancia->ruta = $pdfPath;
+                    $contancia->id_orden = $vacante->orden->id;
+                    $constancia->save();
+                    return response()->download($pdfPath, $outputName.'.pdf', $headers);
+                }
+                catch(QueryException $e)
+                {
+                    return redirect(route('homeJefeCatedra'))->with('error','Error al generar constancia');
+                }
+                
         }
 
         else
@@ -142,5 +168,139 @@ class PDFController extends Controller
             return redirect(route('calificarOrdenMerito',$id_vacante))->with('error','Error al generar PDF');
         }
     }
+
+    public function htmlString($vacante)
+    {
+         $html='';
+         $html='<!DOCTYPE html>
+        <html>
+        <head>
+            <title></title>'.
+              '<meta charset='.'"'.'utf8'.'"'.'>'.
+        '</head>
+        <body>'.
+            '<style type="text/css">
+                .container{
+                    width:100%;
+                    border:1px solid black;
+                    min-height:850px;
+
+                }
+                .row{
+                    width:95%;
+                    display: inline-block;          
+
+                }
+                .col{
+                    width:30%;
+                    height:180px;
+                    border-color: black;
+                    text-align: left;
+                    float: left;
+                    margin-left: 3%;
+                }
+                .col-min{
+                    width:32%;
+                    font-size:12px;
+                }
+
+                .col-content{
+                    text-align:center;
+                }
+                .table
+                {
+                    margin-right:20px;
+                    width: inherit;
+                    color:black;
+                }
+            </style>'.
+            '<div class="container">
+
+                <div class="row">
+                        <div class="col">
+                            <div style="text-align:center;">
+                                    <img style='.'"'.'height:80px;width:80px;margin-top:10px;'.'"'.' src='.'"'.'../public/imagenes/logo.png'.'"'.'>'.
+                                    '<h4>Universidad Tecnologica Nacional</h4>
+                                      <h5 style="margin-top:-9px;">Facultad Regional Rosario</h5>
+                            </div>
+                        </div>
+                        <div class="col">
+                        </div>
+                        <div class="col">
+                        </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col">
+                        <h4>
+                            <u><strong>Vacante:</strong></u>
+                        </h4>'.
+                        '<label><strong>Id:</strong>'.'  '.$vacante->id.'</label>'.
+                        '<br>'.
+                        '<label><strong>Asignatura:</strong>'.'  '.'<br>'.$vacante->asignatura->descripcion.'</label>'.
+                        '<br>'.
+                        '<label><strong>Tipo de cargo:</strong>'.'  '.'<br>'.$vacante->tipo_cargo->descripcion.'</label>'.
+                        '<br>'.
+                    '</div>'.
+                    '<div class="col">'.
+                        '<h4><u><strong>Orden:</u></strong></h4>'.
+                        '<label><strong>Id:</strong>'.'  '.$vacante->orden->id.'</label>'.
+                        '<br>'.
+                        '<label><strong>Fecha creación:</strong>'.'<br>'.$vacante->orden->created_at->format('d-m-Y H:m:s').'<br>'.'</label>'.
+                        '<br>'.
+                        '<label><strong> Fecha generación constancia:</strong>'.'<br>'.$vacante->orden->updated_at->format('d-m-Y H:m:s').'<br>'.'</label>'.
+
+                    '</div>'.
+                    '<div class="col">'.
+                        '<h4><u><strong>Jefe de Cátedra:</u></strong></h4>'.
+                        '<label><strong>Apellido:</strong>'.'  '.Auth::user()->apellido.'</label>'.
+                        '<br>'.
+                        '<label><strong>Nombre:</strong>'.'  '.Auth::user()->nombre.'</label>'.
+                    '</div>'.
+                '</div>
+                <hr>
+                <center>
+                    <h5>ORDEN DE MÉRITO</h5>
+                </center>
+                <hr>
+                <center>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="col-min">Orden</th>
+                                <th class="col-min" style="text-indent:35px;">Apellido y Nombre</th>
+                                <th class="col-min">DNI</th>
+                                <th class="col-min" style="text-indent:-15px;">Puntaje</th>
+                            </tr>
+                        </thead>
+                        <tbody>';            
+                        for($c=0;$c<count($vacante->inscripciones);$c++) 
+                        {
+                            $pos = $c +1;
+                        $html.='<tr>'.
+                                '<td class="col-min col-content">'.$pos.'</td>'.
+                                '<td class="col-min col-content">'.$vacante->inscripciones[$c]->user->apellido .','.$vacante->inscripciones[$c]->user->nombre.'</td>'.
+                                '<td class="col-min col-content">'.$vacante->inscripciones[$c]->user->dni.'</td>'.
+                                '<td class="col-min col-content" >'.$vacante->inscripciones[$c]->calificacion.'</td>'.
+                            '</tr>';
+                        }
+                       $html.='</tbody>                
+                    </table>
+                </center>
+                <br>
+                <div class="row" style="position: absolute;bottom:0;">
+                    <center>
+                            <sup>Fecha:'.'  '.date('d-m-Y H:mm:ss').'</sup>
+                            <br>
+                            <br>
+                    </center>
+                </div>
+            </div>  
+        </body>
+        </html>';
+         return $html;
+    }
+
+
 
 }
