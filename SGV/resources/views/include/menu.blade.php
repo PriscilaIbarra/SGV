@@ -1,5 +1,9 @@
 <nav class="navbar navbar-expand-sm bg-light navbar-info justify-content-end navbar-light">
-              <a class="navbar-brand"  > <!--{{ config('app.name', 'SGV') }}-->SGV</a>
+              @guest
+              <a class="navbar-brand" href="{{route('Principal')}}">SGV</a>
+              @else
+              <a class="navbar-brand" href="{{route('home')}}"  >SGV</a>
+              @endguest
                  <button class="navbar-toggler mb-2" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" >
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -65,7 +69,7 @@
                                            
                                         @endswitch
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="">Cambiar Contraseña</a>
+                                        <a class="dropdown-item" href="{{route('changePassword')}}">Cambiar Contraseña</a>
                                         <a class="dropdown-item" href="{{ route('logout') }}"
                                            onclick="event.preventDefault();
                                                          document.getElementById('logout-form').submit();">

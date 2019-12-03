@@ -242,5 +242,45 @@ class UserController extends Controller
         }    
     }
 
-   
+   public function cambiarPassword ()
+   {
+        return view('cambiarPassword');
+   }
+
+
+   public function actualizarPassword(Request $request)
+   {
+      $rules = [
+                'passwordActual' => ['required', 'string', 'min:8'],
+                'passwordNuevo' => ['required', 'string', 'min:8'],
+                'passwordConfirmar' => ['required', 'string', 'min:8', 'same:passwordNuevo'],                
+              ];   
+
+      $messages = [ 
+                    'passwordActual.min'=>'La contraseña debe tener almenos 8 caracteres',
+                    'passwordNuevo.min'=>'La contraseña debe tener almenos 8 caracteres',
+                    'passwordConfirmar.min'=>'La contraseña debe tener almenos 8 caracteres',
+                    'passwordConfirmar.same'=>'Las contraseñas no coinciden'
+                    
+
+                  ];          
+     $validacion = $this->validate($request,$rules,$messages);
+    if($validacion)
+    {
+       
+        try
+        {
+             $user= User::where('password','=',Hash::make($request['passwordActual']))->firstOrFail();
+             $user->password=Hash::make($request['passwordNuevo']);
+             $user->save();
+             return redirect(route('home'))->with('success','Contraseña actualizada con exito');
+        }
+        catch(Exception $e)
+        {
+            return redirect(route('changePassword'))->with('error','Error al actualizar la contraseña');
+        }
+    }
+
+
+   }
 }

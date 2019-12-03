@@ -235,6 +235,32 @@ class VacanteController extends Controller
         //
     }
 
+    public function enviarMails($vacante)
+    {  
+       $mailFallidos=[];
+       $asunto="Vacante n°".$vacante->id." de ".$vacante->asignatura->descripcion." para el cargo".$vacante->tipo_cargo." dada de baja";
+       $header="MIME-Version: 1.0\r\n";
+       $header.="Content-type: text/html; charset=iso-8859-1\r\n";
+       foreach ($vacante->inscripciones as $inscripcion)
+       {
+          $cuerpo="Estimado".$inscripcion->user->nombre."<br>"."Mediante este medio se le comunica que la vacante: "."<br>".
+          "Id: ".$vacante->id."<br>".
+          "Asignatura: ".$vacante->asignatura->descripcion."<br>".
+          "Tipo de cargo: ".$vacante->tipo_cargo->descripcion."<br>".
+          "Para la cual, usted se ha inscripto el ".$inscripcion->created_at->format('d-m-Y H:m:s')." ha sido cancelada."."<br>".
+          "Ante cualquier consulta, comunicarse al email: ".Auth::user()->email."."."<br>".
+          "Saludos Cordiales";
+          $destinatario=$inscripcion->user->email; 
+          if(!mail($destinatario,$asunto,$cuerpo,$header))
+          {
+            array_push($mailFallidos,$inscripcion->user->email);
+          }
+
+        } 
+       
+       return $mailFallidos;
+    }
+
     public function logic_delete($id)
     {
         $vacante = Vacante::find($id);
@@ -250,7 +276,29 @@ class VacanteController extends Controller
            }
            
            $vacante->save(); 
-           return back()->with('success','Vacante eliminada con exito.');
+
+           if(empty($vacante->inscripciones))
+           {
+             return back()->with('success','Vacante eliminada con exito.');
+           }
+           else
+           {
+             $listaMails=$this->enviarMails($vacante);
+             if(isset($listaMails))
+             {
+               return back()->with('success','Vacante eliminada con exito.Los inscriptos han sido notificados'.print_r( $listaMails));
+             }
+             else
+             {
+                $lista ='';
+                foreach($listaMails as  $mail)
+                {
+                  $lista.=$mail.'/';
+                }
+                return back()->with('warning','Vacante eliminada con exito.Los siguientes usuarios no han podidos ser notificados'.$lista);
+             }
+
+           }
         }
         else
         {

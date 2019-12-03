@@ -36,7 +36,6 @@
 <body>
     <div id="app">
         @include('include.menu')    
-
         <main class="py-4">
             @yield('content')
         </main>       

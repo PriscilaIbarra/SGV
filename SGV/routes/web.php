@@ -11,7 +11,9 @@
 |
 */
 
-Route::get('/','AsignaturaController@index');
+
+
+Route::get('/','AsignaturaController@index')->name('Principal');
 
 Route::get('/listadoVacantesOfAsig/{id}','VacanteController@getVacantesOfAsig')->name('listadoVacantes');
 
@@ -122,4 +124,6 @@ Route::get('/listarOrdenesDeMerito/','VacanteController@getVacantesCalificadasBy
 Route::get('/visualizarConstancia/{id_orden}/','PDFController@visualizarConstancia')->name('visualizarConstancia');
 
 
-//Route::get('','')->name('');
+Route::get('/cambiarPassword','UserController@cambiarPassword')->name('changePassword');
+
+Route::post('/actualizarPassword','UserController@actualizarPassword')->name('actualizarPassword');

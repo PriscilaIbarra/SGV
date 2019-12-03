@@ -79,6 +79,13 @@
                             <span aria-hidden="true">&times;</span>
                           </button>
                       </div>
+                    @elseif(session('warning'))
+                    <div class=" col-md-6 float-left mt-2 alert alert-warning alert-dismissible fade show" role="alert">
+                          <strong>{{session('warning')}}</strong>
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                      </div>
                     @endif
                 </div>        
         </center>         

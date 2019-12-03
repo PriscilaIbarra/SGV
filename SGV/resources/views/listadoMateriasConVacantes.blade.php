@@ -33,19 +33,22 @@
                                         </tbody>
                                 </table>
                             </div>
-                        </div>  
-
-
+                        </div>                          
                         @if(session('error'))
                         <div class=" col float-left mt-2 alert alert-danger alert-dismissible fade show" role="alert">
                               <strong>{{session('error')}}</strong>
                               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                               </button>
-                          </div>
+                        </div>
                         @endif   
                     </div>
+                     <div class="mr-auto">
+                            {{$asignaturas->links()}}            
+                    </div>                                                                          
+                          
                 </div>
+                            
          </div>             
 </center>
     @include('include.note')

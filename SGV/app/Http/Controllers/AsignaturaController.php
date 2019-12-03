@@ -18,17 +18,23 @@ class AsignaturaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index() //lista todas las asignaturas con vacantes vigentes para el perfil público
-    {
-        $asign = Asignatura::join('vacantes','asignaturas.id','=','vacantes.id_asignatura')
-                       ->select(['asignaturas.id','asignaturas.descripcion'])
-                       ->distinct()
-                       ->where('vacantes.fecha_apertura','<=',date('Y-m-d'))
-                       ->where('vacantes.fecha_cierre','>=',date('Y-m-d'))
-                       ->whereNull('vacantes.deleted_at')
-                       ->whereNull('asignaturas.deleted_at');
-        $asignaturas = $asign->get();               
+    {            
+
+
+        $asignaturas=Asignatura::whereNull('deleted_at')->whereHas('vacantes',function(Builder $query)
+        {
+            $query->where('fecha_apertura','<=', date('Y-m-d'));
+
+        })->whereHas('vacantes',function(Builder $query)
+        {
+            $query->where('fecha_cierre','>=',date('Y-m-d'));
+
+        })->whereHas('vacantes',function(Builder $query)
+        {
+            $query->whereNull('deleted_at');
+        })->paginate(2);
         return view('listadoMateriasConVacantes',compact('asignaturas'));               
-    }
+    } 
 
     /**
      * Show the form for creating a new resource.

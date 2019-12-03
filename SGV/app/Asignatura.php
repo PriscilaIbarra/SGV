@@ -16,7 +16,7 @@ class Asignatura extends Model
 
     public function vacantes()
     {
-    	return $this->hasMany('Cinema\Vacante');
+    	return $this->hasMany('Cinema\Vacante','id_asignatura');
     }
 
 
