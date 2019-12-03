@@ -15,6 +15,7 @@ use View;
 use Illuminate\Support\Facades\Auth;
 use Cinema\Constancia;
 use Illuminate\Database\QueryException;
+use Illuminate\Database\Eloquent\Builder;
 
 class PDFController extends Controller
 {
@@ -123,7 +124,8 @@ class PDFController extends Controller
 
     public function generarPDF($id_vacante)
     { //https://github.com/nahidulhasan/laravel-pdf
-        $vacante= Vacante::find($id_vacante);
+        $vacante=Vacante::find($id_vacante);
+
         if (isset($vacante)) 
         {
             $obj = new Pdf();
@@ -176,6 +178,14 @@ class PDFController extends Controller
 
     public function htmlString($vacante)
     {
+         /*$inscripciones = $vacante->inscripciones->sortBy(function($inscripcion){
+                    return $inscripcion->calificacion;
+                });*/
+
+
+         $inscripciones=Inscripcion::where('id_vacante','=',$vacante->id)->orderBy('calificacion','desc')->get();
+
+        
          $html='';
          $html='<!DOCTYPE html>
         <html>
@@ -279,14 +289,14 @@ class PDFController extends Controller
                             </tr>
                         </thead>
                         <tbody>';            
-                        for($c=0;$c<count($vacante->inscripciones);$c++) 
+                        for($c=0;$c<count($inscripciones);$c++) 
                         {
                             $pos = $c +1;
                         $html.='<tr>'.
                                 '<td class="col-min col-content">'.$pos.'</td>'.
-                                '<td class="col-min col-content">'.$vacante->inscripciones[$c]->user->apellido .','.$vacante->inscripciones[$c]->user->nombre.'</td>'.
-                                '<td class="col-min col-content">'.$vacante->inscripciones[$c]->user->dni.'</td>'.
-                                '<td class="col-min col-content" >'.$vacante->inscripciones[$c]->calificacion.'</td>'.
+                                '<td class="col-min col-content">'.$inscripciones[$c]->user->apellido .','.$inscripciones[$c]->user->nombre.'</td>'.
+                                '<td class="col-min col-content">'.$inscripciones[$c]->user->dni.'</td>'.
+                                '<td class="col-min col-content" >'.$inscripciones[$c]->calificacion.'</td>'.
                             '</tr>';
                         }
                        $html.='</tbody>                
@@ -310,10 +320,10 @@ class PDFController extends Controller
     {
         $constancia=Constancia::where('id_orden','=',$id_orden)->orderBy('updated_at','desc')->limit(1)->get();
          
-        if(isset($constancia))
+        if(isset($constancia[0]))
 
         {   
-            $ruta = '..'.'/'.$constancia->ruta;
+            $ruta = '..'.'/'.$constancia[0]->ruta;
             return Response::make(file_get_contents($ruta),200,[
 
                                                                     'Content-Type'=>'application/pdf',

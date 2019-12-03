@@ -37,12 +37,12 @@
                                             </td>
                                             <td scope="col">
                                                   <a class="btn btn-outline-success" 
-                                                  href="#">Editar
+                                                  href="{{route('calificarOrdenMerito',$vacante->id)}}">Editar
                                                   </a>                                    
                                             </td>  
                                              <td scope="col">
                                                   <a class="btn btn-outline-primary" 
-                                                  href="{{route('visualizarConstancia',$vacante->orden->id)}}">Ver Constancia
+                                                  href="{{route('visualizarConstancia',$vacante->orden->id)}}" target="_blank">Ver Constancia
                                                   </a>                                    
                                             </td>                                                                    
                                         </tr>

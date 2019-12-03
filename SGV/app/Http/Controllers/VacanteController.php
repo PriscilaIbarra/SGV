@@ -283,7 +283,7 @@ class VacanteController extends Controller
                $query->whereNull('deleted_at');
             })->get();
 
-            if(!empty($vacantes))
+            if(isset($vacantes[0]))
             {
                 return view('Usuario.vacantesDeUnaMateria',compact('vacantes'));  
             }
@@ -324,7 +324,7 @@ class VacanteController extends Controller
         $vacantes=Vacante::whereHas('asignatura',function(Builder $query){
             $query->where('id_jefe_catedra_calificador','like', Auth::user()->id);
         })->whereNull('id_orden_merito')
-        ->where('fecha_cierre','>=',date('Y-m-d'))
+        ->where('fecha_cierre','<',date('Y-m-d'))
         ->whereNull('deleted_at')->get();
         return view('JefeCatedra.pantallaPrincipalJefeC',compact('vacantes'));
     }   

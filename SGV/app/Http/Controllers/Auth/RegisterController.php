@@ -7,6 +7,7 @@ use Cinema\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Cinema\TiposUsuarios;
 
 class RegisterController extends Controller
 {
@@ -54,8 +55,7 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'dni' => ['required', 'regex:/^[0-9]+$/', 'digits:8'],
             'telefono'=>['required','regex:/^[0-9]+$/','max:255'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'id_tipo_usuario' => ['required','integer'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],            
         ]);
     }
 
@@ -68,17 +68,27 @@ class RegisterController extends Controller
 
     protected function create(array $data)
     {
-        return User::create([
+       
+        try
+        {
+            $tipo_usuario= TiposUsuarios::where('descripcion','like','Usuario')->whereNull('deleted_at')->firstOrFail();
+            return User::create([
             'nombre' => $data['nombre'],
             'apellido' => $data['apellido'],
             'email' => $data['email'],
             'dni' => $data['dni'],
             'telefono'=>$data['telefono'],
             'password' => Hash::make($data['password']),
-            'id_tipo_usuario'=> $data['id_tipo_usuario'],
+            'id_tipo_usuario'=> $tipo_usuario->id,
             
-            
-        ]);
+             ]);
+        }
+        catch(Exception $e)
+        {
+            return redirect(route('register'))->with('error','Error al registrar Usuario');
+        }
+
+     
     }
 
     

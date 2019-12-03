@@ -30,10 +30,9 @@
                                       
                                         
                                 </table>
-                                   <a href="{{route('calificarOrdenMerito',$vacante->id)}}" class="btn btn-success float-right mt-4">
+                                  <a href="{{route('calificarOrdenMerito',$vacante->id)}}" class="btn btn-success float-right mt-4">
                                           Confeccionar Orden de mérito
-                                    </a>
-                                        
+                                 </a>                                     
                             </div>
                         </div>    
                     </div>                         

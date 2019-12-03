@@ -59,7 +59,6 @@
                                 @enderror                             
                         </div>
                     </div>                             
-                    <input type="hidden" name="id_tipo_usuario" value="1" required>
                     <div class="form-row">
                         <div class="col text-left mt-2">
                            <label for="validationDefault03">{{ __('Email') }}</label>

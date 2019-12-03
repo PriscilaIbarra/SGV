@@ -38,7 +38,11 @@
                                                     <a href="{{route('visualizarCV',$inscripcion->id)}}" target="_blank">Ver</a>
                                                 </td>
                                                 <td>
-                                                     <a href="">Informe</a>
+                                                  @if(isset($inscripcion->vacante->orden->id))
+                                                     <a href="{{route('visualizarConstancia',$inscripcion->vacante->orden->id)}}" target="_blank">Informe</a>
+                                                  @else
+                                                    <label>En desarrollo</label>
+                                                  @endif
                                                 </td>
                                                 <td>
                                                     <a data-toggle="modal" data-target="#_{{$inscripcion->id}}" href="#">
