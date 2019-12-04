@@ -13,11 +13,11 @@
                                     <table class="table table-bordered table-striped mb-0">
                                         <thead>
                                         <tr>
-                                            <th class="sticky-top bg-light" scope="col">Id</th>
-                                            <th class="sticky-top bg-light" scope="col">Asignatura</th>
-                                            <th class="sticky-top bg-light" scope="col">Tipo de Cargo</th>
-                                            <th class="sticky-top bg-light" scope="col">Inscriptos</th>  
-                                            <th class="sticky-top bg-light" scope="col">Info Vacante</th>                                         
+                                            <th class="sticky-top bg-light" style="z-index: 1;"  scope="col">Id</th>
+                                            <th class="sticky-top bg-light" style="z-index: 1;"  scope="col">Asignatura</th>
+                                            <th class="sticky-top bg-light" style="z-index: 1;"  scope="col">Tipo de Cargo</th>
+                                            <th class="sticky-top bg-light" style="z-index: 1;"  scope="col">Inscriptos</th>  
+                                            <th class="sticky-top bg-light" style="z-index: 1;"  scope="col">Info Vacante</th>                                         
                                         </tr>
                                         </thead>
                                         <tbody>                                          
@@ -41,24 +41,24 @@
                                         </tbody>
                                 </table>
                             </div>
-                        </div>    
+                        </div>
+                        @if(session('success'))                    
+                                    <div align="center" class=" col float-left mt-4 alert alert-success alert-dismissible fade show" role="alert">
+                                          <strong>{{session('success')}}</strong>
+                                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                          </button>
+                                    </div>
+                                    @elseif(session('error'))                    
+                                      <div align="center" class=" col float-left mt-4 alert alert-danger alert-dismissible fade show" role="alert">
+                                              <strong>{{session('error')}}</strong>
+                                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                              </button>
+                                      </div>                      
+                           @endif    
                     </div>                         
                     </div>
-                    @if(session('success'))
-                    <div class=" col-md-6 float-left mt-2 alert alert-success alert-dismissible fade show" role="alert">
-                          <strong>{{session('success')}}</strong>
-                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                    </div>
-                    @elseif(session('error'))
-                    <div class=" col-md-6 float-left mt-2 alert alert-danger alert-dismissible fade show" role="alert">
-                          <strong>{{session('error')}}</strong>
-                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                      </div>
-                    @endif
                 </div>        
         </center>  
 

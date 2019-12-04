@@ -13,20 +13,20 @@
                                     <table class="table table-bordered table-striped mb-0">
                                         <thead>
                                         <tr>
-                                            <th class="sticky-top bg-light" scope="col">Id</th>
-                                            <th class="sticky-top bg-light" scope="col">Asignatura</th>
-                                            <th class="sticky-top bg-light" scope="col">Tipo de Cargo</th>
-                                            <th class="sticky-top bg-light" scope="col">Fecha Creación</th>
-                                            <th class="sticky-top bg-light" scope="col">Fecha Apertura</th>
-                                            <th class="sticky-top bg-light" scope="col">Fecha Cierre</th>
-                                            <th class="sticky-top bg-light" scope="col">
+                                            <th class="sticky-top bg-light"    style="z-index: 1;"  scope="col">Id</th>
+                                            <th class="sticky-top bg-light"    style="z-index: 1;"  scope="col">Asignatura</th>
+                                            <th class="sticky-top bg-light"    style="z-index: 1;"  scope="col">Tipo de Cargo</th>
+                                            <th class="sticky-top bg-light"    style="z-index: 1;"  scope="col">Fecha Creación</th>
+                                            <th class="sticky-top bg-light"    style="z-index: 1;"  scope="col">Fecha Apertura</th>
+                                            <th class="sticky-top bg-light"    style="z-index: 1;"  scope="col">Fecha Cierre</th>
+                                            <th class="sticky-top bg-light"    style="z-index: 1;"  scope="col">
                                             Estado   
                                             </th>
-                                            <th class="sticky-top bg-light" scope="col">
+                                            <th class="sticky-top bg-light"    style="z-index: 1;"  scope="col">
                                             </th>
-                                            <th class="sticky-top bg-light" scope="col">
+                                            <th class="sticky-top bg-light"    style="z-index: 1;"  scope="col">
                                             </th>
-                                            <th class="sticky-top bg-light" scope="col">
+                                            <th class="sticky-top bg-light"    style="z-index: 1;"  scope="col">
                                             </th>
                                         </tr>
                                         </thead>
@@ -60,33 +60,33 @@
                                         </tbody>
                                 </table>
                             </div>
-                        </div>    
+                        </div>
+                        @if(session('success'))                    
+                                    <div align="center" class=" col float-left mt-4 alert alert-success alert-dismissible fade show" role="alert">
+                                          <strong>{{session('success')}}</strong>
+                                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                          </button>
+                                    </div>
+                                    @elseif(session('error'))                    
+                                      <div align="center" class=" col float-left mt-4 alert alert-danger alert-dismissible fade show" role="alert">
+                                              <strong>{{session('error')}}</strong>
+                                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                              </button>
+                                      </div>
+                                    @elseif(session('warning'))
+                                      <div class=" col-md-6 float-left mt-2 alert alert-warning alert-dismissible fade show" role="alert">
+                                            <strong>{{session('warning')}}</strong>
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                              <span aria-hidden="true">&times;</span>
+                                            </button>
+                                      </div>                      
+                           @endif    
                     </div>                         
                     </div>
                     <a href="{{route('altaVacante')}}" class="float-right mt-4 btn btn-success ">Agregar
                     </a>
-                    @if(session('success'))
-                    <div class=" col-md-6 float-left mt-2 alert alert-success alert-dismissible fade show" role="alert">
-                          <strong>{{session('success')}}</strong>
-                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                    </div>
-                    @elseif(session('error'))
-                    <div class=" col-md-6 float-left mt-2 alert alert-danger alert-dismissible fade show" role="alert">
-                          <strong>{{session('error')}}</strong>
-                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                      </div>
-                    @elseif(session('warning'))
-                    <div class=" col-md-6 float-left mt-2 alert alert-warning alert-dismissible fade show" role="alert">
-                          <strong>{{session('warning')}}</strong>
-                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                      </div>
-                    @endif
                 </div>        
         </center>         
         @foreach($vacantes as $vacante)  

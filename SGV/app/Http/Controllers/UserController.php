@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Cinema\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 
 
@@ -246,41 +247,54 @@ class UserController extends Controller
    {
         return view('cambiarPassword');
    }
+   
 
-
-   public function actualizarPassword(Request $request)
+   public function updatePass (Request $request)
    {
-      $rules = [
+        $rules = [
                 'passwordActual' => ['required', 'string', 'min:8'],
                 'passwordNuevo' => ['required', 'string', 'min:8'],
                 'passwordConfirmar' => ['required', 'string', 'min:8', 'same:passwordNuevo'],                
-              ];   
-
-      $messages = [ 
+              ]; 
+        $messages = [ 
                     'passwordActual.min'=>'La contraseña debe tener almenos 8 caracteres',
                     'passwordNuevo.min'=>'La contraseña debe tener almenos 8 caracteres',
                     'passwordConfirmar.min'=>'La contraseña debe tener almenos 8 caracteres',
-                    'passwordConfirmar.same'=>'Las contraseñas no coinciden'
-                    
+                    'passwordConfirmar.same'=>'Las contraseñas no coinciden'                  
 
-                  ];          
-     $validacion = $this->validate($request,$rules,$messages);
-    if($validacion)
-    {
-       
-        try
-        {
-             $user= User::where('password','=',Hash::make($request['passwordActual']))->firstOrFail();
-             $user->password=Hash::make($request['passwordNuevo']);
-             $user->save();
-             return redirect(route('home'))->with('success','Contraseña actualizada con exito');
+                  ]; 
+
+        $validacion = $this->validate($request,$rules,$messages);
+        if($validacion)
+        {   
+            $user=User::find(Auth::user()->id);
+            try
+            {
+                 $user= User::where('id','=',Auth::user()->id)->firstOrFail();
+
+                 if(Hash::check($request['passwordActual'],$user->password))
+                 {
+                      $user->password=Hash::make($request['passwordNuevo']);
+                      $user->save();
+                      return redirect(route('updatePasswordOk'));
+                 }
+                 else
+                 {
+                      return redirect(route('cambiarPassword'))->with('error','La contraseña actual no coincide.');
+                 }
+               
+            }
+            catch( ModelNotFoundException $e)
+            {
+                return redirect(route('cambiarPassword'))->with('error','Error al actualizar la contraseña');
+            }
         }
-        catch(Exception $e)
+        else
         {
-            return redirect(route('changePassword'))->with('error','Error al actualizar la contraseña');
+            return back()->with('error','Error form validacion');
         }
-    }
+
+   } 
 
 
-   }
 }

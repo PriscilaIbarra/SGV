@@ -29,12 +29,7 @@ class User extends Authenticatable
     {
         return $this->hasMany('Cinema\Inscripcion');
     }
-
-    public function novedades()
-    {
-        return $this->belongsToMany('Cinema\Novedad','users_novedades','id_usuario','id_novedad','id_inscripcion');
-    }
-
+  
     /**
      * The attributes that should be hidden for arrays.
      *

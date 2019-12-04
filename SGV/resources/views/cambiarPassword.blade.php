@@ -4,11 +4,11 @@
 			<div class="col-md-6 mt-4 mb-4">
 					<div class="card">
 						<div class="card-header">
-							<strong>Formulario de Inscripción</strong>
+							<strong>Cambiar Contraseña</strong>
 						</div>
 						<div class="card-body">
                               <div class="text-center">
-								<form  action="{{route('actualizarPassword')}}" method="post">
+								<form  action="{{route('updatePass')}}" method="post">
 									 @csrf
 								       	  <div class="form-row mr-auto">													
 													<div class="col mt-4 text-left">											

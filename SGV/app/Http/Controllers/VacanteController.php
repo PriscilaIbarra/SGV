@@ -286,7 +286,7 @@ class VacanteController extends Controller
              $listaMails=$this->enviarMails($vacante);
              if(isset($listaMails))
              {
-               return back()->with('success','Vacante eliminada con exito.Los inscriptos han sido notificados'.print_r( $listaMails));
+               return back()->with('success','Vacante eliminada con exito.Los inscriptos han sido notificados');
              }
              else
              {

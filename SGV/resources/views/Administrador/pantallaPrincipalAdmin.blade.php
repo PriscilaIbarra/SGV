@@ -8,8 +8,10 @@
 		   		<h3 class="mt-4">Universidad Tecnologica Nacional</h3>
 		   		<h4>Facultad Regional Rosario</h4>
 		   </div>
-	   </center>
+	    </center>
 
+      <div class="row">
+      	<div class="col-md-3"></div>
 	   @if(session('success'))
 	        <div class=" col-md-6 float-left mt-2 alert alert-success alert-dismissible fade show" role="alert">
 	              <strong>{{session('success')}}</strong>
@@ -25,6 +27,6 @@
 	              </button>
 	          </div>
         @endif
-	 
+	  </div> 
 	
 @endsection

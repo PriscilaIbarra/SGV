@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-sm bg-light navbar-info justify-content-end navbar-light">
+<nav class="navbar navbar-expand-sm bg-light navbar-info justify-content-end navbar-light" style="z-index:2;">
               @guest
               <a class="navbar-brand" href="{{route('Principal')}}">SGV</a>
               @else
@@ -55,7 +55,6 @@
                                                    <a class="dropdown-item" href="{{route('abmlVacantes')}}">Vacantes</a>
                                                    <a class="dropdown-item" href="{{ route('abmlTipoCargo') }}">Tipos de Cargos</a>
                                                    <a class="dropdown-item" href="{{ route('abmlTiposUsuarios') }}">Tipos de Usuarios</a>
-                                                   <a class="dropdown-item" href="{{ route('abmlNovedades') }}">Novedades</a> 
                                                    <a class="dropdown-item" href="{{route('asignarJefesDeCatedra')}}">Asignar Jefes de Cátedra</a>
                                                </span>
                                                 @break
@@ -69,7 +68,7 @@
                                            
                                         @endswitch
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="{{route('changePassword')}}">Cambiar Contraseña</a>
+                                        <a class="dropdown-item" href="{{route('cambiarPassword')}}">Cambiar Contraseña</a>
                                         <a class="dropdown-item" href="{{ route('logout') }}"
                                            onclick="event.preventDefault();
                                                          document.getElementById('logout-form').submit();">

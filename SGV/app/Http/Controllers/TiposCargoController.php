@@ -112,7 +112,7 @@ class TiposCargoController extends Controller
      if($validacion)
      {
         $tipo = TiposCargo::find($request['id']);
-        if($isset($tipo)){
+        if(isset($tipo)){
             $tipo->descripcion = $request['descripcion'];
         $tipo->update();
         return redirect('abmlTipoCargo')->with('success','Tipo de Cargo actualizado con éxito.');

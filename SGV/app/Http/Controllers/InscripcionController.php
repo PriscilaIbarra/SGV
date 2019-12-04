@@ -3,7 +3,6 @@
 namespace Cinema\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cinema\Novedad;
 use Cinema\User;
 use Cinema\Vacante;
 use Cinema\Inscripcion;
@@ -35,11 +34,10 @@ class InscripcionController extends Controller
      */
     public function create($id_vacante)
     {
-        $novedades = Novedad::where('estado','=','activo')->get();
         $vacante = Vacante::find($id_vacante);    
-        if(isset($novedades) && isset($vacante))
+        if(isset($vacante))
         {
-          return view('Usuario.inscripcionVacante', compact('novedades','vacante'));    
+          return view('Usuario.inscripcionVacante', compact('vacante'));    
         }
         else
         {
@@ -76,9 +74,7 @@ class InscripcionController extends Controller
       
          DB::transaction(function() use ($request){
           
-            $user = User::findOrFail(Auth::user()->id);
-
-            $user->novedades()->attach($request->input('novedades'));
+            $user = User::findOrFail(Auth::user()->id);          
             
             $nombre = str_replace ('.','_',$request->file('cv')->getClientOriginalName());
             $extension = $request->file('cv')->getClientOriginalExtension();
@@ -92,45 +88,10 @@ class InscripcionController extends Controller
             $ins->id_usuario = $user->id;
             $ins->disponibilidad_horaria = $request['disponibilidad_horaria'];
             $ins->save(); 
-        });
+        });      
         
-         /*  
-            VER ASGINAR LAR NOVEDADES A UNA INSCRIPCION
-
-            DB::transaction(function() use ($request){
-          
-            $user = User::findOrFail(Auth::user()->id);            
-            $nombre = str_replace ('.','_',$request->file('cv')->getClientOriginalName());
-            $extension = $request->file('cv')->getClientOriginalExtension();
-            $nombreCv = time().'_'.$nombre.'.'.$extension;
-            $ruta = $request->file('cv')->storeAs('public/cvs',$nombreCv);   
-            $request->file('cv')->move(public_path('../public/cvs'),$nombreCv);       
-            $vacante = Vacante::findOrFail($request['id_vacante']);
-            $ins = new Inscripcion();
-            $ins->cv = $ruta;
-            $ins->id_vacante = $vacante->id; 
-            $ins->id_usuario = $user->id;
-            $ins->disponibilidad_horaria = $request['disponibilidad_horaria'];
-            $ins->save(); 
-            $idInscripcion=$ins->id;
-
-            $novedades = $request->input('novedades');
-
-            $combinacion = [];
-            foreach($novedades as $novedad)
-            {
-                array_push($combinacion,array($novedad,$idInscripcion));
-            }
-
-            $user->novedades()->attach($combinacion);
-
-        });
-       */
-
-
         return redirect(route('listadoInscripciones'))->with('success','Inscripción  registrada con éxito');
-       
-        //return  back()->with('success','ss'); 
+             
      }
      
     }

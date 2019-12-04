@@ -44,6 +44,29 @@ Route::get('/home', function()
  
 })->name('home');
 
+Route::get('/updatePasswordOk', function()
+{
+
+	$msg="Constraseña actualizada con éxito";
+	
+	if(strcasecmp(Auth::user()->tipo_usuario->descripcion,"Usuario")==0)
+	{
+		return redirect(route('asignConVacants'))->with('success',$msg);	
+	}
+	elseif (strcasecmp(Auth::user()->tipo_usuario->descripcion,"Administrador")==0)
+	{
+	    return redirect(route('homeAdmin'))->with('success',$msg);
+	}
+	elseif (strcasecmp(Auth::user()->tipo_usuario->descripcion,"Jefe de Catedra")==0) 
+	{
+	    return redirect(route('homeJefeCatedra'))->with('success',$msg);
+	}	
+	
+ 
+})->name('updatePasswordOk');
+
+
+
 
 Route::get('/abmlUsuarios','UserController@index' )->name('abmlUsuarios');
 Route::get('/altaUsuario','UserController@create' )->name('altaUsuario');
@@ -73,12 +96,7 @@ Route::get('/editarVacante/{id}','VacanteController@edit' )->name('editarVacante
 Route::post('/updateVacante','VacanteController@update' )->name('updateVacante');
 Route::get('/deleteVacante/{id}','VacanteController@logic_delete' )->name('deleteVacante');
 
-Route::get('/abmlNovedades','NovedadController@index')->name('abmlNovedades');
-Route::get('/altaNovedades','NovedadController@create' )->name('agregarNovedades');
-Route::post('/altaNovedades','NovedadController@store' )->name('altaNovedades');
-Route::get('/editarNovedad/{id}','NovedadController@edit' )->name('editarNovedad');
-Route::post('/actualizarNovedad','NovedadController@update' )->name('updateNovedad');
-Route::get('/abmlNovedad/{id}','NovedadController@logic_delete' )->name('deleteNovedades');
+
 
 
 Route::get('/listAsignaturasConVacantes','AsignaturaController@getAsignaturasConVacantes')->name('asignConVacants');
@@ -124,6 +142,6 @@ Route::get('/listarOrdenesDeMerito/','VacanteController@getVacantesCalificadasBy
 Route::get('/visualizarConstancia/{id_orden}/','PDFController@visualizarConstancia')->name('visualizarConstancia');
 
 
-Route::get('/cambiarPassword','UserController@cambiarPassword')->name('changePassword');
+Route::get('/cambiarPassword','UserController@cambiarPassword')->name('cambiarPassword');
 
-Route::post('/actualizarPassword','UserController@actualizarPassword')->name('actualizarPassword');
+Route::post('/updatePass','UserController@updatePass')->name('updatePass');

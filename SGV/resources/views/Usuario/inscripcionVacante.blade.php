@@ -45,48 +45,8 @@
 						                                   </span>
 						                                @enderror 	
 													</div>
-												</div>
-												<div class="dropdown-divider mt-4"></div>
-												<div class="form-row">
-												<label class="text-left ml-1 mt-4">
-													<u> Novedades que le gustaria recibir:</u>							   			
-												</label>
-												</div>
-												@for($i=0;$i < count($novedades);$i=$i+3)
-												<div class="form-row">
-												    @if(isset($novedades[$i]))											
-													<div class="col float-left">
-														<div class="form-check float-left">
-															<input name="{{'novedades'.'['.$novedades[$i]->id.']'}}" class="form-check-input" type="checkbox" value="{{$novedades[$i]->id}}" id="defaultCheck1">
-															<label class="form-check-label text-left" for="defaultCheck1">
-																{{$novedades[$i]->descripcion}}
-															</label>
-														</div>													
-													</div>
-													@endif
-													@if(isset($novedades[$i+1]))
-													<div class="col">
-														<div class="form-check float-left">
-														<input  name="{{'novedades'.'['.$novedades[$i+1]->id.']'}}"class="form-check-input" type="checkbox" value="{{$novedades[$i+1]->id}}" id="defaultCheck1">
-															<label class="form-check-label text-left" for="defaultCheck1">
-																{{$novedades[$i+1]->descripcion}}	
-														</label>
-														</div>													
-													</div>
-													@endif
-												    @if(isset($novedades[$i+2]))
-													<div class="col">
-															<div class="form-check float-left">
-															<input name="{{'novedades'.'['.$novedades[$i+2]->id.']'}}"
-																 class="form-check-input" type="checkbox" value="{{$novedades[$i+2]->id}}" id="defaultCheck1">
-																<label class="form-check-label text-left" for="defaultCheck1">
-																{{$novedades[$i+2]->descripcion}}
-																</label>
-															</div>														
-													</div>													
-													@endif	
-												 </div>																			
-											     @endfor
+												</div>											
+												
 												<button class="btn btn-primary mt-4 float-right" type="submit">Confirmar Inscripción
 												</button>
 										</form>
