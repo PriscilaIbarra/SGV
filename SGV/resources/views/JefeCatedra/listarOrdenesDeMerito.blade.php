@@ -43,7 +43,10 @@
                                              <td scope="col">
                                                   <a class="btn btn-outline-primary" 
                                                   href="{{route('visualizarConstancia',$vacante->orden->id)}}" target="_blank">Ver Constancia
-                                                  </a>                                    
+                                                  </a>  
+                                                  <a class="btn btn-outline-warning" 
+                                                  href="{{route('verConstancia',$vacante->id)}}" target="_blank">Vista Previa
+                                                  </a>                                                                        
                                             </td>                                                                    
                                         </tr>
                                         @endforeach

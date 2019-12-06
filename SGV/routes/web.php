@@ -164,3 +164,5 @@ Route::get('/visualizarConstancia/{id_orden}/',['middleware' => 'auth', 'uses' =
 Route::get('/cambiarPassword',['middleware' => 'auth', 'uses' =>'UserController@cambiarPassword'])->name('cambiarPassword');
 
 Route::post('/updatePass',['middleware' => 'auth', 'uses' =>'UserController@updatePass'])->name('updatePass');
+
+Route::get('/verConstancia/{id}',['middleware' => 'auth', 'uses' =>'VacanteController@verConstancia'])->name('verConstancia');

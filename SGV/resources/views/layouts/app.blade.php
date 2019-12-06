@@ -29,14 +29,15 @@
     <!--Rich text editor Simeditor library -->
     <!--<link rel="stylesheet" type="text/css" href="{{ asset('richTextEditor/simditor-2.3.28/styles/simditor.css') }}">-->
     <!-- -->
-    <meta http-equiv="refresh" content="60;url=../" >
+   
 </head>
 <style type="text/css">
 html {
   position: relative;
   min-height: 100%;
 }
-body {
+body 
+{
   /* Margin bottom by footer height */
   position: relative;
   padding-bottom: 58px;

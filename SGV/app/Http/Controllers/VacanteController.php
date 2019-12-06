@@ -462,5 +462,21 @@ class VacanteController extends Controller
 
         return view('JefeCatedra.listarOrdenesDeMerito',compact('vacantes'));
     }
+   
 
+       public function  verConstancia ($id_vacante)
+       {
+            $vacante = Vacante::find($id_vacante);
+
+            if(isset($vacante))
+            {  
+               $inscripciones=Inscripcion::where('id_vacante','=',$vacante->id)->orderBy('calificacion','desc')->get();
+                return view('JefeCatedra.constanciaOrdenMerito',compact('vacante','inscripciones'));
+            }
+            else
+            {
+                return redirect(route('listarOrdenesDeMerito'))->with('error','Error al visualizar vacante');
+            }    
+
+       }
 }

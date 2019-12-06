@@ -35,7 +35,7 @@
                                                 <button class="mt-1 col btn btn-outline-info" type="button"  data-toggle="modal" data-target="#_{{$vacante->id}}">
                                                               Ver más
                                                 </button>                                
-                                            </td>                                          
+                                            </td>                                                                               
                                         </tr>
                                         @endforeach
                                         </tbody>

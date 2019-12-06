@@ -82,7 +82,7 @@
                                           @php
                                             $c=0;
                                           @endphp              
-                                          @foreach($vacante->inscripciones as $inscripcion)    
+                                          @foreach($inscripciones as $inscripcion)    
                                           <tr>
                                               <td>{{++$c}}</td>
                                               <td>
