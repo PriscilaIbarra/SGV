@@ -57,9 +57,9 @@
                         </div>
                         <div class="col text-left">
                             <h6><strong>Jefe de Cátedra:</strong></h6>                                 
-                            <label>Apellido: {{Auth::user()->apellido}}</label>
+                            <label>Apellido: {{$jefeCatedra->apellido}}</label>
                             <br>
-                            <label>Nombre: {{Auth::user()->nombre}}</label>                             
+                            <label>Nombre: {{$jefeCatedra->nombre}}</label>                             
                         </div>                        
 
                      </div>

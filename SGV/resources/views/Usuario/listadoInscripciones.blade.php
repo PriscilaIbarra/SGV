@@ -39,10 +39,7 @@
                                                 </td>
                                                 <td>
                                                   @if(isset($inscripcion->vacante->orden->id))
-                                                      <a  
-                                                       href="{{route('verConstancia',$inscripcion->vacante->id)}}" target="_blank">Informe 
-                                                      </a> /
-                                                      <a href="{{route('visualizarConstancia',$inscripcion->vacante->orden->id)}}" target="_blank">Constancia</a>
+                                                     <a href="{{route('verConstancia',$inscripcion->vacante->id)}}" target="_blank">Informe</a>
                                                   @else
                                                     <label>En desarrollo</label>
                                                   @endif

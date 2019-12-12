@@ -38,7 +38,7 @@
 									    		<div class="form-row">												
 													<div class="col mt-4 text-left">
 												        <label class="control-label" for="fichero1">Curriculum Vitae</label>
-														<input id="cv" class="form-control @error('cv') is-invalid @enderror" type="file" name="cv" required>
+														<input id="cv" class="form-control @error('cv') is-invalid @enderror" type="file" name="cv" required accept="application/pdf">
 														@error('cv')
 						                                   <span class="invalid-feedback" role="alert">
 						                                       <strong>{{ $message }}</strong>

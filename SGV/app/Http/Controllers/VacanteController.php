@@ -238,12 +238,12 @@ class VacanteController extends Controller
     public function enviarMails($vacante)
     {  
        $mailFallidos=[];
-       $asunto="Vacante n°".$vacante->id." de ".$vacante->asignatura->descripcion." para el cargo".$vacante->tipo_cargo." dada de baja";
+       $asunto="Vacante n°".$vacante->id." de ".$vacante->asignatura->descripcion." dada de baja";
        $header="MIME-Version: 1.0\r\n";
        $header.="Content-type: text/html; charset=iso-8859-1\r\n";
        foreach ($vacante->inscripciones as $inscripcion)
        {
-          $cuerpo="Estimado".$inscripcion->user->nombre."<br>"."Mediante este medio se le comunica que la vacante: "."<br>".
+          $cuerpo="Estimado ".$inscripcion->user->nombre."<br>"."Mediante este medio se le comunica que la vacante: "."<br>".
           "Id: ".$vacante->id."<br>".
           "Asignatura: ".$vacante->asignatura->descripcion."<br>".
           "Tipo de cargo: ".$vacante->tipo_cargo->descripcion."<br>".
@@ -273,6 +273,7 @@ class VacanteController extends Controller
            else
            {
             $vacante->deleted_at =  date('Y-m-d H:i:s');
+            $vacante->estado= "cancelada";
            }
            
            $vacante->save(); 
@@ -458,7 +459,7 @@ class VacanteController extends Controller
     {
         $vacantes= Vacante::with('orden')->whereHas('orden',function(Builder $query){
             $query->where('id_jefe_catedra','=', Auth::user()->id);
-        })->get();
+        })->whereNull('deleted_at')->get();
 
         return view('JefeCatedra.listarOrdenesDeMerito',compact('vacantes'));
     }
@@ -467,11 +468,12 @@ class VacanteController extends Controller
        public function  verConstancia ($id_vacante)
        {
             $vacante = Vacante::find($id_vacante);
+            $jefeCatedra= User::find($vacante->orden->id_jefe_catedra);
 
             if(isset($vacante))
             {  
                $inscripciones=Inscripcion::where('id_vacante','=',$vacante->id)->orderBy('calificacion','desc')->get();
-                return view('JefeCatedra.constanciaOrdenMerito',compact('vacante','inscripciones'));
+                return view('JefeCatedra.constanciaOrdenMerito',compact('vacante','inscripciones','jefeCatedra'));
             }
             else
             {

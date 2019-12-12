@@ -8,7 +8,7 @@
                 <div class="card-header text-center">{{ __('Registro Usuario') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('agregarUsuario') }}">
+                    <form method="POST" action="{{ route('agregarUsuario') }}" novalidate="true">
                         @csrf
 
                    <div class="form-row">
@@ -40,7 +40,7 @@
                            <label for="nombre" >
                                   {{ __('Dni') }}
                            </label>
-                           <input id="dni" type="integer" class="form-control @error('dni') is-invalid @enderror" name="dni" value="{{ old('dni') }}" required autocomplete="dni" autofocus placeholder="Dni">
+                           <input id="dni" type="integer" class="form-control @error('dni') is-invalid @enderror" name="dni" value="{{ old('dni') }}" required autocomplete="dni" autofocus placeholder="Dni" pattern=[0-9]{8}>
                                 @error('dni')
                                    <span class="invalid-feedback" role="alert">
                                        <strong>{{ $message }}</strong>
@@ -51,7 +51,7 @@
                              <label for="apellido">
                                  {{ __('Telefono') }}
                              </label>
-                              <input id="telefono" type="text" class="form-control @error('telefono') is-invalid @enderror" name="telefono" value="{{ old('telefono') }}" required autocomplete="telefono" autofocus placeholder="Telefono">
+                              <input id="telefono" type="text" class="form-control @error('telefono') is-invalid @enderror" name="telefono" value="{{ old('telefono') }}" required autocomplete="telefono" autofocus placeholder="Telefono" pattern=[0-9]+>
                                 @error('telefono')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

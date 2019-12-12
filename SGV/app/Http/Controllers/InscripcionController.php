@@ -22,7 +22,10 @@ class InscripcionController extends Controller
      */
     public function index()
     {
-        $inscripciones = Inscripcion::where('id_usuario','=',Auth::user()->id)->get(); 
+        $inscripciones = Inscripcion::where('id_usuario','=',Auth::user()->id)->whereHas('vacante',function(Builder $query)
+            {
+                  $query->where('estado','!=','cancelada');
+            })->get(); 
         return view('Usuario.listadoInscripciones',compact('inscripciones'));            
        
     }
@@ -55,12 +58,13 @@ class InscripcionController extends Controller
     public function store(Request $request)
     {
        $rules = [
-                   'cv'=>['required'],
+                   'cv'=>['required','mimetypes:application/pdf'],
                    'disponibilidad_horaria'=>['required','string'],
                 ];   
 
        $messages = [ 
                     'cv.required'=>'Adjunte su cv',
+                    'cv.mimetypes'=>'El curriculum a adjuntar debe tener formato pdf',
                     'disponibilidad_horaria.required'=>'Complete su disponibilidad horaria',
                     'disponibilidad_horaria.string'=>'Formato incorrecto',
                    ];       
