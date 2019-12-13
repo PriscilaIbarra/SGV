@@ -1,6 +1,6 @@
 # SGV
 
-##Sistema de Gestión de Vacantes.
+## Sistema de Gestión de Vacantes.
 
 El sistema a desarrollar tiene como objetivo principal gestionar el llamado a cubrir
 vacantes para los cargos y asignaturas pertenecientes al departamento de Ingeniería en
