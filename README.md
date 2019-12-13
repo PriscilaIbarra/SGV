@@ -29,3 +29,24 @@ aptitudes y competencias para luego calificarlos, quedando confeccionada así, l
 orden de mérito.
 
 
+Herramientas utilizadas:
+
+Desarrollo:
+
+● XAMPP v7.3.4-0
+● Servidor SMTP para Testear envío de emails: Mailtrap https://mailtrap.io
+
+Producción:
+
+● Lenguaje de programación : PHP  v7.2
+● Framework PHP : Laravel v5.8
+● Sistema de Gestión de Base de datos : phpMyAdmin v4.9.2
+● Gestor de Base de datos: MySQL  v10.2
+● Librería para generar archivos PDF: HTML2PDF https://github.com/nahidulhasan/laravel-pdf
+● Framework CSS : BootStrap v4.3.1
+● Servidor para envío de Emails: SMTP GMAIL
+
+
+
+
+
