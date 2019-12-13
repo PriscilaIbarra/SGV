@@ -32,9 +32,8 @@ orden de mérito.
 Herramientas utilizadas:
 
 Desarrollo:
-
-● XAMPP v7.3.4-0
-● Servidor SMTP para Testear envío de emails: Mailtrap https://mailtrap.io
+ ● XAMPP v7.3.4-0
+ ● Servidor SMTP para Testear envío de emails: Mailtrap https://mailtrap.io
 
 Producción:
 
@@ -44,7 +43,7 @@ Producción:
 ● Gestor de Base de datos: MySQL  v10.2
 ● Librería para generar archivos PDF: HTML2PDF https://github.com/nahidulhasan/laravel-pdf
 ● Framework CSS : BootStrap v4.3.1
-● Servidor para envío de Emails: SMTP GMAIL
+● Servidor para envio de Emails: SMTP GMAIL
 
 
 
